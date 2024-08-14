@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');           // chiamate api da fe a be
 const dotenv = require('dotenv');       // variabili di configurazione
 dotenv.config();
-// const dbService = require('./dbService');
+const dbService = require('./dbService');
 
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
