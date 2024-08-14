@@ -1,8 +1,10 @@
+// apppena carico DOM faccio una chiamata fetch al be
 document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:5000/getAll')
     .then(response => response.json())
-    .then(data => loadHTMLTable(data['data']));
-    
+    .then(data => console.log("test" + data));
+    loadHTMLTable([]);
+    // .then(data => loadHTMLTable(data['data']));
 });
 
 document.querySelector('table tbody').addEventListener('click', function(event) {
