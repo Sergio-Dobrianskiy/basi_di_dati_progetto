@@ -4,11 +4,11 @@ let instance = null;
 dotenv.config();
 
 const connection = mysql.createConnection({
-    host: process.env.HOST,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE,
-    port: process.env.DB_PORT
+    host:       process.env.HOST,
+    user:       process.env.USER,
+    password:   process.env.PASSWORD,
+    database:   process.env.DATABASE,
+    port:       process.env.DB_PORT
 });
 
 connection.connect((err) => {
@@ -20,6 +20,7 @@ connection.connect((err) => {
 
 
 class DbService {
+    // creo massimo un'istanza della classe
     static getDbServiceInstance() {
         return instance ? instance : new DbService();
     }
@@ -28,13 +29,12 @@ class DbService {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = "SELECT * FROM names;";
-
+                
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })
             });
-            // console.log(response);
             return response;
         } catch (error) {
             console.log(error);
@@ -44,6 +44,7 @@ class DbService {
 
     async insertNewName(name) {
         try {
+            console.log("INSERT")
             const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
                 const query = "INSERT INTO names (name, date_added) VALUES (?,?);";
