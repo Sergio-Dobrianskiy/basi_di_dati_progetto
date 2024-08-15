@@ -14,7 +14,7 @@ Progetto e relazione per l'esame di basi di dati
 
 # avvio app
 - posizionarsi in /basi_di_dati_progetto/webapp/server
-- `nodemon app`
+- `nodemon app` oppure `npm start`
 - al momento funziona aprendo vscode, index.html e click destro > open live server
 - TODO: capire come aprire in localhost
 <!-- - andare a http://localhost:5000/ -->
