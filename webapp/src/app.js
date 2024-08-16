@@ -1,19 +1,41 @@
 const express = require('express');     // web framework per Node.js 
+const route = require('./routes/route');
 const app = express();
 const cors = require('cors');           // chiamate api da fe a be
 const dotenv = require('dotenv');       // variabili di configurazione
 dotenv.config();
 const dbService = require('./dbService');
+const path = require('path');
 
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
-app.use(express.urlencoded({ extended : false }));
-                                        // non manda form data
+app.use(express.urlencoded({ extended : false })); // non manda form data
+// app.use(express.static(path.join(__dirname + '../client')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+// Static Files
+console.log(__dirname)
+app.use(express.static(path.join(__dirname, '../public')));
+app.use('/css', express.static(path.join(__dirname, '../public/css')));
+app.use('/js', express.static(path.join(__dirname, '../public/js')));
+app.use('/img', express.static(path.join(__dirname, '../public/img')));
+
+
+app.use('/', route);
+app.use('/login', route);
+app.use('/register', route);
+app.use('/home', route);
+app.use('/test', route);
+app.use('/indice_dev', route);
+app.use('/cliente_home', route);
+app.use('/fornitore_home', route);
+app.use('/admin_home', route);
+
+
 
 
 // create
-app.post('/insert', (request, response) => {
-    console.log("INSERT")
+app.post('/api/insert', (request, response) => {
     const { name } = request.body;
     const db = dbService.getDbServiceInstance();
     
@@ -25,7 +47,7 @@ app.post('/insert', (request, response) => {
 });
 
 // read
-app.get('/getAll', (request, response) => {
+app.get('/api/getAll', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.getAllData();
@@ -36,7 +58,7 @@ app.get('/getAll', (request, response) => {
 })
 
 // update
-app.patch('/update', (request, response) => {
+app.patch('/api/update', (request, response) => {
     const { id, name } = request.body;
     const db = dbService.getDbServiceInstance();
 
@@ -48,7 +70,7 @@ app.patch('/update', (request, response) => {
 });
 
 // delete
-app.delete('/delete/:id', (request, response) => {
+app.delete('/api/delete/:id', (request, response) => {
     const { id } = request.params;
     const db = dbService.getDbServiceInstance();
 
@@ -59,7 +81,7 @@ app.delete('/delete/:id', (request, response) => {
     .catch(err => console.log(err));
 });
 
-app.get('/search/:name', (request, response) => {
+app.get('/api/search/:name', (request, response) => {
     const { name } = request.params;
     const db = dbService.getDbServiceInstance();
 

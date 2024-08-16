@@ -1,6 +1,8 @@
+console.log("js loaded")
+
 // appena carico DOM faccio una chiamata fetch al be
 document.addEventListener('DOMContentLoaded', function () {
-    fetch('http://localhost:5000/getAll')
+    fetch('http://localhost:5000/api/getAll')
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 });
@@ -20,13 +22,13 @@ const searchBtn = document.querySelector('#search-btn');
 searchBtn.onclick = function() {
     const searchValue = document.querySelector('#search-input').value;
 
-    fetch('http://localhost:5000/search/' + searchValue)
+    fetch('http://localhost:5000/api/search/' + searchValue)
     .then(response => response.json())
     .then(data => loadHTMLTable(data['data']));
 }
 
 function deleteRowById(id) {
-    fetch('http://localhost:5000/delete/' + id, {
+    fetch('http://localhost:5000/api/delete/' + id, {
         method: 'DELETE'
     })
     .then(response => response.json())
@@ -49,7 +51,7 @@ updateBtn.onclick = function() {
 
     console.log(updateNameInput);
 
-    fetch('http://localhost:5000/update', {
+    fetch('http://localhost:5000/api/update', {
         method: 'PATCH',
         headers: {
             'Content-type' : 'application/json'
@@ -75,7 +77,7 @@ addBtn.onclick = function () {
     const name = nameInput.value;
     nameInput.value = "";
 
-    fetch('http://localhost:5000/insert', {
+    fetch('http://localhost:5000/api/insert', {
         headers: {
             'Content-type': 'application/json'
         },
@@ -125,7 +127,7 @@ function loadHTMLTable(data) {
 
     let tableHtml = "";
 
-    data.forEach(function ({id, name, date_added}) {
+    data.forEach(({id, name, date_added}) => {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`;
         tableHtml += `<td>${name}</td>`;
@@ -136,4 +138,22 @@ function loadHTMLTable(data) {
     });
 
     table.innerHTML = tableHtml;
+}
+
+
+
+
+
+function loadDoc() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        document.getElementById("demo").innerHTML = this.responseText;
+    };
+    xhttp.open("GET", "ajax_info.txt");
+    xhttp.send();
+}
+
+function changeText() {
+    var rating= 4
+    $('#demo').html("⭐".repeat(rating));
 }

@@ -44,7 +44,6 @@ class DbService {
 
     async insertNewName(name) {
         try {
-            console.log("INSERT")
             const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
                 const query = "INSERT INTO names (name, date_added) VALUES (?,?);";
@@ -105,9 +104,11 @@ class DbService {
     async searchByName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT * FROM names WHERE name = ?;";
+                // name = 
+                const query = "SELECT * FROM names WHERE name LIKE  ?;";
+                // const query = "SELECT * FROM names WHERE name = ?;";
 
-                connection.query(query, [name], (err, results) => {
+                connection.query(query, ["%" + name + "%"], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })

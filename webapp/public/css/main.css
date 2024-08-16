@@ -1,0 +1,48 @@
+main {
+    width: 50%;
+    margin: 50px auto;
+    text-align: center;
+}
+
+table {
+    margin: 50px auto;
+}
+
+table, th, td {
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+th, td {
+    padding: 5px;
+}
+
+nav {
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 60px;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+nav li {    
+    list-style: none;    
+}
+
+nav li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 8px;
+}
+
+nav li a:hover {
+    color: yellow;
+    text-decoration: none;
+}
