@@ -27,23 +27,25 @@
             <div class="card" style="width: 18rem;">            
                 <div class="card-header">Login Form</div>    
                 <div class="card-body">
-                    <form>
+                    <!-- <form action="/api/auth/login" method="POST"> -->
+                    <!-- <form > -->
                         <div class="mb-3">
                             <label for="name-lgn" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name-lgn" name="name">                        
+                            <input type="text" class="form-control" id="username-lgn" name="username">                        
                         </div>                    
                         <div class="mb-3">
                             <label for="password-lgn" class="form-label">Password</label>
                             <input type="password" class="form-control" id="password-lgn" name="password">
                         </div>
                         
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                        <button type="submit" class="login_bt btn btn-primary" onclick="login()">Submit</button>
+                    <!-- </form> -->
                 </div>
             </div>
         </div>
 
     </main>
     <script src="js/index.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

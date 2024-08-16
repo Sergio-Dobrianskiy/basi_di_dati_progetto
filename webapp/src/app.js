@@ -10,8 +10,8 @@ const path = require('path');
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
 app.use(express.urlencoded({ extended : false })); // non manda form data
-// app.use(express.static(path.join(__dirname + '../client')));
 app.set('view engine', 'ejs');
+
 app.set('views', path.join(__dirname, 'views'));
 // Static Files
 console.log(__dirname)
@@ -94,3 +94,20 @@ app.get('/api/search/:name', (request, response) => {
 
 // avvio l'app alla porta indica in .env
 app.listen(process.env.PORT, () => console.log('app is running'));
+
+
+
+
+app.get('/api/auth/login/:username/:password', (request, response) => {
+    console.log("app.js POST LOGIN")
+    const { username, password } = request.params;
+    console.log(username, password)
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.login(username, password);
+
+    result
+    .then(data => response.json({ data: data}))
+    .catch(err => console.log(err));
+});
+
