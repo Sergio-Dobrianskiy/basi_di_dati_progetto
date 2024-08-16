@@ -24,8 +24,15 @@ app.use('/img', express.static(path.join(__dirname, '../public/img')));
 app.use('/', route);
 app.use('/login', route);
 app.use('/register', route);
-app.use('/index', route);
+app.use('/home', route);
 app.use('/test', route);
+app.use('/indice_dev', route);
+app.use('/cliente_home', route);
+app.use('/fornitore_home', route);
+app.use('/admin_home', route);
+
+
+
 
 // create
 app.post('/api/insert', (request, response) => {
