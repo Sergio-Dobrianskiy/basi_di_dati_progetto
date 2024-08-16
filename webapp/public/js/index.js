@@ -127,7 +127,7 @@ function loadHTMLTable(data) {
 
     let tableHtml = "";
 
-    data.forEach(function ({id, name, date_added}) {
+    data.forEach(({id, name, date_added}) => {
         tableHtml += "<tr>";
         tableHtml += `<td>${id}</td>`;
         tableHtml += `<td>${name}</td>`;
@@ -138,4 +138,22 @@ function loadHTMLTable(data) {
     });
 
     table.innerHTML = tableHtml;
+}
+
+
+
+
+
+function loadDoc() {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        document.getElementById("demo").innerHTML = this.responseText;
+    };
+    xhttp.open("GET", "ajax_info.txt");
+    xhttp.send();
+}
+
+function changeText() {
+    var rating= 4
+    $('#demo').html("⭐".repeat(rating));
 }
