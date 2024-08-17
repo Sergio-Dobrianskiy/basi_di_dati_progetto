@@ -15,6 +15,11 @@ const test = async function (req, res){
 const abbonamento = async function (req, res){
     res.render('cliente/abbonamento/abbonamento', { text: 'This is EJS'})
 }
+
+// CLIENTE
+const cliente_home = async function (req, res){
+    res.render('cliente/cliente_home/cliente_home', { text: 'This is EJS'})
+}
 const acquisti = async function (req, res){
     res.render('cliente/acquisti/acquisti', { text: 'This is EJS'})
 }
@@ -33,16 +38,35 @@ const eventi = async function (req, res){
 const servizi = async function (req, res){
     res.render('cliente/servizi/servizi', { text: 'This is EJS'})
 }
-const cliente_home = async function (req, res){
-    res.render('cliente/cliente_home/cliente_home', { text: 'This is EJS'})
-}
 
-
-
-
+// FORNITORE
 const fornitore_home = async function (req, res){
     res.render('fornitore/fornitore_home/fornitore_home', { text: 'This is EJS'})
 }
+const associa_ente = async function (req, res){
+    res.render('fornitore/associa_ente/associa_ente', { text: 'This is EJS'})
+}
+const crea_ente = async function (req, res){
+    res.render('fornitore/crea_ente/crea_ente', { text: 'This is EJS'})
+}
+const crea_evento = async function (req, res){
+    res.render('fornitore/crea_evento/crea_evento', { text: 'This is EJS'})
+}
+const crea_servizio = async function (req, res){
+    res.render('fornitore/crea_servizio/crea_servizio', { text: 'This is EJS'})
+}
+const statistiche_eventi = async function (req, res){
+    res.render('fornitore/statistiche_eventi/statistiche_eventi', { text: 'This is EJS'})
+}
+const statistiche_saldo = async function (req, res){
+    res.render('fornitore/statistiche_saldo/statistiche_saldo', { text: 'This is EJS'})
+}
+const statistiche_servizi = async function (req, res){
+    res.render('fornitore/statistiche_servizi/statistiche_servizi', { text: 'This is EJS'})
+}
+
+
+
 const admin_home = async function (req, res){
     res.render('admin/admin_home/admin_home', { text: 'This is EJS'})
 }
@@ -71,9 +95,16 @@ module.exports = {
     servizi,
 
     fornitore_home,
+    associa_ente,
+    crea_ente,
+    crea_evento,
+    crea_servizio,
+    statistiche_eventi,
+    statistiche_saldo,
+    statistiche_servizi,
+
+    
     admin_home,
-
-
     indice_dev,
     test,
 

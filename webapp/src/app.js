@@ -40,6 +40,14 @@ app.use('/eventi', route);
 app.use('/servizi', route);
 
 app.use('/fornitore_home', route);
+app.use('/associa_ente', route);
+app.use('/crea_ente', route);
+app.use('/crea_servizio', route);
+app.use('/statistiche_eventi', route);
+app.use('/statistiche_saldo', route);
+app.use('/statistiche_servizi', route);
+
+
 app.use('/admin_home', route);
 
 // create
