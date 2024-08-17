@@ -19,13 +19,14 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
 // app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/js', express.static(path.join(__dirname, '/views')));
+app.use('/components', express.static(path.join(__dirname, '/components')));
 app.use('/img', express.static(path.join(__dirname, '../public/img')));
 
 
 app.use('/', route);
+app.use('/home', route);
 app.use('/login', route);
 app.use('/register', route);
-app.use('/home', route);
 app.use('/test', route);
 app.use('/indice_dev', route);
 app.use('/cliente_home', route);

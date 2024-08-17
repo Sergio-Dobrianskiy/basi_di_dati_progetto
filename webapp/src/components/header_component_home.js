@@ -1,0 +1,49 @@
+class Header extends HTMLElement {
+    constructor() {
+        super();
+    }
+
+    connectedCallback() {
+        // <style>
+        // nav {
+        //     height: 40px;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     background-color:  #0a0a23;
+        // }
+
+        // ul {
+        //     padding: 0;
+        // }
+
+        // a {
+        //     font-weight: 700;
+        //     margin: 0 25px;
+        //     color: #fff;
+        //     text-decoration: none;
+        // }
+
+        // a:hover {
+        //     padding-bottom: 5px;
+        //     box-shadow: inset 0 -2px 0 0 #fff;
+        // }
+        // </style>
+        const page = this.getAttribute("page");
+
+        this.innerHTML = `
+            <header>
+                <nav>
+                    <h4>CITYCARD ` + page + `</h4>
+                    <ul>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/login">Login</a></li>
+                        <li><a href="/register">Register</a></li>
+                    </ul>
+                </nav>
+            </header>
+        `;
+    }
+}
+
+customElements.define("header-component-home", Header);

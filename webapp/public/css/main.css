@@ -18,7 +18,8 @@ th, td {
 }
 
 nav {
-    background-color: black;
+    /* position: fixed; */
+    background-color: #0a0a23;
     color: white;
     display: flex;
     justify-content: space-between;
