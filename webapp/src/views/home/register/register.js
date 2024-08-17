@@ -1,0 +1,1 @@
+console.log("REGISTER.JS loaded")
