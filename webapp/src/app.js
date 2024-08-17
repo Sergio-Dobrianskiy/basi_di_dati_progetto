@@ -30,6 +30,7 @@ app.use('/register', route);
 app.use('/test', route);
 app.use('/indice_dev', route);
 
+// CLIENTE
 app.use('/cliente_home', route);
 app.use('/abbonamento', route);
 app.use('/acquisti', route);
@@ -39,6 +40,7 @@ app.use('/citycard', route);
 app.use('/eventi', route);
 app.use('/servizi', route);
 
+//FORNITORE
 app.use('/fornitore_home', route);
 app.use('/associa_ente', route);
 app.use('/crea_ente', route);
@@ -47,8 +49,11 @@ app.use('/statistiche_eventi', route);
 app.use('/statistiche_saldo', route);
 app.use('/statistiche_servizi', route);
 
-
+// ADMIN
 app.use('/admin_home', route);
+app.use('/lista_enti', route);
+app.use('/lista_user', route);
+app.use('/statistiche_admin', route);
 
 // create
 app.post('/api/insert', (request, response) => {

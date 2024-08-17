@@ -66,10 +66,22 @@ const statistiche_servizi = async function (req, res){
 }
 
 
-
+// ADMIN
 const admin_home = async function (req, res){
     res.render('admin/admin_home/admin_home', { text: 'This is EJS'})
 }
+const lista_enti = async function (req, res){
+    res.render('admin/lista_enti/lista_enti', { text: 'This is EJS'})
+}
+const lista_user = async function (req, res){
+    res.render('admin/lista_user/lista_user', { text: 'This is EJS'})
+}
+const statistiche_admin = async function (req, res){
+    res.render('admin/statistiche_admin/statistiche_admin', { text: 'This is EJS'})
+}
+
+
+
 const indice_dev = async function (req, res){
     res.render('dev/dev_indice/dev_indice', { text: 'This is EJS'})
 }
@@ -105,6 +117,10 @@ module.exports = {
 
     
     admin_home,
+    lista_enti,
+    lista_user,
+    statistiche_admin,
+
     indice_dev,
     test,
 

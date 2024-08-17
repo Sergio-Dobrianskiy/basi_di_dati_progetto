@@ -32,6 +32,9 @@ route.get("/statistiche_servizi", mainController.statistiche_servizi)
 
 // ADMIN
 route.get("/admin_home", mainController.admin_home)
+route.get("/lista_enti", mainController.lista_enti)
+route.get("/lista_user", mainController.lista_user)
+route.get("/statistiche_admin", mainController.statistiche_admin)
 
 
 // DEV
