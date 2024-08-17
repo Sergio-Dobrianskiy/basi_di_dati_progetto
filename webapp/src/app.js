@@ -29,12 +29,18 @@ app.use('/login', route);
 app.use('/register', route);
 app.use('/test', route);
 app.use('/indice_dev', route);
+
 app.use('/cliente_home', route);
+app.use('/abbonamento', route);
+app.use('/acquisti', route);
+app.use('/carta_di_credito', route);
+app.use('/check_in', route);
+app.use('/citycard', route);
+app.use('/eventi', route);
+app.use('/servizi', route);
+
 app.use('/fornitore_home', route);
 app.use('/admin_home', route);
-
-
-
 
 // create
 app.post('/api/insert', (request, response) => {

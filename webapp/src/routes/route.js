@@ -11,6 +11,14 @@ route.get("/register", mainController.register)
 
 // CLIENTE
 route.get("/cliente_home", mainController.cliente_home)
+route.get("/abbonamento", mainController.abbonamento)
+route.get("/acquisti", mainController.acquisti)
+route.get("/carta_di_credito", mainController.carta_di_credito)
+route.get("/check_in", mainController.check_in)
+route.get("/citycard", mainController.citycard)
+route.get("/eventi", mainController.eventi)
+route.get("/servizi", mainController.servizi)
+
 
 // FORNITORE
 route.get("/fornitore_home", mainController.fornitore_home)
