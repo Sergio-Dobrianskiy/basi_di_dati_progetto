@@ -14,7 +14,8 @@
     <header-component-user page="admin" name="segnaposto"></header-component-user>
     <main>
         <h1>Lista Utenti</h1>
-        <button id="update-user-btn">Aggiorna</button>
+        <!-- <button id="update-user-btn" onclick="updateUsersTable()">Aggiorna</button> -->
+        <button id="update-user-btn" class="btn btn-primary">Aggiorna</button>
         <table id="table">
             <thead>
                 <!-- <th>ID</th> -->
@@ -22,6 +23,7 @@
                 <th>Nome</th>
                 <th>Cognome</th>
                 <th>Email</th>
+                <th>Bannato</th>
                 <th>Bottone</th>
             </thead>
             <tbody></tbody>
@@ -30,5 +32,6 @@
 
     </main>
     <script src="components/header_component_user.js"></script>
+    <script src="js/admin/lista_user/lista_user.js"></script>
 </body>
 </html>

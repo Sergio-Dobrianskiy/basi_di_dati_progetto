@@ -42,6 +42,25 @@ class DbService {
     }
 
 
+    async getAllUsers() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select id_user, nome, cognome, email, bannato, descrizione as ruolo
+                                from user u
+                                join ruolo r 
+                                on u.id_ruolo = r.id_ruolo`;
+                
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async insertNewName(name) {
         try {
             const dateAdded = new Date();
@@ -89,6 +108,39 @@ class DbService {
                 const query = "UPDATE names SET name = ? WHERE id = ?";
     
                 connection.query(query, [name, id] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    async ban(id_user) {
+        try {
+            id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                    UPDATE user u
+                    INNER JOIN user u1 
+                    on u.id_user = u1.id_user
+                    SET u.bannato = CASE
+                        when (
+                            (
+                                SELECT u1.bannato
+                                where u1.id_user = ?
+                            ) = 1
+                        ) then 0
+                        else 1
+                        END
+                        where u.id_user = ?;
+                        `;
+    
+                connection.query(query, [id_user,id_user] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result.affectedRows);
                 })

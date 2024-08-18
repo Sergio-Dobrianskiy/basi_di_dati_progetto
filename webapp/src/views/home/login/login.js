@@ -12,18 +12,8 @@ function login() {
     console.log("GET")
     var risultato;
     fetch('http://localhost:5000/api/auth/login/' + username + "/" + password)
-    // fetch('http://localhost:5000/api/auth/login', {
-    //     headers: {
-    //         'Content-type': 'application/json'
-    //     },
-    //     method: 'GET',
-    //     body: JSON.stringify({ username : username, password: password})
-    // })
-    .then(response => response.json())
-    .then(console.log("response "))
-    // .then(data => risultato = data)
-    // .then(data => console.log("data " + JSON.stringify(risultato["data"])))
-    .then(data => analizzaLogin(data["data"]));
+        .then(response => response.json())
+        .then(data => analizzaLogin(data["data"]));
 
 }
 

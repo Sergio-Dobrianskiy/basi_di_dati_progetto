@@ -63,19 +63,27 @@ app.post('/api/insert', (request, response) => {
     const result = db.insertNewName(name);
 
     result
-    .then(data => response.json({ data: data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
 });
+
+
 
 // read
 app.get('/api/getAll', (request, response) => {
     const db = dbService.getDbServiceInstance();
-    
     const result = db.getAllData();
-    
     result
-    .then(data => response.json({data : data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getUsers', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getAllUsers();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
 })
 
 // update
@@ -86,8 +94,20 @@ app.patch('/api/update', (request, response) => {
     const result = db.updateNameById(id, name);
     
     result
-    .then(data => response.json({success : data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({success : data}))
+        .catch(err => console.log(err));
+});
+
+app.patch('/api/ban', (request, response) => {
+    console.log("api/ban in api.js")
+    const { id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.ban(id_user);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
 });
 
 // delete
