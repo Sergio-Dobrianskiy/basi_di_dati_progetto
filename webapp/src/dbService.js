@@ -120,6 +120,11 @@ class DbService {
         }
     }
 
+
+    // query tecnicamente sbagliata ma ho voluto divertirmi ad aggirare mysql
+    // https://stackoverflow.com/questions/4429319/you-cant-specify-target-table-for-update-in-from-clause
+    // l'alternativa è fare due query separate ban/unban lanciate separatamente dai due bottoni 
+    // oppure prima una select e poi dal risultato lanciare ban o unban
     async ban(id_user) {
         try {
             id_user = parseInt(id_user, 10); 

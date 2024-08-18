@@ -20,12 +20,19 @@ function login() {
 function analizzaLogin(data){
     if (data.length === 1) {
         var ruolo = data[0]['id_ruolo']
-        if (ruolo == 1) {
-            document.location.href = "http://localhost:5000/admin_home"
-        } else if (ruolo == 2) {
-            document.location.href = "http://localhost:5000/fornitore_home"
-        } else if (ruolo == 3) {
-            document.location.href = "http://localhost:5000/cliente_home"
-        }
+        var bannato = data[0]['bannato'] == 1
+        if (! bannato) {
+            if (ruolo == 1) {
+                document.location.href = "http://localhost:5000/admin_home"
+            } else if (ruolo == 2) {
+                document.location.href = "http://localhost:5000/fornitore_home"
+            } else if (ruolo == 3) {
+                document.location.href = "http://localhost:5000/cliente_home"
+            }
+        } else {
+            alert("Errore: l'utente è stato bannato");
+        } 
+    } else {
+        alert("Errore: la combinazione di username e password risulta sbagliata")
     }
 }
