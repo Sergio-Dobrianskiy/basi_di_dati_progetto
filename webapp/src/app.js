@@ -110,6 +110,7 @@ app.get('/api/search/:name', (request, response) => {
     
     result
     .then(data => response.json({data : data}))
+    .then(data => console.log(JSON.stringify(data)))
     .catch(err => console.log(err));
 })
 

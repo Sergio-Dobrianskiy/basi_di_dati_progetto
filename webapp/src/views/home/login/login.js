@@ -21,23 +21,20 @@ function login() {
     // })
     .then(response => response.json())
     .then(console.log("response "))
-    .then(data => risultato = data)
-    .then(data => console.log("data " + JSON.stringify(risultato["data"])))
-    .then(data => analizzaLogin(risultato["data"]));
+    // .then(data => risultato = data)
+    // .then(data => console.log("data " + JSON.stringify(risultato["data"])))
+    .then(data => analizzaLogin(data["data"]));
 
 }
 
 function analizzaLogin(data){
-    console.log(JSON.stringify(data[0]))
-    console.log(JSON.stringify(data[0]['ruolo']))
     if (data.length === 1) {
-        var ruolo = data[0]['ruolo']
-        console.log(ruolo)
-        if (ruolo == '1') {
+        var ruolo = data[0]['id_ruolo']
+        if (ruolo == 1) {
             document.location.href = "http://localhost:5000/admin_home"
-        } else if (ruolo == '2') {
+        } else if (ruolo == 2) {
             document.location.href = "http://localhost:5000/fornitore_home"
-        } else if (ruolo = '3') {
+        } else if (ruolo == 3) {
             document.location.href = "http://localhost:5000/cliente_home"
         }
     }
