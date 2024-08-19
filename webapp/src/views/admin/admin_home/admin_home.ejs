@@ -11,9 +11,11 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="admin" name="segnaposto"></header-component-user>
+    <header-component-user page="admin"></header-component-user>
     <main>
         <h1>ADMIN HOME</h1>
+        <!-- <h1><%= text %></h1> -->
+        <h1 id="prova"></h1>
         <div class="d-flex justify-content-center">
             <ul>
                 <li><a href="/lista_enti">Visualizza vista enti</a></li>
@@ -23,5 +25,7 @@
         </div>
     </main>
     <script src="components/header_component_user.js"></script>
+    <script src="js/common/setName.js"></script>
+    <script src="js/admin/admin_home/admin_home.js"></script>
 </body>
 </html>

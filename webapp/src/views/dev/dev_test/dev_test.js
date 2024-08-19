@@ -1,5 +1,3 @@
-console.log("js loaded")
-
 // appena carico DOM faccio una chiamata fetch al be
 document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:5000/api/getAll')
