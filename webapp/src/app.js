@@ -152,8 +152,6 @@ app.get('/api/search/:name', (request, response) => {
 app.listen(process.env.PORT, () => console.log('app is running'));
 
 
-
-
 app.get('/api/auth/login/:username/:password', (request, response) => {
     console.log("app.js POST LOGIN")
     const { username, password } = request.params;
@@ -162,7 +160,6 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
     
     const result = db.login(username, password);
     request.session.user = result;
-    // request.session.user = {utente:"UTENTE"};
     result
         .then(data => request.session.user = data)
         .then(data => response.json({ data: data}))
