@@ -87,11 +87,6 @@ const indice_dev = async function (req, res){
 }
 
 
-
-
-
-
-
 module.exports = { 
     home,
     login,

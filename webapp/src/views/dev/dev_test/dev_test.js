@@ -1,5 +1,3 @@
-console.log("js loaded")
-
 // appena carico DOM faccio una chiamata fetch al be
 document.addEventListener('DOMContentLoaded', function () {
     fetch('http://localhost:5000/api/getAll')
@@ -16,9 +14,9 @@ document.querySelector('table tbody').addEventListener('click', function(event) 
     }
 });
 
-const updateBtn = document.querySelector('#update-row-btn');
-const searchBtn = document.querySelector('#search-btn');
 
+
+const searchBtn = document.querySelector('#search-btn');
 searchBtn.onclick = function() {
     const searchValue = document.querySelector('#search-input').value;
 
@@ -45,6 +43,7 @@ function handleEditRow(id) {
     document.querySelector('#update-name-input').dataset.id = id;
 }
 
+const updateBtn = document.querySelector('#update-row-btn');
 updateBtn.onclick = function() {
     const updateNameInput = document.querySelector('#update-name-input');
 

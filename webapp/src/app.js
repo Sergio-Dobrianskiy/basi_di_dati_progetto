@@ -1,16 +1,29 @@
 const express = require('express');     // web framework per Node.js 
-const route = require('./routes/route');
 const app = express();
+const path = require('path');
+const route = require('./routes/route');
+const dbService = require('./dbService');
 const cors = require('cors');           // chiamate api da fe a be
 const dotenv = require('dotenv');       // variabili di configurazione
 dotenv.config();
-const dbService = require('./dbService');
-const path = require('path');
+const session = require('express-session');
+
+
+var globalUtente = "Ciccio"
+console.log(globalUtente)
 
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
 app.use(express.urlencoded({ extended : false })); // non manda form data
 app.set('view engine', 'ejs');
+app.use(session({
+    secret: 'secret',
+    cookie: {
+        sameSite: 'strict'
+    }
+    }
+))
+
 
 app.set('views', path.join(__dirname, 'views'));
 // Static Files
@@ -19,6 +32,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
 // app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/js', express.static(path.join(__dirname, '/views')));
+app.use('/common', express.static(path.join(__dirname, '/common')));
 app.use('/components', express.static(path.join(__dirname, '/components')));
 app.use('/img', express.static(path.join(__dirname, '../public/img')));
 
@@ -63,19 +77,27 @@ app.post('/api/insert', (request, response) => {
     const result = db.insertNewName(name);
 
     result
-    .then(data => response.json({ data: data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
 });
+
+
 
 // read
 app.get('/api/getAll', (request, response) => {
     const db = dbService.getDbServiceInstance();
-    
     const result = db.getAllData();
-    
     result
-    .then(data => response.json({data : data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getUsers', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getAllUsers();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
 })
 
 // update
@@ -86,8 +108,20 @@ app.patch('/api/update', (request, response) => {
     const result = db.updateNameById(id, name);
     
     result
-    .then(data => response.json({success : data}))
-    .catch(err => console.log(err));
+        .then(data => response.json({success : data}))
+        .catch(err => console.log(err));
+});
+
+app.patch('/api/ban', (request, response) => {
+    console.log("api/ban in api.js")
+    const { id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.ban(id_user);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
 });
 
 // delete
@@ -110,13 +144,12 @@ app.get('/api/search/:name', (request, response) => {
     
     result
     .then(data => response.json({data : data}))
+    .then(data => console.log(JSON.stringify(data)))
     .catch(err => console.log(err));
 })
 
 // avvio l'app alla porta indica in .env
 app.listen(process.env.PORT, () => console.log('app is running'));
-
-
 
 
 app.get('/api/auth/login/:username/:password', (request, response) => {
@@ -126,9 +159,21 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.login(username, password);
-
+    request.session.user = result;
     result
-    .then(data => response.json({ data: data}))
-    .catch(err => console.log(err));
+        .then(data => request.session.user = data)
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.get("/api/user", (req, res) => {
+    const sessionuser = req.session.user;
+    res.send(sessionuser);
+});
+// Logout page 
+app.get("/api/logout", (req, res) => {
+    req.session.destroy();
+    res.send("Your are logged out ");
 });
 
+
+module.exports = globalUtente;

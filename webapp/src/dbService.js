@@ -42,6 +42,25 @@ class DbService {
     }
 
 
+    async getAllUsers() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select id_user, nome, cognome, email, bannato, descrizione as ruolo
+                                from user u
+                                join ruolo r 
+                                on u.id_ruolo = r.id_ruolo`;
+                
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async insertNewName(name) {
         try {
             const dateAdded = new Date();
@@ -101,12 +120,48 @@ class DbService {
         }
     }
 
+
+    // query tecnicamente sbagliata ma ho voluto divertirmi ad aggirare mysql
+    // https://stackoverflow.com/questions/4429319/you-cant-specify-target-table-for-update-in-from-clause
+    // l'alternativa è fare due query separate ban/unban lanciate separatamente dai due bottoni 
+    // oppure prima una select e poi dal risultato lanciare ban o unban
+    async ban(id_user) {
+        try {
+            id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                    UPDATE user u
+                    INNER JOIN user u1 
+                    on u.id_user = u1.id_user
+                    SET u.bannato = CASE
+                        when (
+                            (
+                                SELECT u1.bannato
+                                where u1.id_user = ?
+                            ) = 1
+                        ) then 0
+                        else 1
+                        END
+                        where u.id_user = ?;
+                        `;
+    
+                connection.query(query, [id_user,id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async searchByName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
-                // name = 
                 const query = "SELECT * FROM names WHERE name LIKE  ?;";
-                // const query = "SELECT * FROM names WHERE name = ?;";
 
                 connection.query(query, ["%" + name + "%"], (err, results) => {
                     if (err) reject(new Error(err.message));
@@ -122,7 +177,8 @@ class DbService {
     async login(username, password) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = "SELECT bannato, ruolo FROM user WHERE username = ? AND password = ?;";
+                // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
+                const query = "SELECT * FROM user WHERE username = ? AND password = ?;";
 
                 connection.query(query, [username, password], (err, results) => {
                     if (err) reject(new Error(err.message));

@@ -10,21 +10,23 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="cliente" name="segnaposto"></header-component-user>
+    <header-component-user page=""></header-component-user>
     <main>
         <h1>CLIENTE HOME</h1>
         <div class="d-flex justify-content-center">
-            <ul>
-                <li><a href="/abbonamento">Sottoscrivi abbonamento</a></li>
-                <li><a href="/acquisti">Cronologia acquisti</a></li>
-                <li><a href="/carta_di_credito">Aggiungi carta di Credito</a></li>
-                <li><a href="/check_in">Simula check in</a></li>
-                <li><a href="/citycard">Ottieni Citycard</a></li>
-                <li><a href="/eventi">Visualizza Eventi</a></li>
-                <li><a href="/servizi">Visualizza Servizi</a></li>
+            <ul class="list-group">
+                <a href="/lista_enti" class="list-group-item list-group-item-action">Visualizza vista enti</a>
+                <a href="/abbonamento" class="list-group-item list-group-item-action">Sottoscrivi abbonamento</a>
+                <a href="/acquisti" class="list-group-item list-group-item-action">Cronologia acquisti</a>
+                <a href="/carta_di_credito" class="list-group-item list-group-item-action">Aggiungi carta di Credito</a>
+                <a href="/check_in" class="list-group-item list-group-item-action">Simula check in</a>
+                <a href="/citycard" class="list-group-item list-group-item-action">Ottieni Citycard</a>
+                <a href="/eventi" class="list-group-item list-group-item-action">Visualizza Eventi</a>
+                <a href="/servizi" class="list-group-item list-group-item-action">Visualizza Servizi</a>
             </ul>
         </div>
     </main>
     <script src="components/header_component_user.js"></script>
+    <script src="js/common/utility.js"></script>
 </body>
 </html>

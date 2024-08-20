@@ -11,17 +11,21 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="admin" name="segnaposto"></header-component-user>
+    <header-component-user page=""></header-component-user>
     <main>
         <h1>ADMIN HOME</h1>
+        <!-- <h1><%= text %></h1> -->
+        <h1 id="prova"></h1>
         <div class="d-flex justify-content-center">
-            <ul>
-                <li><a href="/lista_enti">Visualizza vista enti</a></li>
-                <li><a href="/lista_user">Visualizza vista utenti</a></li>
-                <li><a href="/statistiche_admin">Consulta statistiche globali</a></li>
+            <ul class="list-group">
+                <a href="/lista_enti" class="list-group-item list-group-item-action">Visualizza vista enti</a>
+                <a href="/lista_user" class="list-group-item list-group-item-action">Visualizza vista utenti</a>
+                <a href="/statistiche_admin" class="list-group-item list-group-item-action">Consulta statistiche globali</a>
             </ul>
         </div>
     </main>
     <script src="components/header_component_user.js"></script>
+    <script src="js/common/utility.js"></script>
+    <script src="js/admin/admin_home/admin_home.js"></script>
 </body>
 </html>
