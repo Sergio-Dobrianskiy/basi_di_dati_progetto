@@ -80,6 +80,18 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/register', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { username, nome, cognome, email, password, id_ruolo} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.registerNewUser(username, nome, cognome, email, password, id_ruolo);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 
 
@@ -143,9 +155,9 @@ app.get('/api/search/:name', (request, response) => {
     const result = db.searchByName(name);
     
     result
-    .then(data => response.json({data : data}))
-    .then(data => console.log(JSON.stringify(data)))
-    .catch(err => console.log(err));
+        .then(data => response.json({data : data}))
+        .then(data => console.log(JSON.stringify(data)))
+        .catch(err => console.log(err));
 })
 
 // avvio l'app alla porta indica in .env
@@ -165,10 +177,12 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
 app.get("/api/user", (req, res) => {
-    const sessionuser = req.session.user;
-    res.send(sessionuser);
+    const sessionUser = req.session.user;
+    res.send(sessionUser);
 });
+
 // Logout page 
 app.get("/api/logout", (req, res) => {
     req.session.destroy();

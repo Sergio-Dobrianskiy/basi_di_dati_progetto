@@ -16,6 +16,7 @@ connection.connect((err) => {
         console.log(err.message);
     }
     console.log('db ' + connection.state);
+    console.log("connect to http://localhost:5000/")
 });
 
 
@@ -79,6 +80,33 @@ class DbService {
             };
         } catch (error) {
             console.log(error);
+        }
+    }
+    async registerNewUser(username, nome, cognome, email, password, id_ruolo) {
+        console.log("ARRIVATI", username, nome, cognome, email, password, id_ruolo)
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = "INSERT INTO user (username, nome, cognome, email, password, id_ruolo, data_creazione) VALUES (?,?,?,?,?,?,?);";
+
+                connection.query(query, [username, nome, cognome, email, password, id_ruolo, dateAdded] , (err, result) => {
+                    if (err) {
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+
+                })
+            });
+            return {
+                id : insertId,
+                name : nome,
+                id_ruolo : id_ruolo,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("ERRORE", error);
+            return {error: "Errore"}
         }
     }
 
