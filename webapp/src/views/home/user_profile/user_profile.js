@@ -22,8 +22,9 @@ class Utente {
         this.username = utente["username"];
         this.password = utente["password"];
         this.indirizzo = utente["indirizzo"];
-        this.numeroTelefono = utente["numeroTelefono"];
+        this.telefono = utente["telefono"];
         this.email = utente["email"];
+        this.cf = utente["cf"];
         // this.ruolo = utente["ruolo"];
         console.log("UTENTE")
         console.log(this.user_id, this.nome, this.cognome, this.username, this.password, this.indirizzo, this.numeroTelefono, this.email, this.ruolo)
@@ -36,8 +37,9 @@ class Utente {
         document.querySelector('#cognome_reg').value = this.cognome;
         document.querySelector('#password_reg').value = this.password;
         document.querySelector('#indirizzo_reg').value = this.indirizzo;
-        document.querySelector('#numeroTelefono_reg').value = this.numeroTelefono;
+        document.querySelector('#telefono_reg').value = this.telefono;
         document.querySelector('#email_reg').value = this.email;
+        document.querySelector('#cf_reg').value = this.cf;
 
 
         
