@@ -185,5 +185,3 @@ app.get("/api/logout", (req, res) => {
     res.send("Your are logged out ");
 });
 
-
-module.exports = globalUtente;
