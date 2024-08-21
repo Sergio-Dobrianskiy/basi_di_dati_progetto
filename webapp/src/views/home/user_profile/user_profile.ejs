@@ -13,7 +13,62 @@
 <body>
     <header-component-user page="user_profile" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Modifica Profilo</div>    
+                <div class="card-body">
+                    <!-- <form action="/api/edit_profile" method="POST"> -->
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="username_reg" name="username" placeholder="Username">                        
+                            <label for="name_reg" class="form-label">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome_reg" name="nome" placeholder="Nome">                        
+                            <label for="name_reg" class="form-label">Nome</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="cognome_reg" name="cognome" placeholder="Cognome">                        
+                            <label for="name_reg" class="form-label">Cognome</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" id="email_reg" name="email" placeholder="nome@esempio.com">                        
+                            <label for="email_reg " class="form-label">Email</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password_reg" name="password" placeholder="Password">
+                            <label for="password_reg" class="form-label">Password</label>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="cf_reg" name="cf" placeholder="Codice Fiscale">
+                            <label for="cf_reg" class="form-label">Codice Fiscale</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="cellulare_reg" name="cellulare" placeholder="Cellulare">
+                            <label for="cellulare_reg" class="form-label">Cellulare</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="indirizzo_reg" name="indirizzo" placeholder="Indirizzo">
+                            <label for="indirizzo_reg" class="form-label">Indirizzo</label>
+                        </div>
+
+                        <!-- <div class="form-floating">
+                            <select class="form-select" id="role_reg" aria-label="Floating label select example" name="ruolo" required>
+                                <option disabled selected value></option>
+                                <option class="text-center" value="1">👑 Admin 👑</option>
+                                <option class="text-center" value="2">🏛️ Fornitore 🏛️</option>
+                                <option class="text-center" value="3">🏖️ Utente 🏖️</option>
+                            </select>
+                            <label for="role_reg">Seleziona tipo Utente</label>
+                        </div> -->
+    
+                        <button id="button_reg" type="submit" class="btn btn-primary">Controlla dati</button>
+                        <button id="button_reg" type="submit" class="btn btn-primary">Edita</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>

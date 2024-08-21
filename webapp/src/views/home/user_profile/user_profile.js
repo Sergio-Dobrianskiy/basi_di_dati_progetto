@@ -16,7 +16,7 @@ function getUtente() {
 
 class Utente {
     constructor(utente) {
-        this.user_id = utente["user_id"];
+        this.username = utente["username"];
         this.nome = utente["nome"];
         this.cognome = utente["cognome"];
         this.username = utente["username"];
@@ -24,9 +24,23 @@ class Utente {
         this.indirizzo = utente["indirizzo"];
         this.numeroTelefono = utente["numeroTelefono"];
         this.email = utente["email"];
-        this.ruolo = utente["ruolo"];
+        // this.ruolo = utente["ruolo"];
         console.log("UTENTE")
         console.log(this.user_id, this.nome, this.cognome, this.username, this.password, this.indirizzo, this.numeroTelefono, this.email, this.ruolo)
+        this.popolaCampi()
+    }
+
+    popolaCampi() {
+        document.querySelector('#username_reg').value = this.username;
+        document.querySelector('#nome_reg').value = this.nome;
+        document.querySelector('#cognome_reg').value = this.cognome;
+        document.querySelector('#password_reg').value = this.password;
+        document.querySelector('#indirizzo_reg').value = this.indirizzo;
+        document.querySelector('#numeroTelefono_reg').value = this.numeroTelefono;
+        document.querySelector('#email_reg').value = this.email;
+
+
+        
     }
 }
 
