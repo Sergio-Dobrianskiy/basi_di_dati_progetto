@@ -39,6 +39,7 @@ app.use('/login', route);
 app.use('/register', route);
 app.use('/test', route);
 app.use('/indice_dev', route);
+app.use('/user_profile', route);
 
 // CLIENTE
 app.use('/cliente_home', route);

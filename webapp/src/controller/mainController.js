@@ -9,6 +9,12 @@ const login = async function (req, res){
 const register = async function (req, res){
     res.render('home/register/register', { text: 'This is EJS'})
 }
+const user_profile = async function (req, res){
+    res.render('home/user_profile/user_profile', { text: 'This is EJS'})
+}
+
+
+
 const test = async function (req, res){
     res.render('dev/dev_test/dev_test', { text: 'This is EJS'})
 }
@@ -91,6 +97,7 @@ module.exports = {
     home,
     login,
     register,
+    user_profile,
 
     cliente_home,
     abbonamento,
