@@ -20,3 +20,12 @@ Progetto e relazione per l'esame di basi di dati
 - posizionarsi in /basi_di_dati_progetto/webapp/
 - `npm start` oppure `nodemon src/app`
 - andare a http://localhost:5000/
+
+# dump
+- da dentro la cartella `\web_app` lanciare il comando `mysqldump -uroot -p1234  web_app > dump.sql`
+- non vanno gli spazi dopo i primi due flag
+
+# restore
+- dalla cartella `web_app` lanciare il comando:
+    - su windows: `Get-Content dump.sql | mysql -uroot -p1234 web_app`
+    - su unix: `mysql -uroot -p1234 < dump.sql`

@@ -8,10 +8,6 @@ const dotenv = require('dotenv');       // variabili di configurazione
 dotenv.config();
 const session = require('express-session');
 
-
-var globalUtente = "Ciccio"
-console.log(globalUtente)
-
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
 app.use(express.urlencoded({ extended : false })); // non manda form data
