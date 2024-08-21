@@ -84,6 +84,7 @@ class DbService {
     }
     async registerNewUser(username, nome, cognome, email, password, id_ruolo) {
         console.log("ARRIVATI", username, nome, cognome, email, password, id_ruolo)
+        var errore;
         try {
             const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
@@ -91,6 +92,7 @@ class DbService {
 
                 connection.query(query, [username, nome, cognome, email, password, id_ruolo, dateAdded] , (err, result) => {
                     if (err) {
+                        errore = err;
                         reject(new Error(err.message));
                     } else {
                         resolve(result.insertId);
@@ -105,8 +107,8 @@ class DbService {
                 dateAdded : dateAdded
             };
         } catch (error) {
-            console.log("ERRORE", error);
-            return {error: "Errore"}
+            console.log("***ERRORE****", error);
+            return {fail: errore}
         }
     }
 

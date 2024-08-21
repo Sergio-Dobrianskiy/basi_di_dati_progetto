@@ -62,8 +62,8 @@ addBtn.onclick = function (e){
 
 function manageResponse(data) {
     console.log(JSON.stringify(data))
-    console.log(data["error"])
-    if (data["error"] === undefined){
+    console.log(data["fail"])
+    if (data["fail"] === undefined){
         // var ruolo = data["id_ruolo"];
         // if (ruolo == 1) {
         //     document.location.href = "http://localhost:5000/admin_home"
@@ -77,6 +77,6 @@ function manageResponse(data) {
         document.location.href = "http://localhost:5000/login"
     } else {
         // TODO: sistemare errori POST creazione utente 
-        alert("ERRORE, assicurarsi che i valori siano unici e corretti")
+        alert(data["fail"]["sqlMessage"])
     }
 }
