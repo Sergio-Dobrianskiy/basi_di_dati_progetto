@@ -8,10 +8,6 @@ const dotenv = require('dotenv');       // variabili di configurazione
 dotenv.config();
 const session = require('express-session');
 
-
-var globalUtente = "Ciccio"
-console.log(globalUtente)
-
 app.use(cors());                        // riceve le chiamate da fe e le manda a be
 app.use(express.json());                // per mandare le chiamate in formato json
 app.use(express.urlencoded({ extended : false })); // non manda form data
@@ -43,6 +39,7 @@ app.use('/login', route);
 app.use('/register', route);
 app.use('/test', route);
 app.use('/indice_dev', route);
+app.use('/user_profile', route);
 
 // CLIENTE
 app.use('/cliente_home', route);
@@ -75,6 +72,30 @@ app.post('/api/insert', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.insertNewName(name);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.post('/api/register', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { username, nome, cognome, email, password, id_ruolo} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.registerNewUser(username, nome, cognome, email, password, id_ruolo);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.post('/api/edit_user', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, username, nome, cognome, email, password, indirizzo, telefono , cf } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.edit_user(id_user, username, nome, cognome, email, password, indirizzo, telefono , cf);
 
     result
         .then(data => response.json({ data: data}))
@@ -143,9 +164,9 @@ app.get('/api/search/:name', (request, response) => {
     const result = db.searchByName(name);
     
     result
-    .then(data => response.json({data : data}))
-    .then(data => console.log(JSON.stringify(data)))
-    .catch(err => console.log(err));
+        .then(data => response.json({data : data}))
+        .then(data => console.log(JSON.stringify(data)))
+        .catch(err => console.log(err));
 })
 
 // avvio l'app alla porta indica in .env
@@ -165,15 +186,16 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
 app.get("/api/user", (req, res) => {
-    const sessionuser = req.session.user;
-    res.send(sessionuser);
+    const sessionUser = req.session.user;
+    console.log(sessionUser)
+    res.send(sessionUser);
 });
+
 // Logout page 
 app.get("/api/logout", (req, res) => {
     req.session.destroy();
     res.send("Your are logged out ");
 });
 
-
-module.exports = globalUtente;

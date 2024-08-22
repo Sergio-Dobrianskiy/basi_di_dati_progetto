@@ -12,6 +12,8 @@ class Header extends HTMLElement {
                     <ul>`
         if (page != "" ) {
             testo += `<li><a href="/` + page + `_home">Back</a></li>`
+        } else {
+            testo += `<li><a href="/user_profile">Profilo</a></li>`
         }
         testo +=`
                     <li onclick="logout()"><a href="/home">Logout</a></li>

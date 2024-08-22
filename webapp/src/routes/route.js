@@ -8,6 +8,7 @@ route.get("/", mainController.home)
 route.get("/home", mainController.home)
 route.get("/login", mainController.login)
 route.get("/register", mainController.register)
+route.get("/user_profile", mainController.user_profile)
 
 // CLIENTE
 route.get("/cliente_home", mainController.cliente_home)

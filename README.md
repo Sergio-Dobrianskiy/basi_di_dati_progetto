@@ -16,6 +16,16 @@ Progetto e relazione per l'esame di basi di dati
 - npm install -g nodemon
 
 
+# dump
+- da dentro la cartella `\web_app` lanciare il comando `mysqldump -uroot -p1234  web_app > dump.sql`
+- non vanno gli spazi dopo i primi due flag
+
+# restore
+- dalla cartella `web_app` lanciare il comando:
+    - su windows: `Get-Content dump.sql | mysql -uroot -p1234 web_app`
+    - su unix: `mysql -uroot -p1234 < dump.sql`
+- dopo il restore creare un utente chiamato `web_app` password `1234` e concedere tutti i diritti
+
 # avvio app
 - posizionarsi in /basi_di_dati_progetto/webapp/
 - `npm start` oppure `nodemon src/app`
