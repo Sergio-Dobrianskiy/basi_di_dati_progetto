@@ -111,6 +111,39 @@ class DbService {
             return {fail: errore}
         }
     }
+    async edit_user(user_id, username, nome, cognome, email, password, indirizzo, telefono , cf) {
+        console.log("ARRIVATI", user_id, username, nome, cognome, email, password, indirizzo, telefono , cf)
+        user_id = parseInt(user_id, 10); 
+        telefono = parseInt(telefono, 10); 
+        var errore;
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query =  `UPDATE user 
+                                SET username = ?, nome = ?, cognome = ?, email = ?, password = ?, indirizzo = ?, telefono = ?, cf = ? 
+                                where id_user = ?;`;
+
+                connection.query(query, [username, nome, cognome, email, password, indirizzo, telefono , cf, user_id] , (err, result) => {
+                    if (err) {
+                        errore = err;
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+
+                })
+            });
+            return {
+                id : insertId,
+                name : nome,
+                id_ruolo : id_ruolo,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("***ERRORE****", error);
+            return {fail: errore}
+        }
+    }
 
     async deleteRowById(id) {
         try {
@@ -212,9 +245,11 @@ class DbService {
 
                 connection.query(query, [username, password], (err, results) => {
                     if (err) reject(new Error(err.message));
+                    // console.log(results)
                     resolve(results);
                 })
             });
+            // console.log(response)
             return response;
         } catch (error) {
             console.log(error);

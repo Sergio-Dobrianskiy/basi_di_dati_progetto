@@ -89,6 +89,18 @@ app.post('/api/register', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/edit_user', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, username, nome, cognome, email, password, indirizzo, telefono , cf } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.edit_user(id_user, username, nome, cognome, email, password, indirizzo, telefono , cf);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 
 
@@ -177,6 +189,7 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
 
 app.get("/api/user", (req, res) => {
     const sessionUser = req.session.user;
+    console.log(sessionUser)
     res.send(sessionUser);
 });
 
