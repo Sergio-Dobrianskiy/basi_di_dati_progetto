@@ -77,6 +77,7 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
 app.post('/api/register', (request, response) => {
     console.log(JSON.stringify(request.body))
     
@@ -84,6 +85,19 @@ app.post('/api/register', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.registerNewUser(username, nome, cognome, email, password, id_ruolo);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/registerCreditCard', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { numero, nome, cognome, mese, anno, id_user} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.registerCreditCard(numero, cognome, nome, mese, anno, id_user);
 
     result
         .then(data => response.json({ data: data}))
@@ -153,6 +167,17 @@ app.patch('/api/ban', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.patch('/api/deleteCreditCard', (request, response) => {
+    const { numero } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.deleteCreditCard(numero);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 // delete
 app.delete('/api/delete/:id', (request, response) => {
     const { id } = request.params;
@@ -188,6 +213,18 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.login(username, password);
+    request.session.user = result;
+    result
+        .then(data => request.session.user = data)
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.get('/api/getCarteUtente/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    console.log(id_user)
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.getCarteUtente(id_user);
     request.session.user = result;
     result
         .then(data => request.session.user = data)

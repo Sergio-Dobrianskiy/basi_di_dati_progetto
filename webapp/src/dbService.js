@@ -101,6 +101,7 @@ class DbService {
             console.log(error);
         }
     }
+
     async registerNewUser(username, nome, cognome, email, password, id_ruolo) {
         console.log("ARRIVATI", username, nome, cognome, email, password, id_ruolo)
         var errore;
@@ -130,6 +131,35 @@ class DbService {
             return {fail: errore}
         }
     }
+
+    async registerCreditCard(num_carta_credito, cognome, nome, mese_scadenza, anno_scadenza, id_user) {
+        console.log("ARRIVATI", num_carta_credito, cognome, nome, mese_scadenza, anno_scadenza, id_user)
+        var errore;
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = "INSERT INTO carte_credito (num_carta_credito, cognome_associato, nome_associato, mese_scadenza, anno_scadenza, id_user) VALUES (?,?,?,?,?,?);";
+
+                connection.query(query, [num_carta_credito, cognome, nome, mese_scadenza, anno_scadenza, id_user] , (err, result) => {
+                    if (err) {
+                        errore = err;
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+
+                })
+            });
+            return {
+                id : insertId,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("***ERRORE****", error);
+            return {fail: errore}
+        }
+    }
+
     async edit_user(user_id, username, nome, cognome, email, password, indirizzo, telefono , cf) {
         console.log("ARRIVATI", user_id, username, nome, cognome, email, password, indirizzo, telefono , cf)
         user_id = parseInt(user_id, 10); 
@@ -239,6 +269,27 @@ class DbService {
         }
     }
 
+    async deleteCreditCard(numero) {
+        try {
+            // id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                        DELETE FROM carte_credito
+                        where num_carta_credito = ?;`;
+    
+                connection.query(query, [numero] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result.affectedRows);
+                })
+            });
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async searchByName(name) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -255,6 +306,7 @@ class DbService {
             console.log(error);
         }
     }
+
     async login(username, password) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -266,6 +318,27 @@ class DbService {
                                 WHERE username = ? AND password = ?;`;
 
                 connection.query(query, [username, password], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    // console.log(results)
+                    resolve(results);
+                })
+            });
+            // console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    async getCarteUtente(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `SELECT c.*, u.nome, u.cognome
+                                from carte_credito c
+                                join users u
+                                on c.id_user = u.id_user
+                                WHERE c.id_user = ?;`;
+
+                connection.query(query, [id_user], (err, results) => {
                     if (err) reject(new Error(err.message));
                     // console.log(results)
                     resolve(results);

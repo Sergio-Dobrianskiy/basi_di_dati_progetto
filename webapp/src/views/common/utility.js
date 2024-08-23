@@ -8,6 +8,7 @@ function setNomeUtente() {
     })
 }
 
+
 function convertToTitleCase(str) {
     if (!str) {
         return ""

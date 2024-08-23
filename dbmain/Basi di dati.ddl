@@ -48,7 +48,7 @@ create table USERS (
 	 nome varchar(30) not null,
      cognome varchar(30) not null,
      email varchar(30) not null,
-     cf varchar(16),
+     cfeventi varchar(16),
      telefono varchar(30),
      indirizzo char(30),
      bannato tinyint not null default 0,
@@ -104,12 +104,15 @@ INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3
 
 create table CARTE_CREDITO (
 	 num_carta_credito varchar(16) unique not null,
+     cognome_associato varchar(30) not null,
+     nome_associato varchar(30) not null,
      mese_scadenza int not null,
      anno_scadenza int not null,
      data_registrazione_carta datetime not null default now(),
      id_user int not null,
      constraint IDCartaCredito primary key (num_carta_credito));
-INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `mese_scadenza`, `anno_scadenza`, `id_user`) VALUES ('1234567890123456', '05', '29', '1');
+INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `cognome_associato`, `nome_associato`, `mese_scadenza`, `anno_scadenza`, `id_user`) 
+VALUES ('1234567890123456', 'giacomo', 'zanguio', '05', '29', '1');
 
 create table CHECKS (
      id_check int unique not null auto_increment,
