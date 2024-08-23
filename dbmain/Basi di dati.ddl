@@ -11,6 +11,7 @@
 
 -- Database Section
 -- ________________ 
+drop schema if exists CityCardDB;
 create database CityCardDB;
 use CityCardDB;
 
@@ -102,14 +103,13 @@ INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3
 
 
 create table CARTE_CREDITO (
-	 num_carta_credito int unique not null,
-     id_utente int not null,
-     mese_scadenza date not null,
-     anno_scadenza date not null,
-     cvv int not null,
-     data_registrazione_carta date not null,
+	 num_carta_credito varchar(16) unique not null,
+     mese_scadenza int not null,
+     anno_scadenza int not null,
+     data_registrazione_carta datetime not null default now(),
      id_user int not null,
      constraint IDCartaCredito primary key (num_carta_credito));
+INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `mese_scadenza`, `anno_scadenza`, `id_user`) VALUES ('1234567890123456', '05', '29', '1');
 
 create table CHECKS (
      id_check int unique not null auto_increment,
@@ -213,7 +213,7 @@ create table SOTTOSCRIZIONI_ABBONAMENTO (
      data_sottoscrizione date not null,
      id_listino_abbonamento int not null,
      id_city_card int not null,
-     num_carta_credito int not null,
+     num_carta_credito varchar(16) not null,
      constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
 
 
