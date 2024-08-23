@@ -23,22 +23,22 @@ use CityCardDB;
 
 create table STATI_CHECK (
      id_stato int unique not null,
-     desc_stato varchar(30) not null,
+     descrizione_stato varchar(30) not null,
      constraint IDSTATI_CHECK primary key (id_stato));
      
-INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `desc_stato`) VALUES ('1', 'OK');
-INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `desc_stato`) VALUES ('2', 'ERRORE');
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('1', 'OK');
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('2', 'ERRORE');
 
 
 create table RUOLI (
      id_ruolo int unique not null,
-     desc_ruolo varchar(30) not null,
+     descrizione_ruolo varchar(30) not null,
      constraint IDRUOLI primary key (id_ruolo));
 
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin');
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('2', 'fornitore');
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('3', 'cliente');
--- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('1', 'admin');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('2', 'fornitore');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('3', 'cliente');
+-- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
 
 
 create table USERS (
@@ -67,27 +67,27 @@ VALUES
 
 create table LISTINO_ABBONAMENTI (
      id_listino_abbonamento int not null auto_increment,
-     desc_abbonamento varchar(30) not null,
+     descrizione_abbonamento varchar(30) not null,
      prezzo_abbonamento int not null,
      durata_abbonamento int not null,
      data_disattivazione date,
      id_sconto int not null,
      constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
      
-INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Bronzo', '50', '3', '1');
-INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Argento', '100', '7', '2');
-INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento ORO', '200', '15', '3');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Bronzo', '50', '3', '1');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Argento', '100', '7', '2');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento ORO', '200', '15', '3');
 
 
 
 create table MEZZI (
      id_mezzo varchar(30) unique not null,
-     desc_mezzo varchar(30) not null,
+     descrizione_mezzo varchar(30) not null,
      partenza varchar(30),
      destinazione varchar(30),
      constraint IDMEZZI primary key (id_mezzo));
-INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `desc_mezzo`, `partenza`, `destinazione`) VALUES ('TR001', 'Treno n.001', 'Cesena', 'Cesenatico');
-INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `desc_mezzo`, `partenza`, `destinazione`) VALUES ('BUS001', 'Bus n.001', 'Cesena', 'Forlì');
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('TR001', 'Treno n.001', 'Cesena', 'Cesenatico');
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('BUS001', 'Bus n.001', 'Cesena', 'Forlì');
 
 
 create table SCONTI (
@@ -149,26 +149,26 @@ INSERT INTO `citycarddb`.`collaborazioni` (`id_collaborazione`, `inizio_collabor
 
 create table ENTI (
      id_ente int not null auto_increment,
-     desc_ente varchar(30) not null,
+     descrizione_ente varchar(30) not null,
      saldo int not null,
      indirizzo varchar(30) not null,
      numero_telefono varchar(30) not null,
      nome varchar(30) not null,
      id_user int not null,
      constraint IDENTI primary key (id_ente));
-INSERT INTO `citycarddb`.`enti` (`id_ente`, `desc_ente`, `saldo`, `indirizzo`, `numero_telefono`, `nome`, `id_user`) VALUES ('1', 'alma mater', '50', 'via Cesena', '3494773321', 'Alma Mater', '2');
+INSERT INTO `citycarddb`.`enti` (`id_ente`, `descrizione_ente`, `saldo`, `indirizzo`, `numero_telefono`, `nome`, `id_user`) VALUES ('1', 'alma mater', '50', 'via Cesena', '3494773321', 'Alma Mater', '2');
 
 create table EVENTI (
      id_evento int not null auto_increment,
      id_periodo int,
-     descrizione varchar(30) not null,
+     descrizione_evento varchar(30) not null,
      num_partecipanti int not null,
      inizio_validità datetime not null default now(),
      fine_validità date not null,
      id_ente int not null,
      constraint IDEVENTO primary key (id_evento),
      constraint FKR_1_ID unique (id_periodo));
-INSERT INTO `citycarddb`.`eventi` (`id_evento`, `id_periodo`, `descrizione`, `num_partecipanti`, `inizio_validità`, `fine_validità`, `id_ente`) VALUES ('1', '1', 'evento natale', '5', '2024-08-22', '2024-09-30', '1');
+INSERT INTO `citycarddb`.`eventi` (`id_evento`, `id_periodo`, `descrizione_evento`, `num_partecipanti`, `inizio_validità`, `fine_validità`, `id_ente`) VALUES ('1', '1', 'evento natale', '5', '2024-08-22', '2024-09-30', '1');
 
 
 
@@ -217,7 +217,7 @@ create table SERVIZI (
      prezzo int not null,
      data_inserimento date not null,
      data_disattivamento date not null,
-     desc_servizio varchar(30) not null,
+     descrizione_servizio varchar(30) not null,
      indirizzo_servizio varchar(30) not null,
      media_recensioni int not null,
      id_ente int not null,

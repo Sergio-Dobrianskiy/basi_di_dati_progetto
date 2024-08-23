@@ -1697,10 +1697,10 @@ E
 2454
 2505
 2481
-2633
 3047
 2397
 3178
+2633
 3465
 3170
 2901
@@ -8546,7 +8546,7 @@ D
 *7
 2454
 0
-desc_abbonamento
+descrizione_abbonamento
 
 
 
@@ -8745,7 +8745,7 @@ N
 *7
 2505
 0
-desc_ente
+descrizione_ente
 
 
 
@@ -9146,7 +9146,7 @@ N
 *7
 2633
 0
-desc_ruolo
+descrizione_ruolo
 
 
 
@@ -9783,7 +9783,7 @@ D
 *7
 3047
 0
-desc_servizio
+descrizione_servizio
 
 
 
@@ -10253,7 +10253,7 @@ N
 *7
 3178
 0
-descrizione
+descrizione_evento
 
 
 
@@ -18908,8 +18908,8 @@ USER
 *19
 2353
 0
-30000
-148520
+30640
+148252
 0
 *19
 2352
@@ -22206,26 +22206,26 @@ e occasionale dentro eventi
 -
 *62
 758
-40
-*POT "begin-file"
+42
+*POT "begin-file"
 
 *62
 212
-45
-*POT "begin-file"
+47
+*POT "begin-file"
 
 *62
 71
-46
-*POT "begin-file"
+48
+*POT "begin-file"
 
 *62
 1420
-37
-*POT "begin-file"
+39
+*POT "begin-file"
 
 *62
 2345
-27
-*POT "begin-file"
+29
+*POT "begin-file"
 

@@ -46,9 +46,9 @@ class DbService {
     async getAllUsers() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` select id_user, nome, cognome, email, bannato, descrizione as ruolo
+                const query = ` select id_user, nome, cognome, email, bannato, descrizione_ruolo as ruolo
                                 from users u
-                                join ruolo r 
+                                join ruoli r 
                                 on u.id_ruolo = r.id_ruolo`;
                 
                 connection.query(query, (err, results) => {
