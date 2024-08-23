@@ -6,14 +6,18 @@ function getUtente() {
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
     .then(data => {
-        console.log(JSON.stringify(data[0]));
+        // console.log(JSON.stringify("header data " + data[0]));
         utente = new Utente(data[0])
-        // if (data[0] != null) {
-        //     utente = data[0];
-        // }
+        fixBackBtn(data[0]);
     })
     JSON.stringify(utente);
     return utente;
+}
+
+function fixBackBtn(user) {
+    var ruolo = user["ruolo"]
+    const backBtn = document.querySelector("#button_back");
+    backBtn.innerHTML = '<a href="/' + ruolo + '_home">Back</a>'
 }
 
 console.log(getUtente())
@@ -30,7 +34,7 @@ class Utente {
         this.telefono = utente["telefono"];
         this.email = utente["email"];
         this.cf = utente["cf"];
-        // this.ruolo = utente["ruolo"];
+        this.ruolo = utente["ruolo"];
         console.log("UTENTE")
         console.log(JSON.stringify(utente));
         console.log(this.id_user, this.nome, this.cognome, this.username, this.password, this.indirizzo, this.numeroTelefono, this.email, this.ruolo)

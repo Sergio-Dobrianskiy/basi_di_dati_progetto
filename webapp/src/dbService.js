@@ -62,6 +62,25 @@ class DbService {
         }
     }
 
+    async getEnti() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select e.nome as ente, e.descrizione_ente as descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
+                                from enti e
+                                join users u
+                                on e.id_user = u.id_user;`
+                
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async insertNewName(name) {
         try {
             const dateAdded = new Date();
@@ -240,7 +259,11 @@ class DbService {
         try {
             const response = await new Promise((resolve, reject) => {
                 // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
-                const query = "SELECT * FROM users WHERE username = ? AND password = ?;";
+                const query = `SELECT u.*, r.descrizione_ruolo as ruolo
+                                from users u
+                                join ruoli r 
+                                on u.id_ruolo = r.id_ruolo
+                                WHERE username = ? AND password = ?;`;
 
                 connection.query(query, [username, password], (err, results) => {
                     if (err) reject(new Error(err.message));

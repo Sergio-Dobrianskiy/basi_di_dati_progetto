@@ -89,6 +89,7 @@ app.post('/api/register', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
 app.post('/api/edit_user', (request, response) => {
     console.log(JSON.stringify(request.body))
     
@@ -116,6 +117,13 @@ app.get('/api/getAll', (request, response) => {
 app.get('/api/getUsers', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getAllUsers();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getEnti', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getEnti();
     result
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
