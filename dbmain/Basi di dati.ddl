@@ -18,6 +18,89 @@ use CityCardDB;
 -- Tables Section
 -- _____________ 
 
+
+
+create table STATI_CHECK (
+     id_stato int unique not null,
+     desc_stato varchar(30) not null,
+     constraint IDSTATI_CHECK primary key (id_stato));
+     
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `desc_stato`) VALUES ('1', 'OK');
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `desc_stato`) VALUES ('2', 'ERRORE');
+
+
+create table RUOLI (
+     id_ruolo int unique not null,
+     desc_ruolo varchar(30) not null,
+     constraint IDRUOLI primary key (id_ruolo));
+
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('2', 'fornitore');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('3', 'cliente');
+-- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
+
+
+create table USERS (
+     id_user int not null auto_increment,
+     username varchar(30) unique not null,
+     password varchar(30)  not null,
+	 nome varchar(30) not null,
+     cognome varchar(30) not null,
+     email varchar(30) not null,
+     CF varchar(16),
+     telefono varchar(30),
+     indirizzo char(30),
+     bannato tinyint not null default 0,
+     citta varchar(30),
+     CAP int,
+     nazione varchar(30),
+     data_creazione datetime not null default now(),
+     id_ruolo int not null,
+     constraint IDUSERS primary key (id_user));
+
+INSERT INTO `citycarddb`.`users` (`username`, `password`, `email`, `nome`, `cognome`, `id_ruolo`) 
+VALUES 
+('admin', 'admin', 'admin@gmail.com', 'giacomo', 'zanguio', 1), 
+('fornitore', 'fornitore', 'fornitore@gmail.com', 'davide', 'bertizzolo', 2), 
+('cliente', 'cliente', 'cliente@gmail.com', 'alessandro', 'cuneo', 3);
+
+create table LISTINO_ABBONAMENTI (
+     id_listino_abbonamento int not null auto_increment,
+     desc_abbonamento varchar(30) not null,
+     prezzo_abbonamento int not null,
+     durata_abbonamento int not null,
+     data_disattivazione date,
+     id_sconto int not null,
+     constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
+     
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Bronzo', '50', '3', '1');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Argento', '100', '7', '2');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`desc_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento ORO', '200', '15', '3');
+
+
+
+create table MEZZI (
+     id_mezzo varchar(30) unique not null,
+     desc_mezzo varchar(30) not null,
+     partenza varchar(30),
+     destinazione varchar(30),
+     constraint IDMEZZI primary key (id_mezzo));
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `desc_mezzo`, `partenza`, `destinazione`) VALUES ('TR001', 'Treno n.001', 'Cesena', 'Cesenatico');
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `desc_mezzo`, `partenza`, `destinazione`) VALUES ('BUS001', 'Bus n.001', 'Cesena', 'Forlì');
+
+
+create table SCONTI (
+     id_sconto int not null,
+     percentuale_sconto int not null,
+     constraint IDSCONTO primary key (id_sconto));
+     
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('2', '30');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3', '50');
+-- INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10'), ('2', '30'), ('3', '50');
+
+
+
 create table CARTE_CREDITO (
 	 num_carta_credito int unique not null,
      id_utente int not null,
@@ -72,19 +155,7 @@ create table EVENTI (
      constraint IDEVENTO primary key (id_evento),
      constraint FKR_1_ID unique (id_periodo));
 
-create table LISTINO_ABBONAMENTI (
-     id_listino_abbonamento int not null auto_increment,
-     desc_abbonamento varchar(30) not null,
-     prezzo_abbonamento int not null,
-     durata_abbonamento date not null,
-     data_disattivazione date not null,
-     id_sconto int not null,
-     constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
 
-create table MEZZI (
-     id_mezzo varchar(30) unique not null,
-     desc_mezzo varchar(30) not null,
-     constraint IDMEZZI primary key (id_mezzo));
 
 create table PARTECIPAZIONI (
      id_partecipazione int not null auto_increment,
@@ -92,6 +163,8 @@ create table PARTECIPAZIONI (
      id_evento int not null,
      id_city_card int not null,
      constraint IDPARTECIPAZIONI primary key (id_partecipazione));
+
+
 
 create table PERIODI (
      id_periodo int not null auto_increment,
@@ -106,6 +179,8 @@ create table PERIODI (
      domenica tinyint not null default 0,
      constraint IDPERIODI_ID primary key (id_periodo));
 
+
+
 create table RECENSIONI (
      id_recensione int not null auto_increment,
      data_inserimento date not null,
@@ -115,26 +190,8 @@ create table RECENSIONI (
      constraint IDRECENSIONI primary key (id_recensione),
      constraint IDRECENSIONI_1 unique (id_servizio, id_user));
 
-create table RUOLI (
-     id_ruolo int unique not null,
-     desc_ruolo varchar(30) not null,
-     constraint IDRUOLI primary key (id_ruolo));
 
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin');
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('2', 'fornitore');
-INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('3', 'cliente');
--- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
 
-create table SCONTI (
-     id_sconto int not null,
-     percentuale_sconto int not null,
-     constraint IDSCONTO primary key (id_sconto));
-     
-
-INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10');
-INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('2', '30');
-INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3', '50');
--- INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10'), ('2', '30'), ('3', '50');
 
 create table SERVIZI (
      id_servizio int not null auto_increment,
@@ -159,34 +216,8 @@ create table SOTTOSCRIZIONI_ABBONAMENTO (
      num_carta_credito int not null,
      constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
 
-create table STATI_CHECK (
-     id_stato int unique not null,
-     desc_stato varchar(30) not null,
-     constraint IDSTATI_CHECK primary key (id_stato));
 
-create table USERS (
-     id_user int not null auto_increment,
-     username varchar(30) unique not null,
-     password varchar(30)  not null,
-	 nome varchar(30) not null,
-     cognome varchar(30) not null,
-     email varchar(30) not null,
-     CF varchar(16),
-     telefono varchar(30),
-     indirizzo char(30),
-     bannato tinyint not null default 0,
-     citta varchar(30),
-     CAP int,
-     nazione varchar(30),
-     data_creazione datetime not null default now(),
-     id_ruolo int not null,
-     constraint IDUSERS primary key (id_user));
 
-INSERT INTO `citycarddb`.`users` (`username`, `password`, `email`, `nome`, `cognome`, `id_ruolo`) 
-VALUES 
-('admin', 'admin', 'admin@gmail.com', 'giacomo', 'zanguio', 1), 
-('fornitore', 'fornitore', 'fornitore@gmail.com', 'davide', 'bertizzolo', 2), 
-('cliente', 'cliente', 'cliente@gmail.com', 'alessandro', 'cuneo', 3);
 
 -- Constraints Section
 -- ___________________ 
