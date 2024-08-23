@@ -11,9 +11,6 @@
 
 -- Database Section
 -- ________________ 
-
-START TRANSACTION;
-
 create database CityCardDB;
 use CityCardDB;
 
@@ -271,4 +268,3 @@ alter table USERS add constraint FKR_19
 
 -- Index Section
 -- _____________ 
-COMMIT;
