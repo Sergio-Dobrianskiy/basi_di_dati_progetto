@@ -123,12 +123,18 @@ create table RUOLI (
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin');
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('2', 'fornitore');
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('3', 'cliente');
-
+-- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
 
 create table SCONTI (
      id_sconto int not null,
      percentuale_sconto int not null,
      constraint IDSCONTO primary key (id_sconto));
+     
+
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('2', '30');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3', '50');
+-- INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10'), ('2', '30'), ('3', '50');
 
 create table SERVIZI (
      id_servizio int not null auto_increment,
@@ -176,6 +182,11 @@ create table USERS (
      id_ruolo int not null,
      constraint IDUSERS primary key (id_user));
 
+INSERT INTO `citycarddb`.`users` (`username`, `password`, `email`, `nome`, `cognome`, `id_ruolo`) 
+VALUES 
+('admin', 'admin', 'admin@gmail.com', 'giacomo', 'zanguio', 1), 
+('fornitore', 'fornitore', 'fornitore@gmail.com', 'davide', 'bertizzolo', 2), 
+('cliente', 'cliente', 'cliente@gmail.com', 'alessandro', 'cuneo', 3);
 
 -- Constraints Section
 -- ___________________ 
