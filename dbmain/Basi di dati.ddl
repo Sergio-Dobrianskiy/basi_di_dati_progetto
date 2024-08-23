@@ -12,6 +12,8 @@
 -- Database Section
 -- ________________ 
 
+START TRANSACTION;
+
 create database CityCardDB;
 use CityCardDB;
 
@@ -20,9 +22,8 @@ use CityCardDB;
 -- _____________ 
 
 create table CARTE_CREDITO (
-     id_carta_credito int not null,
+	 num_carta_credito int unique not null,
      id_utente int not null,
-     num_carta_credito int not null,
      mese_scadenza date not null,
      anno_scadenza date not null,
      cvv int not null,
@@ -31,22 +32,22 @@ create table CARTE_CREDITO (
      constraint IDCartaCredito primary key (num_carta_credito));
 
 create table CHECKS (
-     id_check char(1) not null,
+     id_check int unique not null auto_increment,
      orario_convalida date not null,
      id_city_card int not null,
-     id_mezzo int not null,
+     id_mezzo varchar(30) not null,
      id_stato int not null,
      constraint IDCHECKS primary key (id_check));
 
 create table CITY_CARD (
-     id_city_card int not null,
+     id_city_card int not null auto_increment,
      id_utente int not null,
      data_emissione date not null,
      data_scadenza date not null,
      constraint IDCITY_CARD primary key (id_city_card));
 
 create table COLLABORAZIONI (
-     id_collaborazione int not null,
+     id_collaborazione int not null auto_increment,
      inizio_collaborazione date not null,
      fine_collaborazione date not null,
      id_user int not null,
@@ -54,19 +55,19 @@ create table COLLABORAZIONI (
      constraint IDCOLLABORATORI primary key (id_collaborazione));
 
 create table ENTI (
-     id_ente int not null,
-     desc_ente char(1) not null,
+     id_ente int not null auto_increment,
+     desc_ente varchar(30) not null,
      saldo int not null,
-     indirizzo char(1) not null,
-     numero_telefono char(1) not null,
-     nome char(1) not null,
+     indirizzo varchar(30) not null,
+     numero_telefono varchar(30) not null,
+     nome varchar(30) not null,
      id_user int not null,
      constraint IDENTI primary key (id_ente));
 
 create table EVENTI (
-     id_evento int not null,
+     id_evento int not null auto_increment,
      id_periodo int,
-     descrizione char(1) not null,
+     descrizione varchar(30) not null,
      num_partecipanti int not null,
      inizio_validità date not null,
      fine_validità date not null,
@@ -75,8 +76,8 @@ create table EVENTI (
      constraint FKR_1_ID unique (id_periodo));
 
 create table LISTINO_ABBONAMENTI (
-     id_listino_abbonamento int not null,
-     desc_abbonamento char(1) not null,
+     id_listino_abbonamento int not null auto_increment,
+     desc_abbonamento varchar(30) not null,
      prezzo_abbonamento int not null,
      durata_abbonamento date not null,
      data_disattivazione date not null,
@@ -84,32 +85,32 @@ create table LISTINO_ABBONAMENTI (
      constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
 
 create table MEZZI (
-     id_mezzo int not null,
-     desc_mezzo char(1) not null,
+     id_mezzo varchar(30) unique not null,
+     desc_mezzo varchar(30) not null,
      constraint IDMEZZI primary key (id_mezzo));
 
 create table PARTECIPAZIONI (
-     id_partecipazione int not null,
+     id_partecipazione int not null auto_increment,
      data_registrazione date not null,
      id_evento int not null,
      id_city_card int not null,
      constraint IDPARTECIPAZIONI primary key (id_partecipazione));
 
 create table PERIODI (
-     id_periodo int not null,
+     id_periodo int not null auto_increment,
      ripeti_ogni int not null,
-     periodo char(1) not null,
-     lunedi char not null,
-     martedi char not null,
-     mercoledi char not null,
-     giovedi char not null,
-     venerdi char not null,
-     sabato char not null,
-     domenica char not null,
+     periodo varchar(30) not null,
+     lunedi tinyint not null default 0,
+     martedi tinyint not null default 0,
+     mercoledi tinyint not null default 0,
+     giovedi tinyint not null default 0,
+     venerdi tinyint not null default 0,
+     sabato tinyint not null default 0,
+     domenica tinyint not null default 0,
      constraint IDPERIODI_ID primary key (id_periodo));
 
 create table RECENSIONI (
-     id_recensione int not null,
+     id_recensione int not null auto_increment,
      data_inserimento date not null,
      votazione int not null,
      id_servizio int not null,
@@ -118,9 +119,14 @@ create table RECENSIONI (
      constraint IDRECENSIONI_1 unique (id_servizio, id_user));
 
 create table RUOLI (
-     id_ruolo int not null,
-     desc_ruolo char(1) not null,
+     id_ruolo int unique not null,
+     desc_ruolo varchar(30) not null,
      constraint IDRUOLI primary key (id_ruolo));
+
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('1', 'admin');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('2', 'fornitore');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `desc_ruolo`) VALUES ('3', 'cliente');
+
 
 create table SCONTI (
      id_sconto int not null,
@@ -128,12 +134,12 @@ create table SCONTI (
      constraint IDSCONTO primary key (id_sconto));
 
 create table SERVIZI (
-     id_servizio int not null,
+     id_servizio int not null auto_increment,
      prezzo int not null,
      data_inserimento date not null,
      data_disattivamento date not null,
-     desc_servizio char(1) not null,
-     indirizzo_servizio char(1) not null,
+     desc_servizio varchar(30) not null,
+     indirizzo_servizio varchar(30) not null,
      media_recensioni int not null,
      id_ente int not null,
      num_carta_credito int not null,
@@ -141,7 +147,7 @@ create table SERVIZI (
      constraint IDSERVIZI primary key (id_servizio));
 
 create table SOTTOSCRIZIONI_ABBONAMENTO (
-     id_sottoscrizione_abbonamento int not null,
+     id_sottoscrizione_abbonamento int not null auto_increment,
      prezzo_pagato int not null,
      scadenza_sottoscrizione date not null,
      data_sottoscrizione date not null,
@@ -151,26 +157,25 @@ create table SOTTOSCRIZIONI_ABBONAMENTO (
      constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
 
 create table STATI_CHECK (
-     id_stato int not null,
-     desc_stato char(1) not null,
+     id_stato int unique not null,
+     desc_stato varchar(30) not null,
      constraint IDSTATI_CHECK primary key (id_stato));
 
 create table USERS (
-     id_user int not null,
-     username char(20) not null,
-     password char(20) not null,
-     email char(1) not null,
-     CF char(16) not null,
-     nome char(20) not null,
-     cognome char(20) not null,
-     telefono varchar(20) not null,
-     indirizzo char(1) not null,
-     creazione char(1) not null,
-     bannato char not null,
-     citta char(1) not null,
-     CAP char(1) not null,
-     nazione char(1) not null,
-     data_creazione date not null,
+     id_user int not null auto_increment,
+     username varchar(30) unique not null,
+     password varchar(30)  not null,
+	 nome varchar(30) not null,
+     cognome varchar(30) not null,
+     email varchar(30) not null,
+     CF varchar(16),
+     telefono varchar(30),
+     indirizzo char(30),
+     bannato tinyint not null default 0,
+     citta varchar(30),
+     CAP int,
+     nazione varchar(30),
+     data_creazione datetime not null default now(),
      id_ruolo int not null,
      constraint IDUSERS primary key (id_user));
 
@@ -266,4 +271,4 @@ alter table USERS add constraint FKR_19
 
 -- Index Section
 -- _____________ 
-
+COMMIT;

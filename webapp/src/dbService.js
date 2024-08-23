@@ -47,7 +47,7 @@ class DbService {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = ` select id_user, nome, cognome, email, bannato, descrizione as ruolo
-                                from user u
+                                from users u
                                 join ruolo r 
                                 on u.id_ruolo = r.id_ruolo`;
                 
@@ -88,7 +88,7 @@ class DbService {
         try {
             const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
-                const query = "INSERT INTO user (username, nome, cognome, email, password, id_ruolo, data_creazione) VALUES (?,?,?,?,?,?,?);";
+                const query = "INSERT INTO users (username, nome, cognome, email, password, id_ruolo, data_creazione) VALUES (?,?,?,?,?,?,?);";
 
                 connection.query(query, [username, nome, cognome, email, password, id_ruolo, dateAdded] , (err, result) => {
                     if (err) {
@@ -119,7 +119,7 @@ class DbService {
         try {
             const dateAdded = new Date();
             const insertId = await new Promise((resolve, reject) => {
-                const query =  `UPDATE user 
+                const query =  `UPDATE users 
                                 SET username = ?, nome = ?, cognome = ?, email = ?, password = ?, indirizzo = ?, telefono = ?, cf = ? 
                                 where id_user = ?;`;
 
@@ -193,8 +193,8 @@ class DbService {
             id_user = parseInt(id_user, 10); 
             const response = await new Promise((resolve, reject) => {
                 const query = `
-                    UPDATE user u
-                    INNER JOIN user u1 
+                    UPDATE users u
+                    INNER JOIN users u1 
                     on u.id_user = u1.id_user
                     SET u.bannato = CASE
                         when (
@@ -241,7 +241,7 @@ class DbService {
         try {
             const response = await new Promise((resolve, reject) => {
                 // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
-                const query = "SELECT * FROM user WHERE username = ? AND password = ?;";
+                const query = "SELECT * FROM users WHERE username = ? AND password = ?;";
 
                 connection.query(query, [username, password], (err, results) => {
                     if (err) reject(new Error(err.message));
