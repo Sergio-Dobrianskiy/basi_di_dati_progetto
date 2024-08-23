@@ -114,7 +114,7 @@ class DbService {
     async edit_user(user_id, username, nome, cognome, email, password, indirizzo, telefono , cf) {
         console.log("ARRIVATI", user_id, username, nome, cognome, email, password, indirizzo, telefono , cf)
         user_id = parseInt(user_id, 10); 
-        telefono = parseInt(telefono, 10); 
+        // telefono = parseInt(telefono, 10); 
         var errore;
         try {
             const dateAdded = new Date();
@@ -136,7 +136,6 @@ class DbService {
             return {
                 id : insertId,
                 name : nome,
-                id_ruolo : id_ruolo,
                 dateAdded : dateAdded
             };
         } catch (error) {

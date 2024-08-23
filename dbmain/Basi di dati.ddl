@@ -48,7 +48,7 @@ create table USERS (
 	 nome varchar(30) not null,
      cognome varchar(30) not null,
      email varchar(30) not null,
-     CF varchar(16),
+     cf varchar(16),
      telefono varchar(30),
      indirizzo char(30),
      bannato tinyint not null default 0,
