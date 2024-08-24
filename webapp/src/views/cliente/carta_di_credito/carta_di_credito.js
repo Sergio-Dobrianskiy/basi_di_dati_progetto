@@ -1,49 +1,34 @@
 
+// *******************************
+// *********** VISUALIZZA CARTE UTENTE
+// *******************************
 document.querySelector('#update-carte-btn').onclick = () => { getCarteUtente() };
 
-
-
 function getCarteUtente() {
-    console.log("getIdUtente")
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
-    .then(data => {
-        // getCarteUtente(data[0]["id_user"]);
-//     })
-// }
-
-// function getCarteUtente(id_user) {
-//     console.log("getCarteUtente " + id_user)
-    fetch('http://localhost:5000/api/getCarteUtente/' + data[0]["id_user"])
-        .then(response => response.json())
-        .then(data => loadCarteTable(data['data']));
+    .then(user => {
+        fetch('http://localhost:5000/api/getCarteUtente/' + user[0]["id_user"])
+            .then(response => response.json())
+            .then(carte => loadCarteTable(carte['data']));
     })
 }
 
 function loadCarteTable(data) {
-    
-    console.log(JSON.stringify(data));
-    
     const table = document.querySelector('table tbody');
-
     if (! data || data.length == 0) {
         table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";
         return;
     }
 
     let tableHtml = "";
-
-    data.forEach((user) => {
-        // console.log(utente)
-        var numero = user['num_carta_credito'];
-        var nome = convertToTitleCase(user['nome']);
-        var cognome = convertToTitleCase(user['cognome']);
-        var mese = user['mese_scadenza'];
-        var anno = user['anno_scadenza'];
-        // var id_user = user['id_user'];
+    data.forEach((card) => {
+        var numero = card['num_carta_credito'];
+        var nome = convertToTitleCase(card['nome']);
+        var cognome = convertToTitleCase(card['cognome']);
+        var mese = card['mese_scadenza'];
+        var anno = card['anno_scadenza'];
         var scadenza = `${mese}/${anno}`
-        // var nome = convertToTitleCase(nome)
-        // var cognome = convertToTitleCase(cognome)
         
         tableHtml += "<tr>";
         tableHtml += `<td>${numero}</td>`;
@@ -60,13 +45,9 @@ function loadCarteTable(data) {
 // *******************************
 // ***********REGISTRA NUOVA CARTA
 // *******************************
-
 const addBtn = document.querySelector("#button_reg");
-
 addBtn.onclick = (e) => {
     e.preventDefault();
-    console.log("CLICK")
-
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
     .then(data => {
@@ -84,13 +65,10 @@ addBtn.onclick = (e) => {
         const cognome = cognomeCartaInput.value;
         const mese = meseCartaInput.value;
         const anno = annoCartaInput.value;
-        // nameInput.value = "";
 
         if (numero === "" || nome === "" || cognome === "" || mese === "" || anno === "" || id_user === "") {
             alert("INSERIRE I DATI ")
         } else {
-
-            
             fetch('http://localhost:5000/api/registerCreditCard', {
                 headers: {
                     'Content-type': 'application/json'
@@ -115,8 +93,6 @@ addBtn.onclick = (e) => {
 }
 
 function manageResponse(data) {
-    console.log(JSON.stringify(data))
-    console.log(data["fail"])
     if (data["fail"] === undefined){
         getCarteUtente()
     } else {
@@ -126,13 +102,9 @@ function manageResponse(data) {
 
 
 // *******************************
-// ***********CANCELLA CARTA
+// *********** CANCELLA CARTA
 // *******************************
-
-
 function deleteCreditCard(numero) {
-    console.log("Cancella " + numero)
-    
     fetch('http://localhost:5000/api/deleteCreditCard', {
         headers: {
             'Content-type': 'application/json'
@@ -142,6 +114,4 @@ function deleteCreditCard(numero) {
     })
         .then(response => response.json())
         .then(getCarteUtente())
-        // .then(response => console.log(response)) 
-        // .then(data => insertRowIntoTable(data['data']));
 }
