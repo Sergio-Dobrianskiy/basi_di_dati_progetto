@@ -228,20 +228,32 @@ create table RECENSIONI (
 
 create table SERVIZI (
      id_servizio int not null auto_increment,
-     prezzo int not null,
-     data_inserimento date not null,
-     data_disattivamento date not null,
-     descrizione_servizio varchar(30) not null,
-     indirizzo_servizio varchar(30) not null,
-     media_recensioni int not null,
+     prezzo_servizio float not null,
+     data_inserimento datetime not null default now(),
+     data_termine datetime not null default (DATE_ADD(NEW.data_inserimento, INTERVAL 1 YEAR)),
+     descrizione_servizio varchar(255) not null,
+     indirizzo_servizio varchar(100) not null,
+     media_recensioni int,
      id_ente int not null,
-     num_carta_credito int not null,
-     id_city_card int not null,
      constraint IDSERVIZI primary key (id_servizio));
+     
+INSERT INTO `citycarddb`.`servizi` (`prezzo_servizio`, `descrizione_servizio`, `indirizzo_servizio`, `id_ente`) 
+VALUES ('10', 'Visita guidata al museo comunale', 'Via Museo Comunale', '1');
+
+     
+create table SERVIZI_ACQUISTATI (
+     id_acquisto int not null auto_increment,
+     data_acquisto datetime not null default now(),
+     prezzo_pagato float not null,
+     media_recensioni float,
+     id_servizio int not null,
+     num_carta_credito varchar(16) not null,
+     id_city_card int not null,
+     constraint IDCQUISTO primary key (id_acquisto));
 
 create table SOTTOSCRIZIONI_ABBONAMENTO (
      id_sottoscrizione_abbonamento int not null auto_increment,
-     prezzo_pagato int not null,
+     prezzo_pagato float not null,
      scadenza_sottoscrizione date not null,
      data_sottoscrizione datetime not null default now(),
      id_listino_abbonamento int not null,
@@ -315,11 +327,6 @@ alter table PARTECIPAZIONI add constraint FKR_12
      foreign key (id_city_card)
      references CITY_CARD (id_city_card);
 
--- Not implemented
--- alter table PERIODI add constraint IDPERIODI_CHK
---     check(exists(select * from EVENTI
---                  where EVENTI.id_periodo = id_periodo)); 
-
 alter table RECENSIONI add constraint FKR_13
      foreign key (id_servizio)
      references SERVIZI (id_servizio);
@@ -332,25 +339,33 @@ alter table SERVIZI add constraint FKvendita
      foreign key (id_ente)
      references ENTI (id_ente);
 
-alter table SERVIZI add constraint FKR_15
-     foreign key (id_city_card)
-     references CITY_CARD (id_city_card);
-
-alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_16
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_15
      foreign key (id_listino_abbonamento)
      references LISTINO_ABBONAMENTI (id_listino_abbonamento);
 
-alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_17
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_16
      foreign key (id_city_card)
      references CITY_CARD (id_city_card);
 
-alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_18
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_17
      foreign key (num_carta_credito)
      references CARTE_CREDITO (num_carta_credito);
 
-alter table USERS add constraint FKR_19
+alter table USERS add constraint FKR_18
      foreign key (id_ruolo)
      references RUOLI (id_ruolo);
+     
+alter table SERVIZI_ACQUISTATI add constraint FKR_19
+     foreign key (num_carta_credito)
+     references CARTE_CREDITO (num_carta_credito);
+
+alter table SERVIZI_ACQUISTATI add constraint FKR_20
+     foreign key (id_city_card)
+     references CITY_CARD (id_city_card);
+
+alter table SERVIZI_ACQUISTATI add constraint FKR_21
+     foreign key (id_servizio)
+     references SERVIZI (id_servizio);
 
 
 -- Index Section
