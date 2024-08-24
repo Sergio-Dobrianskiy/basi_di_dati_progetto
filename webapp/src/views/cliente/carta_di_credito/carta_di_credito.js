@@ -45,8 +45,8 @@ function loadCarteTable(data) {
 // *******************************
 // ***********REGISTRA NUOVA CARTA
 // *******************************
-const addBtn = document.querySelector("#button_reg");
-addBtn.onclick = (e) => {
+const createCityCardBtn = document.querySelector("#button_reg");
+createCityCardBtn.onclick = (e) => {
     e.preventDefault();
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())

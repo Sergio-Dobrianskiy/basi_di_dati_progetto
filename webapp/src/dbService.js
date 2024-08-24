@@ -186,13 +186,72 @@ class DbService {
             return {fail: errore}
         }
     }
+    async createNewCityCard(id_user) {
+        console.log("ARRIVATI", id_user)
+        var errore;
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = ` INSERT INTO city_card (id_user) 
+                                VALUES('?');`;
+                connection.query(query, [id_user] , (err, result) => {
+                    if (err) {
+                        errore = err;
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+                })
+            });
+            return {
+                id : insertId,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("***ERRORE****", error);
+            return {fail: errore}
+        }
+    }
+    
+
+    // Per disattivare una card pongo la data di scadenza a now()
+    // Per controllare se la card è attiva controllo se il momento di disattivazione è già passato
+    // In ogni momento un utente può avere al massimo una citycard attiva,
+    // quindi per default disattivo tutte quelle attive
+    async deactivateCreditCards(id_user) {
+        var errore;
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = ` update city_card
+                                set data_scadenza = now()
+                                where id_user = ? and data_scadenza > now();`;
+                connection.query(query, [id_user] , (err, result) => {
+                    if (err) {
+                        errore = err;
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+                })
+            });
+            return {
+                id : insertId,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("***ERRORE****", error);
+            return {fail: errore}
+        }
+    }
 
     async getCityCardUtente(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = ` SELECT *, (if (data_scadenza > now(), "attiva", "non attiva")) as stato
                                 FROM city_card 
-                                where id_user = ?; `;
+                                where id_user = ?
+                                ORDER BY id_city_card DESC`;
 
                 connection.query(query, [id_user] , (err, result) => {
                     if (err) reject(new Error(err.message));
