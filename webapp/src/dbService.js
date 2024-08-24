@@ -92,7 +92,7 @@ class DbService {
                 //                         FROM partecipazioni
                 //                         group by id_evento) as c
                 //                 on ev.id_evento = c.id_evento;`
-                const query = ` select ev.*, en.nome as organizzatore, 
+                const query = ` select ev.*, en.nome as organizzatore
                                 from eventi ev
                                 join enti en
                                 on ev.id_ente = en.id_ente;`

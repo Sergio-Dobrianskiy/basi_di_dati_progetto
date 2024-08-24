@@ -139,7 +139,7 @@ app.post('/api/partecipaEvento', (request, response) => {
     const { id_evento, id_user } = request.body;
     const db = dbService.getDbServiceInstance();
     
-    const result = db.edit_user(id_evento, id_user);
+    const result = db.partecipaEvento(id_evento, id_user);
 
     result
         .then(data => response.json({ data: data}))
