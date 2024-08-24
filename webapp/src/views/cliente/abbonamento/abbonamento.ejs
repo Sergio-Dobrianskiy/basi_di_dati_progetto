@@ -13,9 +13,25 @@
 <body>
     <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Scegli l'abbonamento da acquistare</h1>
+        <button id="update-servizi-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Organizzatore</th>
+                    <th scope="col">Durata</th>
+                    <th scope="col">Sconto sui servizi</th>
+                    <th scope="col">Prezzo</th>
+                    <th scope="col">Compra</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/abboonamento/abbonamento.js"></script>
+    
 </body>
 </html>

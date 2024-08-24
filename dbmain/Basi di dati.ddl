@@ -27,7 +27,6 @@ create table STATI_CHECK (
      id_stato int unique not null,
      descrizione_stato varchar(30) not null,
      constraint IDSTATI_CHECK primary key (id_stato));
-     
 INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('1', 'OK');
 INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('2', 'ERRORE');
 
@@ -36,7 +35,6 @@ create table RUOLI (
      id_ruolo int unique not null,
      descrizione_ruolo varchar(30) not null,
      constraint IDRUOLI primary key (id_ruolo));
-
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('1', 'admin');
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('2', 'fornitore');
 INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('3', 'cliente');
@@ -60,7 +58,6 @@ create table USERS (
      data_creazione datetime not null default now(),
      id_ruolo int not null,
      constraint IDUSERS primary key (id_user));
-
 INSERT INTO `citycarddb`.`users` (`username`, `password`, `email`, `nome`, `cognome`, `id_ruolo`) 
 VALUES 
 ('admin', 'admin', 'admin@gmail.com', 'giacomo', 'zanguio', 1), 
@@ -75,11 +72,9 @@ create table LISTINO_ABBONAMENTI (
      data_disattivazione date,
      id_sconto int not null,
      constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
-     
 INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Bronzo', '50', '3', '1');
 INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Argento', '100', '7', '2');
 INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento ORO', '200', '15', '3');
-
 
 
 create table MEZZI (
@@ -96,7 +91,6 @@ create table SCONTI (
      id_sconto int not null,
      percentuale_sconto int not null,
      constraint IDSCONTO primary key (id_sconto));
-     
 INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10');
 INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('2', '30');
 INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3', '50');
@@ -116,6 +110,7 @@ create table CARTE_CREDITO (
 INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `cognome_associato`, `nome_associato`, `mese_scadenza`, `anno_scadenza`, `id_user`) 
 VALUES ('1234567890123456', 'giacomo', 'zanguio', '05', '29', '1');
 
+
 create table CHECKS (
      id_check int unique not null auto_increment,
      orario_convalida datetime not null default now(),
@@ -124,16 +119,15 @@ create table CHECKS (
      id_stato int not null,
      constraint IDCHECKS primary key (id_check));
 
+
 create table CITY_CARD (
      id_city_card int not null unique auto_increment,
      id_user int not null,
      data_emissione datetime not null default now(),
      data_scadenza datetime not null default (DATE_ADD(NEW.data_emissione, INTERVAL 5 YEAR)),
      constraint IDCITY_CARD primary key (id_city_card));
-     
 -- inizializzo l'indice a 100001 per rendere più estetico il numero della card
 ALTER TABLE city_card AUTO_INCREMENT = 1000001;
-
 INSERT INTO `citycarddb`.`city_card` (`id_user`) 
 VALUES ('1'), ('2'), ('3');
 -- DELIMITER ;;
@@ -160,6 +154,7 @@ create table COLLABORAZIONI (
      constraint IDCOLLABORATORI primary key (id_collaborazione));
 INSERT INTO `citycarddb`.`collaborazioni` (`id_collaborazione`, `inizio_collaborazione`, `id_user`, `id_ente`) VALUES ('1', '2024-08-23', '2', '1');
 
+
 create table ENTI (
      id_ente int not null auto_increment,
      descrizione_ente varchar(30) not null,
@@ -171,17 +166,19 @@ create table ENTI (
      constraint IDENTI primary key (id_ente));
 INSERT INTO `citycarddb`.`enti` (`id_ente`, `descrizione_ente`, `saldo`, `indirizzo`, `numero_telefono`, `nome`, `id_user`) VALUES ('1', 'alma mater', '50', 'via Cesena', '3494773321', 'Alma Mater', '2');
 
+
 create table EVENTI (
 	id_evento int not null auto_increment,
 	nome_evento varchar(30) not null,
 	id_periodo int default 0,
 	num_partecipanti int not null,
-	inizio_validità datetime not null default now(),
-	fine_validità date not null,
+	inizio_validita datetime not null default now(),
+	fine_validita datetime not null default (DATE_ADD(NEW.inizio_validita, INTERVAL 1 MONTH)),
 	id_ente int not null,
-	constraint IDEVENTO primary key (id_evento),
-	constraint FKR_1_ID unique (id_periodo));
-INSERT INTO `citycarddb`.`eventi` (`id_periodo`, `nome_evento`, `num_partecipanti`, `inizio_validità`, `fine_validità`, `id_ente`) 
+	constraint IDEVENTO primary key (id_evento)
+	-- ,constraint FKR_1_ID unique (id_periodo) -- serve?
+    );
+INSERT INTO `citycarddb`.`eventi` (`id_periodo`, `nome_evento`, `num_partecipanti`, `inizio_validita`, `fine_validita`, `id_ente`) 
 VALUES ('1', 'evento natale', '5', '2024-08-22', '2024-09-30', '1');
 
 
@@ -194,8 +191,6 @@ create table PARTECIPAZIONI (
      id_city_card int not null,
      constraint IDPARTECIPAZIONI primary key (id_partecipazione));
 INSERT INTO `citycarddb`.`partecipazioni` (`id_partecipazione`, `data_registrazione`, `id_evento`, `id_city_card`) VALUES ('1', '2024-08-23', '1', '1000001');
-
-
 
 
 create table PERIODI (
@@ -213,7 +208,6 @@ create table PERIODI (
 INSERT INTO `citycarddb`.`periodi` (`id_periodo`, `ripeti_ogni`, `periodo`, `lunedi`) VALUES ('1', '1', '1', '1');
 
 
-
 create table RECENSIONI (
      id_recensione int not null auto_increment,
      data_inserimento datetime not null default now(),
@@ -225,12 +219,11 @@ create table RECENSIONI (
 
 
 
-
 create table SERVIZI (
      id_servizio int not null auto_increment,
      prezzo_servizio float not null,
-     data_inserimento datetime not null default now(),
-     data_termine datetime not null default (DATE_ADD(NEW.data_inserimento, INTERVAL 1 YEAR)),
+     inizio_validita datetime not null default now(),
+     fine_validita datetime not null default (DATE_ADD(NEW.inizio_validita, INTERVAL 1 YEAR)),
      descrizione_servizio varchar(255) not null,
      indirizzo_servizio varchar(100) not null,
      media_recensioni int,
@@ -245,33 +238,38 @@ create table SERVIZI_ACQUISTATI (
      id_acquisto int not null auto_increment,
      data_acquisto datetime not null default now(),
      prezzo_pagato float not null,
-     media_recensioni float,
      id_servizio int not null,
      num_carta_credito varchar(16) not null,
      id_city_card int not null,
      constraint IDCQUISTO primary key (id_acquisto));
+INSERT INTO `citycarddb`.`servizi_acquistati` (`prezzo_pagato`, `id_servizio`, `num_carta_credito`, `id_city_card`) 
+VALUES ('10', '1', '1234567890123456', '1000001');
 
+-- default inserito per facilitare popolamento
 create table SOTTOSCRIZIONI_ABBONAMENTO (
-     id_sottoscrizione_abbonamento int not null auto_increment,
-     prezzo_pagato float not null,
-     scadenza_sottoscrizione date not null,
-     data_sottoscrizione datetime not null default now(),
-     id_listino_abbonamento int not null,
-     id_city_card int not null,
-     num_carta_credito varchar(16) not null,
-     constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
+	id_sottoscrizione_abbonamento int not null auto_increment,
+	prezzo_pagato float not null,
+	data_sottoscrizione datetime not null default now(),
+	scadenza_sottoscrizione datetime not null default (DATE_ADD(NEW.data_sottoscrizione, INTERVAL 7 DAY)),
+	id_listino_abbonamento int not null,
+	id_city_card int not null,
+	num_carta_credito varchar(16) not null,
+	constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
+-- INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`prezzo_pagato`, `id_listino_abbonamento`, `id_city_card`, `num_carta_credito`)
+-- VALUES (`10`, `1`, `1000001`, `1234567890123456`);
 
-DELIMITER ;;
-CREATE TRIGGER set_scadenza_sottoscrizione_before_insert
-BEFORE INSERT ON SOTTOSCRIZIONI_ABBONAMENTO
-FOR EACH ROW
-BEGIN
-    IF NEW.scadenza_sottoscrizione IS NULL THEN
-        SET NEW.scadenza_sottoscrizione = DATE_ADD(NEW.data_sottoscrizione, INTERVAL 5 YEAR);
-    END IF;
-END;;
-DELIMITER ;
-INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`id_sottoscrizione_abbonamento`, `prezzo_pagato`, `id_listino_abbonamento`, `id_city_card`, `num_carta_credito`) VALUES ('1', '35', '1', '1000001', '1234567890123456');
+-- DELIMITER ;;
+-- CREATE TRIGGER set_scadenza_sottoscrizione_before_insert
+-- BEFORE INSERT ON SOTTOSCRIZIONI_ABBONAMENTO
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.scadenza_sottoscrizione IS NULL THEN
+--         SET NEW.scadenza_sottoscrizione = DATE_ADD(NEW.data_sottoscrizione, INTERVAL 5 YEAR);
+--     END IF;
+-- END;;
+-- DELIMITER ;
+INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`prezzo_pagato`, `id_listino_abbonamento`, `id_city_card`, `num_carta_credito`) 
+VALUES ('35', '1', '1000001', '1234567890123456');
 
 
 

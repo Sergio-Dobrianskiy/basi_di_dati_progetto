@@ -95,7 +95,8 @@ class DbService {
                 const query = ` select ev.*, en.nome as organizzatore
                                 from eventi ev
                                 join enti en
-                                on ev.id_ente = en.id_ente;`
+                                on ev.id_ente = en.id_ente
+                                where now() < ev.fine_validita;`
                 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
