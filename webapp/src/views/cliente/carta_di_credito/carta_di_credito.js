@@ -109,7 +109,7 @@ function deleteCreditCard(numero) {
         headers: {
             'Content-type': 'application/json'
         },
-        method: 'PATCH',
+        method: 'DELETE',
         body: JSON.stringify({ numero : numero})
     })
         .then(response => response.json())

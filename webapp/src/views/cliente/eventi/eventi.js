@@ -46,13 +46,22 @@ function loadUsersTable(data) {
 };
 
 function partecipaEvento(id_evento) {
-    fetch('http://localhost:5000/api/partecipaEvento', {
-        headers: {
-            'Content-type': 'application/json'
-        },
-        method: 'PATCH',
-        body: JSON.stringify({ id_evento : id_evento})
+    fetch('http://localhost:5000/api/user/')
+    .then(response => response.json())
+    .then(data => {
+        const id_user = data[0]["id_user"];
+        
+        
+        fetch('http://localhost:5000/api/partecipaEvento', {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({  id_evento : id_evento,
+                                    id_user : id_user
+            })
+        })
+            .then(response => response.json())
+            .then(getEventi())
     })
-        .then(response => response.json())
-        .then(getEventi())
 }

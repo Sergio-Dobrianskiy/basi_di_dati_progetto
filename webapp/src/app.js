@@ -104,6 +104,7 @@ app.post('/api/registerCreditCard', (request, response) => {
         .catch(err => console.log(err));
 });
 
+// TODO : vedere se spostare in PATCH
 app.post('/api/edit_user', (request, response) => {
     console.log(JSON.stringify(request.body))
     
@@ -111,6 +112,19 @@ app.post('/api/edit_user', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.edit_user(id_user, username, nome, cognome, email, password, indirizzo, telefono , cf);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/partecipaEvento', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_evento, id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.edit_user(id_evento, id_user);
 
     result
         .then(data => response.json({ data: data}))
@@ -179,7 +193,9 @@ app.patch('/api/ban', (request, response) => {
         .catch(err => console.log(err));
 });
 
-app.patch('/api/deleteCreditCard', (request, response) => {
+
+// delete
+app.delete('/api/deleteCreditCard', (request, response) => {
     const { numero } = request.body;
     const db = dbService.getDbServiceInstance();
     
@@ -190,7 +206,6 @@ app.patch('/api/deleteCreditCard', (request, response) => {
         .catch(err => console.log(err));
 });
 
-// delete
 app.delete('/api/delete/:id', (request, response) => {
     const { id } = request.params;
     const db = dbService.getDbServiceInstance();
@@ -211,6 +226,17 @@ app.get('/api/search/:name', (request, response) => {
     result
         .then(data => response.json({data : data}))
         .then(data => console.log(JSON.stringify(data)))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getCityCardUtente/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getCityCardUtente(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
 

@@ -83,7 +83,16 @@ class DbService {
     async getEventi() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` select ev.*, en.nome as organizzatore
+                // Alternativa con count distinct 
+                // const query = ` select ev.*, en.nome as organizzatore, c.*
+                //                 from eventi ev
+                //                 join enti en
+                //                 on ev.id_ente = en.id_ente
+                //                 join (SELECT id_evento, count(distinct id_city_card) as partecipanti
+                //                         FROM partecipazioni
+                //                         group by id_evento) as c
+                //                 on ev.id_evento = c.id_evento;`
+                const query = ` select ev.*, en.nome as organizzatore, 
                                 from eventi ev
                                 join enti en
                                 on ev.id_ente = en.id_ente;`
@@ -159,6 +168,54 @@ class DbService {
                 const query = "INSERT INTO carte_credito (num_carta_credito, cognome_associato, nome_associato, mese_scadenza, anno_scadenza, id_user) VALUES (?,?,?,?,?,?);";
 
                 connection.query(query, [num_carta_credito, cognome, nome, mese_scadenza, anno_scadenza, id_user] , (err, result) => {
+                    if (err) {
+                        errore = err;
+                        reject(new Error(err.message));
+                    } else {
+                        resolve(result.insertId);
+                    }
+
+                })
+            });
+            return {
+                id : insertId,
+                dateAdded : dateAdded
+            };
+        } catch (error) {
+            console.log("***ERRORE****", error);
+            return {fail: errore}
+        }
+    }
+
+    async getCityCardUtente(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` SELECT *, (if (data_scadenza > now(), "attiva", "non attiva")) as stato
+                                FROM city_card 
+                                where id_user = ?; `;
+
+                connection.query(query, [id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    async partecipaEvento(id_evento, id_user) {
+        console.log("ARRIVATI", id_evento, id_user)
+        var errore;
+        try {
+            const dateAdded = new Date();
+            const insertId = await new Promise((resolve, reject) => {
+                const query = "INSERT INTO partecipazioni (id_evento, id_user) VALUES (?,?);";
+
+                connection.query(query, [id_evento, id_user] , (err, result) => {
                     if (err) {
                         errore = err;
                         reject(new Error(err.message));
