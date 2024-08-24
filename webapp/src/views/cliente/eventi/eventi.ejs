@@ -13,9 +13,24 @@
 <body>
     <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Eventi disponibili</h1>
+        <button id="update-eventi-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Organizzatore</th>
+                    <th scope="col">Termina</th>
+                    <th scope="col">Periodico</th>
+                    <th scope="col">Partecipanti</th>
+                    <th scope="col">Partecipa</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/eventi/eventi.js"></script>
 </body>
 </html>

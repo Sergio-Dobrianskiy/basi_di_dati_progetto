@@ -142,6 +142,18 @@ app.get('/api/getEnti', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+app.get('/api/getEventi', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getEventi();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+
+
+
+
 
 // update
 app.patch('/api/update', (request, response) => {

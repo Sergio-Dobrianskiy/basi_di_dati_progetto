@@ -80,6 +80,24 @@ class DbService {
             console.log(error);
         }
     }
+    async getEventi() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select ev.*, en.nome as organizzatore
+                                from eventi ev
+                                join enti en
+                                on ev.id_ente = en.id_ente;`
+                
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async insertNewName(name) {
         try {
