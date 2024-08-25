@@ -145,7 +145,7 @@ function setCreditCardPredefinita(num_carta_credito) {
             })
         })
         .then(response => response.json())
-        .then(data => manageResponse(data['data']))
+        // .then(data => manageResponse(data['data']))
         .then(getCarteUtente())
         .catch(error => {
             console.error("C'è stato un problema: ", error);

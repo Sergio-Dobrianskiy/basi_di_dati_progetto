@@ -27,9 +27,6 @@ function loadUsersTable(data) {
         var durata = "" + sconto['durata_abbonamento'] + " giorni";
         var percentuale_sconto = "" +  sconto['percentuale_sconto'] + "%";
         var prezzo = sconto['prezzo_abbonamento'];
-        // var inizio = new Date(sconto['inizio_validita']).toLocaleDateString('en-GB');
-        // var fine = new Date(sconto['fine_validita']).toLocaleDateString('en-GB');
-        // var prezzo_servizio = sconto['prezzo_servizio'];
 
         var bottoneBannato = `<td><button class="edit-row-btn btn btn-primary" onclick="sottoscriviAbbonamento(${id_listino_abbonamento})")>Compra</td>`
         
@@ -45,23 +42,24 @@ function loadUsersTable(data) {
     table.innerHTML = tableHtml;
 };
 
-function getListinoAbbonamenti(id_evento) {
+function sottoscriviAbbonamento(id_listino_abbonamento) {
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
     .then(data => {
         const id_user = data[0]["id_user"];
         
         
-        fetch('http://localhost:5000/api/partecipaEvento', {
+        fetch('http://localhost:5000/api/sottoscriviAbbonamento', {
             headers: {
                 'Content-type': 'application/json'
             },
             method: 'POST',
-            body: JSON.stringify({  id_evento : id_evento,
-                                    id_user : id_user
+            body: JSON.stringify({  
+                                    id_user : id_user,
+                                    id_listino_abbonamento : id_listino_abbonamento
             })
         })
             .then(response => response.json())
-            .then(getEventi())
+            .then(document.location.href = "http://localhost:5000/cliente_home")
     })
 }

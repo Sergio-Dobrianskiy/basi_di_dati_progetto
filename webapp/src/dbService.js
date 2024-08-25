@@ -297,6 +297,35 @@ class DbService {
         }
     }
 
+    // sottoscrivi abbonamento con la carta di credito predefinita
+    async sottoscriviAbbonamento(id_user, id_listino_abbonamento) {
+        console.log("arrivati", id_user, id_listino_abbonamento)
+        try {
+            id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                                INSERT INTO sottoscrizioni_abbonamento (id_listino_abbonamento, id_city_card, num_carta_credito) 
+                                VALUES (?, 
+                                        ( select id_city_card
+                                                    from city_card
+                                                    where id_user = ? and data_scadenza > now()), 
+                                        ( SELECT num_carta_credito 
+                                                    FROM carte_credito
+                                                    where id_user = ? and predefinita = 1));`;
+    
+                connection.query(query, [id_listino_abbonamento, id_user, id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async getCityCardUtente(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -514,7 +543,7 @@ class DbService {
         }
     }
 
-    // ritorna, se ce l'ha, la citycard attiva dell'utente
+    // ritorna, se presente, la citycard attiva dell'utente
     async getActiveCityCard(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -522,6 +551,28 @@ class DbService {
                 const query = ` select *
                                 from city_card
                                 where id_user = ? and data_scadenza > now();`;
+                connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // ritorna, se presente, la citycard attiva dell'utente
+    async getActiveSubscription(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` SELECT * 
+                                    FROM sottoscrizioni_abbonamento sa
+                                    join city_card cc
+                                    on sa.id_city_card = cc.id_city_card
+                                    join users u
+                                    on cc.id_user = u.id_user
+                                    where u.id_user = ?;`;
                 connection.query(query, [id_user], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);

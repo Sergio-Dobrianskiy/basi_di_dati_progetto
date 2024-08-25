@@ -146,6 +146,17 @@ app.post('/api/partecipaEvento', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.post('/api/sottoscriviAbbonamento', (request, response) => {
+    const { id_user, id_listino_abbonamento } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.sottoscriviAbbonamento(id_user, id_listino_abbonamento);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 
 
 // read
@@ -278,6 +289,16 @@ app.get('/api/getActiveCityCard/:id_user', (request, response) => {
     const db = dbService.getDbServiceInstance();
 
     const result = db.getActiveCityCard(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getActiveSubscription/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getActiveSubscription(id_user);
     
     result
         .then(data => response.json({data : data}))
