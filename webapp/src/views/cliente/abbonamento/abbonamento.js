@@ -1,5 +1,6 @@
-document.querySelector('#update-servizi-btn').onclick = () => { getEventi() };
-function getEventi() {
+// document.querySelector('#update-servizi-btn').onclick = () => { getAbbonamenti() };
+getAbbonamenti();
+function getAbbonamenti() {
     console.log("Aggiorna servizi")
     fetch('http://localhost:5000/api/getListinoAbbonamenti')
         .then(response => response.json())
