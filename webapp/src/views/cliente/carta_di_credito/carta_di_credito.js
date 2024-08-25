@@ -10,6 +10,7 @@ function getCarteUtente() {
     .then(user => {
         fetch('http://localhost:5000/api/getCarteUtente/' + user[0]["id_user"])
             .then(response => response.json())
+            // .then(response => console.log(JSON.stringify(response)))
             .then(carte => loadCarteTable(carte['data']));
     })
 }
@@ -28,13 +29,22 @@ function loadCarteTable(data) {
         var cognome = convertToTitleCase(card['cognome']);
         var mese = card['mese_scadenza'];
         var anno = card['anno_scadenza'];
+        var predefinita = card['predefinita'];
         var scadenza = `${mese}/${anno}`
         
+        if (predefinita == 0) {
+            var btnPredefinita = `<td><button class="edit-row-btn btn btn-primary" onclick="setCreditCardPredefinita(${numero})")>Rendi Predefinita</td>`
+        } else {
+            // var btnPredefinita = `<td>Predefinita</td>`
+            var btnPredefinita = `<td>✔️</td>`
+        }
+
         tableHtml += "<tr>";
         tableHtml += `<td>${numero}</td>`;
         tableHtml += `<td>${nome}</td>`;
         tableHtml += `<td>${cognome}</td>`;
         tableHtml += `<td>${scadenza}</td>`;
+        tableHtml += btnPredefinita;
         tableHtml += `<td><button class="edit-row-btn btn btn-danger" onclick="deleteCreditCard(${numero})")>Cancella</td>`
         tableHtml += "</tr>";
     });
@@ -45,8 +55,8 @@ function loadCarteTable(data) {
 // *******************************
 // ***********REGISTRA NUOVA CARTA
 // *******************************
-const createCityCardBtn = document.querySelector("#button_reg");
-createCityCardBtn.onclick = (e) => {
+const createCreditCardBtn = document.querySelector("#button_reg");
+createCreditCardBtn.onclick = (e) => {
     e.preventDefault();
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
@@ -114,4 +124,31 @@ function deleteCreditCard(numero) {
     })
         .then(response => response.json())
         .then(getCarteUtente())
+}
+
+
+function setCreditCardPredefinita(num_carta_credito) {
+    fetch('http://localhost:5000/api/user/')
+    .then(response => response.json())
+    .then(utente => {
+        return utente[0]["id_user"];
+    })
+    .then(id_user => {
+        fetch('http://localhost:5000/api/setCreditCardDefault', {
+            headers: {
+                'Content-type': 'application/json'
+            },
+            method: 'PATCH',
+            body: JSON.stringify({ 
+                id_user : id_user,
+                num_carta_credito : num_carta_credito
+            })
+        })
+        .then(response => response.json())
+        .then(data => manageResponse(data['data']))
+        .then(getCarteUtente())
+        .catch(error => {
+            console.error("C'è stato un problema: ", error);
+        });
+    })
 }

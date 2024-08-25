@@ -2,13 +2,14 @@ const mysql = require('mysql');
 const dotenv = require('dotenv');
 let instance = null;
 dotenv.config();
-
+// di default mysql non accetta query multiple in una singola query
 const connection = mysql.createConnection({
     host:       process.env.HOST,
     user:       process.env.USER,
     password:   process.env.PASSWORD,
     database:   process.env.DATABASE,
-    port:       process.env.DB_PORT
+    port:       process.env.DB_PORT,
+    multipleStatements: true
 });
 
 connection.connect((err) => {
@@ -266,6 +267,36 @@ class DbService {
         }
     }
 
+    // rendo predefinita una carta di credito di un utente
+    // rendo non predefinite tutte le altre
+    // query doppia, una delle alternative a quello fatto in ban
+    async setCreditCardDefault(id_user, num_carta_credito) {
+        console.log("arrivati", id_user, num_carta_credito)
+        try {
+            id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                                update carte_credito
+                                set predefinita = 0
+                                where id_user = ?;
+
+                                update carte_credito
+                                set predefinita = 1
+                                where num_carta_credito = ?;`;
+    
+                connection.query(query, [id_user, num_carta_credito] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     async getCityCardUtente(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -490,7 +521,7 @@ class DbService {
                 // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
                 const query = ` select *
                                 from city_card
-                                where id_user = ? and data_scadenza > now();`;;
+                                where id_user = ? and data_scadenza > now();`;
                 connection.query(query, [id_user], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
@@ -512,7 +543,6 @@ class DbService {
                                 join users u
                                 on c.id_user = u.id_user
                                 WHERE c.id_user = ?;`;
-
                 connection.query(query, [id_user], (err, results) => {
                     if (err) reject(new Error(err.message));
                     // console.log(results)

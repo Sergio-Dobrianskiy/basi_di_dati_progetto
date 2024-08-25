@@ -106,6 +106,7 @@ create table CARTE_CREDITO (
      anno_scadenza int not null,
      data_registrazione_carta datetime not null default now(),
      id_user int not null,
+     predefinita tinyint not null default 0,
      constraint IDCartaCredito primary key (num_carta_credito));
 INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `cognome_associato`, `nome_associato`, `mese_scadenza`, `anno_scadenza`, `id_user`) 
 VALUES ('1234567890123456', 'giacomo', 'zanguio', '05', '29', '1');

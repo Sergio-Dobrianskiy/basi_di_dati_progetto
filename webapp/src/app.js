@@ -205,6 +205,16 @@ app.patch('/api/update', (request, response) => {
         .then(data => response.json({success : data}))
         .catch(err => console.log(err));
 });
+app.patch('/api/setCreditCardDefault', (request, response) => {
+    const { id_user, num_carta_credito } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.setCreditCardDefault(id_user, num_carta_credito);
+    
+    result
+        .then(data => response.json({success : data}))
+        .catch(err => console.log(err));
+});
 
 app.patch('/api/ban', (request, response) => {
     console.log("api/ban in api.js")
@@ -296,9 +306,9 @@ app.get('/api/getCarteUtente/:id_user', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.getCarteUtente(id_user);
-    request.session.user = result;
+    // request.session.user = result;
     result
-        .then(data => request.session.user = data)
+        // .then(data => request.session.user = data)
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
