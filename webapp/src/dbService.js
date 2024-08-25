@@ -312,13 +312,35 @@ class DbService {
                                         ( SELECT num_carta_credito 
                                                     FROM carte_credito
                                                     where id_user = ? and predefinita = 1));`;
-    
                 connection.query(query, [id_listino_abbonamento, id_user, id_user] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })
             });
-    
+            return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    // effettua tentativo di check-in
+    async makeCheckIn(id_user, codice_mezzo, stato_checkIn) {
+        console.log("arrivati", id_user, codice_mezzo, stato_checkIn)
+        try {
+            id_user = parseInt(id_user, 10); 
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                                INSERT INTO checks (id_city_card, id_mezzo, id_stato) 
+                                VALUES ((( select id_city_card
+                                            from city_card
+                                            where id_user = ? and data_scadenza > now())), 
+                                            ?, ?);`;
+                connection.query(query, [id_user, codice_mezzo, stato_checkIn] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
             return response === 1 ? true : false;
         } catch (error) {
             console.log(error);
@@ -537,6 +559,7 @@ class DbService {
                     resolve(results);
                 })
             });
+            console.log(response)
             return response;
         } catch (error) {
             console.log(error);
@@ -563,10 +586,11 @@ class DbService {
     }
 
     // ritorna, se presente, la citycard attiva dell'utente
+    // TODO raffinare il select *
     async getActiveSubscription(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` SELECT * 
+                const query = ` SELECT sa.* 
                                     FROM sottoscrizioni_abbonamento sa
                                     join city_card cc
                                     on sa.id_city_card = cc.id_city_card
@@ -584,6 +608,32 @@ class DbService {
         }
     }
 
+    // ritorna i check-in fatti dall'utente
+    async getListaCheckIn(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` SELECT ch.*, sc.descrizione_stato, m.*
+                                FROM checks ch
+                                join city_card cc
+                                on ch.id_city_card = cc.id_city_card
+                                join users u
+                                on cc.id_user = u.id_user
+                                join stati_check sc
+                                on ch.id_stato = sc.id_stato
+                                join mezzi m
+                                on ch.id_mezzo = m.id_mezzo
+                                where u.id_user = ?;`;
+                connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
 
     async getCarteUtente(id_user) {

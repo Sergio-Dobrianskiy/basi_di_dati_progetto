@@ -85,7 +85,7 @@ create table MEZZI (
      constraint IDMEZZI primary key (id_mezzo));
 INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('TR001', 'Treno n.001', 'Cesena', 'Cesenatico');
 INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('BUS001', 'Bus n.001', 'Cesena', 'Forlì');
-
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('EVA01', 'Evangelion 01', 'Neo Tokyo 3', 'Japan');
 
 create table SCONTI (
      id_sconto int not null,
@@ -119,6 +119,8 @@ create table CHECKS (
      id_mezzo varchar(30) not null,
      id_stato int not null,
      constraint IDCHECKS primary key (id_check));
+INSERT INTO `citycarddb`.`checks` (`id_city_card`, `id_mezzo`, `id_stato`) VALUES ('1000003', 'TR001', '1');
+
 
 
 create table CITY_CARD (
@@ -249,7 +251,6 @@ VALUES ('10', '1', '1234567890123456', '1000001');
 -- default inserito per facilitare popolamento
 create table SOTTOSCRIZIONI_ABBONAMENTO (
 	id_sottoscrizione_abbonamento int not null auto_increment,
-	prezzo_pagato float not null,
 	data_sottoscrizione datetime not null default now(),
 	scadenza_sottoscrizione datetime not null default (DATE_ADD(NEW.data_sottoscrizione, INTERVAL 7 DAY)),
 	id_listino_abbonamento int not null,

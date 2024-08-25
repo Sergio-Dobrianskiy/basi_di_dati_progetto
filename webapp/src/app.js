@@ -157,6 +157,17 @@ app.post('/api/sottoscriviAbbonamento', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.post('/api/makeCheckIn', (request, response) => {
+    const { id_user, codice_mezzo, stato_checkIn } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.makeCheckIn(id_user, codice_mezzo, stato_checkIn);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 
 
 // read
@@ -304,6 +315,20 @@ app.get('/api/getActiveSubscription/:id_user', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+
+app.get('/api/getListaCheckIn/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getListaCheckIn(id_user);
+    console.log("RESULTS", JSON.stringify(result))
+    result
+        // .then(data => console.log("RESULTS", JSON.stringify(data)))
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+
 
 
 
