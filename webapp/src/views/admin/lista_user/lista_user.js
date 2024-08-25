@@ -5,7 +5,6 @@ function getUsers() {
     fetch('http://localhost:5000/api/getUsers')
         .then(response => response.json())
         .then(data => loadUsersTable(data['data']));
-
 }
 
 function loadUsersTable(data) {

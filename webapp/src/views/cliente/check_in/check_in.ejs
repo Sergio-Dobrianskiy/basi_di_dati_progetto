@@ -11,11 +11,53 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="cliente" name="segnaposto"></header-component-user>
+    <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h2>Simulazione check-in</h2>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Check-in</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating">
+                            <select class="form-select" id="codice_mezzo" aria-label="Floating label select example" name="Codice mezzo" required>
+                                <option disabled selected value></option>
+                                <option class="text-center" value="BUS001">BUS001</option>
+                                <option class="text-center" value="TR001">TR001</option>
+                            </select>
+                            <label for="role_reg">Seleziona mezzo</label>
+                        </div>
+                        <div class="form-floating">
+                            <select class="form-select" id="stato_checkIn" aria-label="Floating label select example" name="stato" required>
+                                <option disabled selected value></option>
+                                <option class="text-center" value="1">✔️OK✔️</option>
+                                <option class="text-center" value="2">❌ERRORE❌</option>
+                            </select>
+                            <label for="role_reg">Seleziona stato check-in</label>
+                        </div>
+    
+                        <button id="button_check_in" type="submit" class="btn btn-primary">Check-in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <h1>Lista check-in</h1>
+        <button id="update-checkIn-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Stato</th>
+                    <th scope="col">Orario</th>
+                    <th scope="col">Codice Mezzo</th>
+                    <th scope="col">Descrizione Mezzo</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/check_in/check_in.js"></script>
 </body>
 </html>

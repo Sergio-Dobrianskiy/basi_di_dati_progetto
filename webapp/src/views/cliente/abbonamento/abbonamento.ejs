@@ -11,11 +11,26 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="cliente" name="segnaposto"></header-component-user>
+    <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Scegli l'abbonamento da acquistare</h1>
+        <!-- <button id="update-servizi-btn" class="btn btn-primary">Aggiorna</button> -->
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Durata</th>
+                    <th scope="col">Sconto sui servizi</th>
+                    <th scope="col">Prezzo</th>
+                    <th scope="col">Compra</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/abbonamento/abbonamento.js"></script>
+    
 </body>
 </html>

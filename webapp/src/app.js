@@ -77,9 +77,29 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
-app.post('/api/register', (request, response) => {
-    console.log(JSON.stringify(request.body))
+
+app.post('/api/createNewCityCard', (request, response) => {
+    const { id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.createNewCityCard(id_user);
     
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.post('/api/deactivateCityCards', (request, response) => {
+    const { id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.deactivateCityCards(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.post('/api/register', (request, response) => {
     const { username, nome, cognome, email, password, id_ruolo} = request.body;
     const db = dbService.getDbServiceInstance();
     
@@ -89,13 +109,59 @@ app.post('/api/register', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
-app.post('/api/edit_user', (request, response) => {
+
+app.post('/api/registerCreditCard', (request, response) => {
     console.log(JSON.stringify(request.body))
     
+    const { numero, nome, cognome, mese, anno, id_user} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.registerCreditCard(numero, cognome, nome, mese, anno, id_user);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+// TODO : vedere se spostare in PATCH
+app.post('/api/edit_user', (request, response) => {
     const { id_user, username, nome, cognome, email, password, indirizzo, telefono , cf } = request.body;
     const db = dbService.getDbServiceInstance();
     
     const result = db.edit_user(id_user, username, nome, cognome, email, password, indirizzo, telefono , cf);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/partecipaEvento', (request, response) => {
+    const { id_evento, id_user } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.partecipaEvento(id_evento, id_user);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/sottoscriviAbbonamento', (request, response) => {
+    const { id_user, id_listino_abbonamento } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.sottoscriviAbbonamento(id_user, id_listino_abbonamento);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/makeCheckIn', (request, response) => {
+    const { id_user, codice_mezzo, stato_checkIn } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.makeCheckIn(id_user, codice_mezzo, stato_checkIn);
 
     result
         .then(data => response.json({ data: data}))
@@ -121,12 +187,51 @@ app.get('/api/getUsers', (request, response) => {
         .catch(err => console.log(err));
 })
 
+app.get('/api/getEnti', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getEnti();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getEventi', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getEventi();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getListinoAbbonamenti', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getListinoAbbonamenti();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+
+
+
+
+
 // update
 app.patch('/api/update', (request, response) => {
     const { id, name } = request.body;
     const db = dbService.getDbServiceInstance();
 
     const result = db.updateNameById(id, name);
+    
+    result
+        .then(data => response.json({success : data}))
+        .catch(err => console.log(err));
+});
+app.patch('/api/setCreditCardDefault', (request, response) => {
+    const { id_user, num_carta_credito } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.setCreditCardDefault(id_user, num_carta_credito);
     
     result
         .then(data => response.json({success : data}))
@@ -145,7 +250,19 @@ app.patch('/api/ban', (request, response) => {
         .catch(err => console.log(err));
 });
 
+
 // delete
+app.delete('/api/deleteCreditCard', (request, response) => {
+    const { numero } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.deleteCreditCard(numero);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 app.delete('/api/delete/:id', (request, response) => {
     const { id } = request.params;
     const db = dbService.getDbServiceInstance();
@@ -165,18 +282,62 @@ app.get('/api/search/:name', (request, response) => {
     
     result
         .then(data => response.json({data : data}))
-        .then(data => console.log(JSON.stringify(data)))
         .catch(err => console.log(err));
 })
+
+app.get('/api/getCityCardUtente/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getCityCardUtente(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getActiveCityCard/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getActiveCityCard(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getActiveSubscription/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getActiveSubscription(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getListaCheckIn/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getListaCheckIn(id_user);
+    console.log("RESULTS", JSON.stringify(result))
+    result
+        // .then(data => console.log("RESULTS", JSON.stringify(data)))
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+
+
+
 
 // avvio l'app alla porta indica in .env
 app.listen(process.env.PORT, () => console.log('app is running'));
 
 
 app.get('/api/auth/login/:username/:password', (request, response) => {
-    console.log("app.js POST LOGIN")
     const { username, password } = request.params;
-    console.log(username, password)
     const db = dbService.getDbServiceInstance();
     
     const result = db.login(username, password);
@@ -186,10 +347,20 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.get('/api/getCarteUtente/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.getCarteUtente(id_user);
+    // request.session.user = result;
+    result
+        // .then(data => request.session.user = data)
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 app.get("/api/user", (req, res) => {
     const sessionUser = req.session.user;
-    console.log(sessionUser)
     res.send(sessionUser);
 });
 

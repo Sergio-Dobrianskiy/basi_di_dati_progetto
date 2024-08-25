@@ -1,17 +1,3 @@
-console.log("REGISTER.JS loaded")
-// $('#myForm')
-// .ajaxForm({
-//     url : 'myscript.php', // or whatever
-//     dataType : 'json',
-//     success : function (response) {
-//         alert("The server says: " + response);
-//     }
-// })
-// ;
-
-
-
-
 const addBtn = document.querySelector("#button_reg");
 
 addBtn.onclick = function (e){
@@ -64,16 +50,6 @@ function manageResponse(data) {
     console.log(JSON.stringify(data))
     console.log(data["fail"])
     if (data["fail"] === undefined){
-        // var ruolo = data["id_ruolo"];
-        // if (ruolo == 1) {
-        //     document.location.href = "http://localhost:5000/admin_home"
-        // } else if (ruolo == 2) {
-        //     document.location.href = "http://localhost:5000/fornitore_home"
-        // } else if (ruolo == 3) {
-        //     document.location.href = "http://localhost:5000/cliente_home"
-        // }
-        
-        // soluzione più facile per la sessione 
         document.location.href = "http://localhost:5000/login"
     } else {
         // TODO: sistemare errori POST creazione utente 

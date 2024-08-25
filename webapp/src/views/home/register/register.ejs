@@ -12,22 +12,12 @@
 
 </head>
 <body>
-
-    <!-- <nav>
-        <h4>CITYCARD Registration</h4>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Register</a></li>
-        </ul>
-    </nav> -->
     <header-component-home page="Register"></header-component-home>
     <main>
         <div class="container mt-4 d-flex justify-content-center">
             <div class="card" style="width: 18rem;">            
                 <div class="card-header">Iscrizione</div>    
                 <div class="card-body">
-                    <!-- <form action="/api/register" method="POST"> -->
                     <form>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="username_reg" name="username" placeholder="Username">                        
@@ -49,16 +39,12 @@
                             <input type="password" class="form-control" id="password_reg" name="password" placeholder="Password">
                             <label for="password_reg" class="form-label">Password</label>
                         </div>
-                        <!-- <div class="mb-3">
-                            <label for="password-conf_reg" class="form-label">Confirm Password</label>
-                            <input type="password" class="form-control" id="password-conf_reg" name="password-confirm">
-                        </div> -->
                         <div class="form-floating">
                             <select class="form-select" id="role_reg" aria-label="Floating label select example" name="ruolo" required>
                                 <option disabled selected value></option>
                                 <option class="text-center" value="1">👑 Admin 👑</option>
                                 <option class="text-center" value="2">🏛️ Fornitore 🏛️</option>
-                                <option class="text-center" value="3">🏖️ Utente 🏖️</option>
+                                <option class="text-center" value="3">🏖️ Cliente 🏖️</option>
                             </select>
                             <label for="role_reg">Seleziona tipo Utente</label>
                         </div>

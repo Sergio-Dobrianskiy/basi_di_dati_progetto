@@ -11,11 +11,27 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="cliente" name="segnaposto"></header-component-user>
+    <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Le tue CityCard</h1>
+        <button id="update-citycard-btn" class="btn btn-primary">Aggiorna</button>
+        <button id="create-new-citycard-btn" class="btn btn-primary">Richiedi nuova</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <!-- <th scope="col">ID</th> -->
+                    <th scope="col">Numero</th>
+                    <th scope="col">Emissione</th>
+                    <th scope="col">Termina</th>
+                    <th scope="col">Stato</th>
+                    <th scope="col">Disattiva</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/citycard/citycard.js"></script>
 </body>
 </html>

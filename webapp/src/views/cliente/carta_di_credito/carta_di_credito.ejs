@@ -11,11 +11,61 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
-    <header-component-user page="cliente" name="segnaposto"></header-component-user>
+    <header-component-user page="cliente_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Carte di credito associate</h1>
+        <button id="update-carte-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Numero</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cognome</th>
+                    <th scope="col">Scadenza</th>
+                    <th scope="col">Predefinita</th>
+                    <th scope="col">Cancella</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        
+        <h1>Associa carta di credito</h1>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Dati Carta di Credito</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="numero_carta_reg" name="numero_carta" placeholder="Numero Carta">                        
+                            <label for="numero_carta_reg" class="form-label">Numero Carta</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="cognome_carta_reg" name="username" placeholder="Cognome Intestatario">                        
+                            <label for="cognome_carta_reg" class="form-label">Cognome Intestatario</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome_carta_reg" name="username" placeholder="Nome Intestatario">                        
+                            <label for="nome_carta_reg" class="form-label">Nome Intestatario</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="mese_carta_reg" name="username" placeholder="Mese Scadenza">                        
+                            <label for="mese_carta_reg" class="form-label">Mese Scadenza</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="anno_carta_reg" name="username" placeholder="Anno Scadenza">                        
+                            <label for="anno_carta_reg" class="form-label">Anno Scadenza</label>
+                        </div>
+
+    
+                        <button id="button_reg" type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/cliente/carta_di_credito/carta_di_credito.js"></script>
 </body>
 </html>
