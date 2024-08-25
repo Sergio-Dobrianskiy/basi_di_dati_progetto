@@ -29,7 +29,7 @@ function loadCarteTable(data) {
         var stato = card['stato'];
         
         if (stato == "attiva") {
-            var bottone = `<td><button class="edit-row-btn btn btn-danger" onclick="deactivateCreditCards()")>Cancella</td>`
+            var bottone = `<td><button class="edit-row-btn btn btn-danger" onclick="deactivateCityCards()")>Cancella</td>`
         } else {
             var bottone = `<td></td>`
         }
@@ -53,7 +53,7 @@ function loadCarteTable(data) {
 const createCityCardBtn = document.querySelector("#create-new-citycard-btn");
 createCityCardBtn.onclick = (e) => {
     e.preventDefault();
-    deactivateCreditCards(refresh=false)
+    deactivateCityCards(refresh=false)
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
     .then(utente => {
@@ -61,7 +61,7 @@ createCityCardBtn.onclick = (e) => {
     })
     .then(id_user => {
         // console.log("First deactivate the old card");
-        // deactivateCreditCards();
+        // deactivateCityCards();
         console.log("Then create a new one");
         fetch('http://localhost:5000/api/createNewCityCard', {
             headers: {
@@ -92,12 +92,12 @@ function manageResponse(data, refresh=true) {
 // *********** DISATTIVA CITYCARD
 // ***********************************
 
-function deactivateCreditCards(refresh=true) {
+function deactivateCityCards(refresh=true) {
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())
     .then(utente => utente[0]["id_user"])
     .then(id_user => {
-        fetch('http://localhost:5000/api/deactivateCreditCards', {
+        fetch('http://localhost:5000/api/deactivateCityCards', {
             headers: {
                 'Content-type': 'application/json'
             },

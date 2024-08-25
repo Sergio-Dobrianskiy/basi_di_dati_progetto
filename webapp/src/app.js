@@ -88,11 +88,11 @@ app.post('/api/createNewCityCard', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
-app.post('/api/deactivateCreditCards', (request, response) => {
+app.post('/api/deactivateCityCards', (request, response) => {
     const { id_user } = request.body;
     const db = dbService.getDbServiceInstance();
 
-    const result = db.deactivateCreditCards(id_user);
+    const result = db.deactivateCityCards(id_user);
     
     result
         .then(data => response.json({data : data}))
@@ -258,6 +258,16 @@ app.get('/api/getCityCardUtente/:id_user', (request, response) => {
     const db = dbService.getDbServiceInstance();
 
     const result = db.getCityCardUtente(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getActiveCityCard/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getActiveCityCard(id_user);
     
     result
         .then(data => response.json({data : data}))

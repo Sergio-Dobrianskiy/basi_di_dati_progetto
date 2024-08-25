@@ -47,3 +47,11 @@ nav li a:hover {
     color: yellow;
     text-decoration: none;
 }
+
+a.disabled {
+    /* Make the disabled links grayish*/
+    /* color: gray; */
+    background-color: #AEAEAE !important;
+    /* And disable the pointer events */
+    pointer-events: none;
+}

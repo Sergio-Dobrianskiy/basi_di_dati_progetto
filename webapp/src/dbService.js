@@ -239,7 +239,7 @@ class DbService {
     // Per controllare se la card è attiva controllo se il momento di disattivazione è già passato
     // In ogni momento un utente può avere al massimo una citycard attiva,
     // quindi per default disattivo tutte quelle attive
-    async deactivateCreditCards(id_user) {
+    async deactivateCityCards(id_user) {
         var errore;
         try {
             const dateAdded = new Date();
@@ -472,19 +472,38 @@ class DbService {
                                 join ruoli r 
                                 on u.id_ruolo = r.id_ruolo
                                 WHERE username = ? AND password = ?;`;
-
                 connection.query(query, [username, password], (err, results) => {
                     if (err) reject(new Error(err.message));
-                    // console.log(results)
                     resolve(results);
                 })
             });
-            // console.log(response)
             return response;
         } catch (error) {
             console.log(error);
         }
     }
+
+    // ritorna, se ce l'ha, la citycard attiva dell'utente
+    async getActiveCityCard(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
+                const query = ` select *
+                                from city_card
+                                where id_user = ? and data_scadenza > now();`;;
+                connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
     async getCarteUtente(id_user) {
         try {
             const response = await new Promise((resolve, reject) => {
