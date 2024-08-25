@@ -109,6 +109,26 @@ class DbService {
         }
     }
 
+    async getListinoAbbonamenti() {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select l.*, s.percentuale_sconto
+                                from listino_abbonamenti l
+                                join sconti s
+                                on l.id_sconto = s.id_sconto
+                                where l.data_disattivazione is null or l.data_disattivazione < now();`
+                
+                connection.query(query, (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async insertNewName(name) {
         try {
             const dateAdded = new Date();
@@ -267,6 +287,7 @@ class DbService {
     }
 
 
+    // Placeholder
     async partecipaEvento(id_evento, id_user) {
         console.log("ARRIVATI", id_evento, id_user)
         var errore;

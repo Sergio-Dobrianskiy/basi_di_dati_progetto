@@ -25,8 +25,8 @@ function loadUsersTable(data) {
         var id_periodo = evento['id_periodo'];
         var nome = convertToTitleCase(evento['nome_evento']) || evento['nome_evento'];
         var organizzatore = convertToTitleCase(evento['organizzatore']) || evento['organizzatore'];
-        var inizio = new Date(evento['inizio_validita']).toLocaleDateString();
-        var fine = new Date(evento['fine_validita']).toLocaleDateString();
+        var inizio = new Date(evento['inizio_validita']).toLocaleDateString('en-GB');
+        var fine = new Date(evento['fine_validita']).toLocaleDateString('en-GB');
         var partecipanti = evento['partecipanti'] == 1;
         var periodico = id_periodo == 0 ? "Evento Singolo" : "Evento periodico";
 

@@ -24,8 +24,8 @@ function loadCarteTable(data) {
     let tableHtml = "";
     data.forEach((card) => {
         var numero = card['id_city_card'];
-        var emissione = new Date(card['data_emissione']).toLocaleDateString();
-        var scadenza = new Date(card['data_scadenza']).toLocaleDateString();
+        var emissione = new Date(card['data_emissione']).toLocaleDateString('en-GB');
+        var scadenza = new Date(card['data_scadenza']).toLocaleDateString('en-GB');
         var stato = card['stato'];
         
         if (stato == "attiva") {

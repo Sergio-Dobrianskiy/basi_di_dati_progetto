@@ -24,8 +24,8 @@ function loadUsersTable(data) {
         var id_servizio = servizio['id_servizio'];
         var nome = convertToTitleCase(servizio['descrizione_servizio']) || servizio['nome_evento'];
         var organizzatore = convertToTitleCase(servizio['organizzatore']) || servizio['organizzatore'];
-        var inizio = new Date(servizio['inizio_validita']).toLocaleDateString();
-        var fine = new Date(servizio['fine_validita']).toLocaleDateString();
+        var inizio = new Date(servizio['inizio_validita']).toLocaleDateString('en-GB');
+        var fine = new Date(servizio['fine_validita']).toLocaleDateString('en-GB');
         var media_recensioni = servizio['media_recensioni'];
         var indirizzo_servizio = servizio['indirizzo_servizio'];
         var prezzo_servizio = servizio['prezzo_servizio'];

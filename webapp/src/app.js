@@ -164,6 +164,7 @@ app.get('/api/getUsers', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+
 app.get('/api/getEnti', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEnti();
@@ -171,9 +172,18 @@ app.get('/api/getEnti', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+
 app.get('/api/getEventi', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEventi();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getListinoAbbonamenti', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getListinoAbbonamenti();
     result
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
