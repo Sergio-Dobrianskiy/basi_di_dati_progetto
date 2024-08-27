@@ -13,9 +13,37 @@
 <body>
     <header-component-user page="fornitore_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Cerca e associati al tuo ente</h1>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Cerca per nome</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome_ente" name="nome_ente" placeholder="Nome">                        
+                            <label for="nome_ente" class="form-label">Nome ente</label>
+                        </div>
+                        <button id="button_search_ente" type="submit" class="btn btn-primary">Cerca</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Descrizione</th>
+                    <th scope="col">Associati</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/fornitore/associa_ente/associa_ente.js"></script>
 </body>
 </html>

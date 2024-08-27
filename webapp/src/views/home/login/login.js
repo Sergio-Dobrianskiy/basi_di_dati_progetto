@@ -9,8 +9,6 @@ function login() {
     const password = passwordInput.value;
     // usernameInput.value = "";
     // passwordInput.value = "";
-    console.log("GET")
-    var risultato;
     fetch('http://localhost:5000/api/auth/login/' + username + "/" + password)
         .then(response => response.json())
         .then(data => analizzaLogin(data["data"]));

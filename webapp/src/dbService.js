@@ -66,7 +66,7 @@ class DbService {
     async getEnti() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` select e.nome as ente, e.descrizione_ente as descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
+                const query = ` select e.nome as ente, e.descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
                                 from enti e
                                 join users u
                                 on e.id_user = u.id_user;`
@@ -110,6 +110,70 @@ class DbService {
         }
     }
 
+    // ritorna eventi
+    async getServizi(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                // const query = ` select se.*, en.nome as organizzatore
+                //                 from servizi se
+                //                 join enti en
+                //                 on se.id_ente = en.id_ente
+                //                 where now() < se.fine_validita;`
+                const query = ` set @id_user = ?;     
+                                set @cityCard = ( select id_city_card
+                                        from city_card
+                                        where id_user = @id_user and data_scadenza > now());
+                                set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                                            from sconti 
+                                            join listino_abbonamenti ls 
+                                            on sconti.id_sconto = ls.id_sconto
+                                            join sottoscrizioni_abbonamento sa
+                                            on  ls.id_sconto = sa.id_listino_abbonamento
+                                            where sa.id_city_card = @cityCard);
+                                select se.*, en.nome as organizzatore, se.prezzo_servizio * @percentToPay as prezzo_scontato
+                                        from servizi se
+                                        join enti en
+                                        on se.id_ente = en.id_ente
+                                        where now() < se.fine_validita;`
+                
+                connection.query(query, [id_user] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // ritorna servizi acquistati dall'utente
+    async getAcquisti(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+
+                const query = ` SELECT sa.data_acquisto, sa.prezzo_pagato, cc.id_city_card, sa.num_carta_credito, servizi.descrizione_servizio as nome_servizio, u.id_user, sa.id_servizio
+                                FROM servizi_acquistati sa
+                                join city_card cc
+                                on cc.id_city_card = sa.id_city_card
+                                join users u
+                                on u.id_user = cc.id_user
+                                join servizi
+                                on servizi.id_servizio = sa.id_servizio
+                                where cc.data_scadenza>now() and cc.id_user = ?
+                                ORDER BY sa.data_acquisto DESC;`
+                
+                connection.query(query, [id_user] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
     async getListinoAbbonamenti() {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -146,6 +210,84 @@ class DbService {
                 name : name,
                 dateAdded : dateAdded
             };
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    async crea_ente(id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente) {
+        console.log("Arrivati ", id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` INSERT INTO enti (nome, descrizione, indirizzo, numero_telefono, id_user) 
+                                VALUES (?, ?, ?, ?,  ?);`;
+
+                connection.query(query, [nome_ente, descrizione, indirizzo_ente, telefono_ente, id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    
+    // dato che un utente puà avere una recensione per servizio cancello la precedente
+    // inserisco il voto nuovo, calcolo la media, la inserisco nel servizio
+    async vota(id_user, votazione, id_servizio) {
+        console.log("Arrivati ", id_user, votazione, id_servizio)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` 
+                                SET @idUser = ?;
+                                SET @idServizio = ?;
+                                SET @media = (SELECT AVG(votazione) 
+                                    FROM recensioni 
+                                    WHERE id_user = @idUser and id_servizio = @idServizio);
+
+                                DELETE 
+                                FROM recensioni 
+                                WHERE id_user = @idUser and id_servizio = @idServizio;
+
+                                insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
+                                
+                                UPDATE servizi
+                                SET media_recensioni = @media
+                                WHERE id_servizio = @idServizio;
+                                `;
+
+                connection.query(query, [id_user, id_servizio, votazione] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // crea un servizio. "limit 1" non dovrebbe servire in quanto un fornitore può essere
+    // associato con solo un ente ma protegge da possibili errori come una doppia scrittura dello stesso record
+    async creaServizio(id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio) {
+        console.log("Arrivati ", id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` INSERT INTO servizi (descrizione_servizio, indirizzo_servizio, id_ente, prezzo_servizio) 
+                                VALUES (?, ?, 
+                                        ( select c.id_ente
+                                        from collaborazioni c
+                                        where c.id_user = ? and c.fine_collaborazione is null limit 1), ?);;`;
+
+                connection.query(query, [descrizione_servizio, indirizzo_servizio, id_user, prezzo_servizio] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
         } catch (error) {
             console.log(error);
         }
@@ -324,6 +466,27 @@ class DbService {
         }
     }
 
+    // associa utente a ente
+    async associaEnte(id_user, id_ente) {
+        console.log("arrivati", id_user, id_ente)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                                INSERT INTO collaborazioni 
+                                (id_user, id_ente) 
+                                VALUES (?, ?);`;
+                connection.query(query, [id_user, id_ente] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
     // effettua tentativo di check-in
     async makeCheckIn(id_user, codice_mezzo, stato_checkIn) {
         console.log("arrivati", id_user, codice_mezzo, stato_checkIn)
@@ -372,15 +535,12 @@ class DbService {
     // Placeholder
     async partecipaEvento(id_evento, id_user) {
         console.log("ARRIVATI", id_evento, id_user)
-        var errore;
         try {
-            const dateAdded = new Date();
-            const insertId = await new Promise((resolve, reject) => {
+            const response = await new Promise((resolve, reject) => {
                 const query = "INSERT INTO partecipazioni (id_evento, id_user) VALUES (?,?);";
 
                 connection.query(query, [id_evento, id_user] , (err, result) => {
                     if (err) {
-                        errore = err;
                         reject(new Error(err.message));
                     } else {
                         resolve(result.insertId);
@@ -388,13 +548,9 @@ class DbService {
 
                 })
             });
-            return {
-                id : insertId,
-                dateAdded : dateAdded
-            };
+            return response;
         } catch (error) {
-            console.log("***ERRORE****", error);
-            return {fail: errore}
+            return {fail: error}
         }
     }
 
@@ -584,6 +740,23 @@ class DbService {
             console.log(error);
         }
     }
+    // ritorna, se presente, la l'ente associato all'utente
+    async getAssociatedEnte(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select *
+                                from collaborazioni
+                                where id_user = ? and fine_collaborazione is null;`;
+                connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // ritorna, se presente, la citycard attiva dell'utente
     // TODO raffinare il select *
@@ -635,6 +808,25 @@ class DbService {
         }
     }
 
+    // ritorna gli enti disponibili, eventualmente filtrati per nome
+    async search_ente(nome_ente) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` SELECT * FROM enti
+                                where nome like ?;`;
+                console.log(query)
+                connection.query(query, ["%" + nome_ente + "%"], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     async getCarteUtente(id_user) {
         try {
@@ -656,6 +848,95 @@ class DbService {
             console.log(error);
         }
     }
+
+    // compra un servizio tenendo conto dello sconto concesso dalla fascia di abbonamento posseduto
+    // poi aggiunge la somma pagata al saldo dell'ente che eroga il servizio 
+    // la parte commentata esegue esegue l'acquisto senza l'utilizzo di variabili, ho abbandonato l'idea 
+    // di aggiornare il saldo senza variabili perché incappo nello stesso problema di ban()
+    async compraServizio(id_user, id_evento) {
+        console.log("Arrivati ", id_user, id_evento)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                // const query = ` INSERT INTO servizi_acquistati (id_servizio, prezzo_pagato, num_carta_credito, id_city_card) 
+                //                 VALUES (
+                //                         ?, 
+                //                         ( SELECT prezzo_servizio * 
+                //                             (SELECT (100 - sconti.percentuale_sconto) / 100
+                //                             from sconti 
+                //                             join listino_abbonamenti ls 
+                //                             on sconti.id_sconto = ls.id_sconto
+                //                             join sottoscrizioni_abbonamento sa
+                //                             on  ls.id_sconto = sa.id_listino_abbonamento
+                //                             where sa.id_city_card = 
+                //                                                     ( select id_city_card
+                //                                                     from city_card
+                //                                                     where id_user = ? and data_scadenza > now()) 
+                //                             )
+                //                         from servizi
+                //                         where id_servizio = ?
+                //                         ), 
+                //                         ( SELECT num_carta_credito 
+                //                         FROM carte_credito
+                //                         where id_user = ? and predefinita = 1),
+                //                         ( select id_city_card
+                //                         from city_card
+                //                         where id_user = ? and data_scadenza > now()) 
+                //                     );`;
+                const query = ` 
+                                set @id_user = ?;
+                                set @id_servizio = ?;
+                                set @idEnte = (
+                                                    SELECT enti.id_ente 
+                                                    from enti
+                                                    join servizi
+                                                    on enti.id_ente = servizi.id_ente
+                                                    where servizi.id_servizio = @id_servizio);
+                                set @creditCard = ( SELECT num_carta_credito 
+                                                    FROM carte_credito
+                                                    where id_user = @id_user and predefinita = 1);
+                                set @cityCard = (   select id_city_card
+                                                    from city_card
+                                                    where id_user = @id_user and data_scadenza > now());
+                                set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                                                    from sconti 
+                                                    join listino_abbonamenti ls 
+                                                    on sconti.id_sconto = ls.id_sconto
+                                                    join sottoscrizioni_abbonamento sa
+                                                    on  ls.id_sconto = sa.id_listino_abbonamento
+                                                    where sa.id_city_card = @cityCard);
+                                set @paidPrice = (  SELECT prezzo_servizio * @percentToPay
+                                                    from servizi
+                                                    where id_servizio = @id_servizio);
+
+                                INSERT INTO servizi_acquistati (id_servizio, prezzo_pagato, num_carta_credito, id_city_card) 
+                                VALUES (@id_servizio, @paidPrice, @creditCard,@cityCard );
+                                
+                                UPDATE enti 
+                                set saldo = saldo + @paidPrice
+                                WHERE id_ente = @idEnte;
+                                `
+
+                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
+                connection.query(query, [id_user, id_evento] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
 
 module.exports = DbService;

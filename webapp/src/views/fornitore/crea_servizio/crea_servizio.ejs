@@ -13,9 +13,33 @@
 <body>
     <header-component-user page="fornitore_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Crea un servizio</h1>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Servizio</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="descrizione_servizio" name="descrizione_servizio" placeholder="Nome">                        
+                            <label for="descrizione_servizio" class="form-label">Descrizione servizio</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="indirizzo_servizio" name="indirizzo_servizio" placeholder="Nome">                        
+                            <label for="indirizzo_servizio" class="form-label">Indirizzo servizio</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="prezzo_servizio" name="prezzo_servizio" placeholder="Nome">                        
+                            <label for="prezzo_servizio" class="form-label">Prezzo servizio</label>
+                        </div>
+                        <button id="button_crea_servizio" type="submit" class="btn btn-primary">Crea</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/fornitore/crea_servizio/crea_servizio.js"></script>
 </body>
 </html>

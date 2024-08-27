@@ -77,6 +77,48 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/vota', (request, response) => {
+    const { id_user, voto, id_servizio } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.vota(id_user, voto, id_servizio);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.post('/api/compraServizio', (request, response) => {
+    const { id_user, id_evento } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.compraServizio(id_user, id_evento);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/crea_ente', (request, response) => {
+    const { id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.crea_ente(id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/creaServizio', (request, response) => {
+    const { id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creaServizio(id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 app.post('/api/createNewCityCard', (request, response) => {
     const { id_user } = request.body;
@@ -117,6 +159,19 @@ app.post('/api/registerCreditCard', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.registerCreditCard(numero, cognome, nome, mese, anno, id_user);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/associaEnte', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, id_ente} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.associaEnte(id_user, id_ente);
 
     result
         .then(data => response.json({ data: data}))
@@ -190,6 +245,22 @@ app.get('/api/getUsers', (request, response) => {
 app.get('/api/getEnti', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEnti();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getServizi/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getServizi(id_user);
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getAcquisti/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getAcquisti(id_user);
     result
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
@@ -274,6 +345,7 @@ app.delete('/api/delete/:id', (request, response) => {
     .catch(err => console.log(err));
 });
 
+
 app.get('/api/search/:name', (request, response) => {
     const { name } = request.params;
     const db = dbService.getDbServiceInstance();
@@ -305,6 +377,18 @@ app.get('/api/getActiveCityCard/:id_user', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+app.get('/api/getAssociatedEnte/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.getAssociatedEnte(id_user);
+    
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+
 app.get('/api/getActiveSubscription/:id_user', (request, response) => {
     const { id_user } = request.params;
     const db = dbService.getDbServiceInstance();
@@ -328,12 +412,28 @@ app.get('/api/getListaCheckIn/:id_user', (request, response) => {
         .catch(err => console.log(err));
 })
 
+app.get('/api/search_ente/', (request, response) => {
+    const db = dbService.getDbServiceInstance();
 
+    const result = db.search_ente("");
+    console.log("RESULTS", JSON.stringify(result))
+    result
+        // .then(data => console.log("RESULTS", JSON.stringify(data)))
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/search_ente/:nome_ente', (request, response) => {
+    const { nome_ente } = request.params;
+    console.log("SEARCH ENTE", nome_ente)
+    const db = dbService.getDbServiceInstance();
 
-
-
-// avvio l'app alla porta indica in .env
-app.listen(process.env.PORT, () => console.log('app is running'));
+    const result = db.search_ente(nome_ente);
+    console.log("RESULTS", JSON.stringify(result))
+    result
+        // .then(data => console.log("RESULTS", JSON.stringify(data)))
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
 
 
 app.get('/api/auth/login/:username/:password', (request, response) => {
@@ -343,10 +443,12 @@ app.get('/api/auth/login/:username/:password', (request, response) => {
     const result = db.login(username, password);
     request.session.user = result;
     result
-        .then(data => request.session.user = data)
-        .then(data => response.json({ data: data}))
-        .catch(err => console.log(err));
+    .then(data => request.session.user = data)
+    .then(data => response.json({ data: data}))
+    .catch(err => console.log(err));
 });
+
+
 app.get('/api/getCarteUtente/:id_user', (request, response) => {
     const { id_user } = request.params;
     const db = dbService.getDbServiceInstance();
@@ -354,10 +456,13 @@ app.get('/api/getCarteUtente/:id_user', (request, response) => {
     const result = db.getCarteUtente(id_user);
     // request.session.user = result;
     result
-        // .then(data => request.session.user = data)
-        .then(data => response.json({ data: data}))
-        .catch(err => console.log(err));
+    // .then(data => request.session.user = data)
+    .then(data => response.json({ data: data}))
+    .catch(err => console.log(err));
 });
+
+
+// SESSIONE
 
 app.get("/api/user", (req, res) => {
     const sessionUser = req.session.user;
@@ -370,3 +475,5 @@ app.get("/api/logout", (req, res) => {
     res.send("Your are logged out ");
 });
 
+// avvio l'app alla porta indica in .env
+app.listen(process.env.PORT, () => console.log('app is running'));
