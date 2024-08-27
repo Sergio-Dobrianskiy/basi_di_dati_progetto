@@ -169,6 +169,29 @@ class DbService {
         }
     }
 
+    // crea un servizio. "limit 1" non dovrebbe servire in quanto un fornitore può essere
+    // associato con solo un ente ma protegge da possibili errori come una doppia scrittura dello stesso record
+    async creaServizio(id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio) {
+        console.log("Arrivati ", id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` INSERT INTO servizi (descrizione_servizio, indirizzo_servizio, id_ente, prezzo_servizio) 
+                                VALUES (?, ?, 
+                                        ( select c.id_ente
+                                        from collaborazioni c
+                                        where c.id_user = ? and c.fine_collaborazione is null limit 1), ?);;`;
+
+                connection.query(query, [descrizione_servizio, indirizzo_servizio, id_user, prezzo_servizio] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async registerNewUser(username, nome, cognome, email, password, id_ruolo) {
         console.log("ARRIVATI", username, nome, cognome, email, password, id_ruolo)
         var errore;

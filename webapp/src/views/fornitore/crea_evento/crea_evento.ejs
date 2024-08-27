@@ -13,9 +13,24 @@
 <body>
     <header-component-user page="fornitore_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Crea un evento</h1>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Evento</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome_ente" name="nome_ente" placeholder="Nome">                        
+                            <label for="nome_ente" class="form-label">Nome ente</label>
+                        </div>
+                        <button id="button_search_ente" type="submit" class="btn btn-primary">Cerca</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
-</body>
+    <script src="js/fornitore/crea_evento/crea_evento.js"></script>
 </html>

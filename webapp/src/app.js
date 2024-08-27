@@ -89,6 +89,17 @@ app.post('/api/crea_ente', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.post('/api/creaServizio', (request, response) => {
+    const { id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creaServizio(id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 app.post('/api/createNewCityCard', (request, response) => {
     const { id_user } = request.body;
     const db = dbService.getDbServiceInstance();
