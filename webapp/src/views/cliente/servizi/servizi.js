@@ -45,7 +45,7 @@ function loadUsersTable(data) {
             media_recensioni = "⭐".repeat(Math.floor(parseInt(media_recensioni)));
         }
 
-        bottoneBannato = `<td><button class="edit-row-btn btn btn-primary" onclick="compraServizio(${id_servizio})")>Compra</td>`
+        var bottoneCompra = `<td><button class="edit-row-btn btn btn-primary" onclick="compraServizio(${id_servizio})")>Compra</td>`
         
         tableHtml += "<tr>";
         tableHtml += `<td>${nome}</td>`;
@@ -55,7 +55,7 @@ function loadUsersTable(data) {
         tableHtml += `<td>${indirizzo_servizio}</td>`;
         tableHtml += `<td>${prezzo_servizio}</td>`;
         tableHtml += `<td>${prezzo_scontato}</td>`;
-        tableHtml += bottoneBannato;
+        tableHtml += bottoneCompra;
         tableHtml += "</tr>";
     });
 

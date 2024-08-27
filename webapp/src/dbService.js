@@ -63,19 +63,57 @@ class DbService {
         }
     }
 
+    // seleziona tutti gli enti con e senza recensione 
+    // coalesce restituisce 0 se non c'è media
+    // i due join imitano una full join 
     async getEnti() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` select e.nome as ente, e.descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
+                // non seleziona enti senza recensioni
+                // const query = ` select e.nome as ente, e.descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome, e.id_ente, r.media_recensioni
+                //                 from enti e
+                //                 join users u
+                //                 on e.id_user = u.id_user
+                //                 join (
+                //                     SELECT s.id_ente as id_ente, AVG(votazione) as media_recensioni
+                //                     FROM recensioni r
+                //                     join servizi s
+                //                     on s.id_servizio = r.id_servizio
+                //                     GROUP BY s.id_ente
+                //                 ) as r
+                //                 on r.id_ente = e.id_ente`
+                const query = ` select *
                                 from enti e
                                 join users u
-                                on e.id_user = u.id_user;`
+                                on e.id_user = u.id_user
+                                left join (
+                                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                                    FROM recensioni r
+                                    join servizi s
+                                    on s.id_servizio = r.id_servizio
+                                    GROUP BY s.id_ente
+                                ) as r
+                                on r.id_ente = e.id_ente 
+                                union
+                                select *
+                                from enti e
+                                join users u
+                                on e.id_user = u.id_user
+                                right join (
+                                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                                    FROM recensioni r
+                                    join servizi s
+                                    on s.id_servizio = r.id_servizio
+                                    GROUP BY s.id_ente
+                                ) as r
+                                on r.id_ente = e.id_ente `
                 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })
             });
+            // console.log(response)
             return response;
         } catch (error) {
             console.log(error);
@@ -146,6 +184,9 @@ class DbService {
             console.log(error);
         }
     }
+
+    
+
     // ritorna servizi acquistati dall'utente
     async getAcquisti(id_user) {
         try {
@@ -244,15 +285,16 @@ class DbService {
                 const query = ` 
                                 SET @idUser = ?;
                                 SET @idServizio = ?;
-                                SET @media = (SELECT AVG(votazione) 
-                                    FROM recensioni 
-                                    WHERE id_user = @idUser and id_servizio = @idServizio);
-
+                                
                                 DELETE 
                                 FROM recensioni 
                                 WHERE id_user = @idUser and id_servizio = @idServizio;
-
+                                
                                 insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
+                                
+                                SET @media = (SELECT AVG(votazione) 
+                                    FROM recensioni 
+                                    WHERE id_user = @idUser and id_servizio = @idServizio);
                                 
                                 UPDATE servizi
                                 SET media_recensioni = @media
@@ -270,6 +312,37 @@ class DbService {
         }
     }
 
+
+
+    // reset di tutte le recensioni riguardanti un ente
+    async resetRecensioni( id_ente) {
+        console.log("Arrivati ",  id_ente)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` 
+                                SET @id_ente = ?;
+
+                                DELETE recensioni 
+                                FROM recensioni
+                                join servizi s
+                                on s.id_servizio = recensioni.id_servizio
+                                WHERE s.id_ente = @id_ente;
+
+                                UPDATE servizi s
+                                SET media_recensioni = null
+                                WHERE s.id_ente = @id_ente;
+                                `;
+
+                connection.query(query, [id_ente] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // crea un servizio. "limit 1" non dovrebbe servire in quanto un fornitore può essere
     // associato con solo un ente ma protegge da possibili errori come una doppia scrittura dello stesso record
     async creaServizio(id_user, descrizione_servizio, indirizzo_servizio, prezzo_servizio) {

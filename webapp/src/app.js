@@ -77,6 +77,20 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
+
+
+app.post('/api/resetRecensioni', (request, response) => {
+    const { id_ente } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.resetRecensioni(id_ente);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 app.post('/api/vota', (request, response) => {
     const { id_user, voto, id_servizio } = request.body;
     const db = dbService.getDbServiceInstance();
@@ -257,6 +271,7 @@ app.get('/api/getServizi/:id_user', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+
 app.get('/api/getAcquisti/:id_user', (request, response) => {
     const { id_user } = request.params;
     const db = dbService.getDbServiceInstance();
