@@ -30,16 +30,31 @@ function loadUsersTable(data) {
         var partecipanti = evento['partecipanti'] == 1;
         var periodico = id_periodo == 0 ? "Evento Singolo" : "Evento periodico";
 
+
+
         bottoneBannato = `<td><button class="edit-row-btn btn btn-primary" onclick="partecipaEvento(${id_evento})")>Partecipa</td>`
         
-        tableHtml += "<tr>";
+        tableHtml += `<tr>`;
         tableHtml += `<td>${nome}</td>`;
         tableHtml += `<td>${organizzatore}</td>`;
         tableHtml += `<td>${fine}</td>`;
         tableHtml += `<td>${periodico}</td>`;
         tableHtml += `<td>${partecipanti}</td>`;
         tableHtml += bottoneBannato;
-        tableHtml += "</tr>";
+        tableHtml += `</tr>`;
+
+        if (periodico != 0) {
+            var lunedi = evento["lunedi"] == "1"? "✔️" : "❌";
+            var martedi = evento["martedi"] == "1"? "✔️" : "❌";
+            var mercoledi = evento["mercoledi"] == "1"? "✔️" : "❌";
+            var giovedi = evento["giovedi"] == "1"? "✔️" : "❌";
+            var venerdi = evento["venerdi"] == "1"? "✔️" : "❌";
+            var sabato = evento["sabato"] == "1"? "✔️" : "❌";
+            var domenica = evento["domenica"] == "1"? "✔️" : "❌";
+
+            tableHtml += `<tr><td colspan="6">L=${lunedi} M=${martedi} M=${mercoledi} G=${giovedi} V=${venerdi} S=${sabato} D=${domenica}</td></tr>`;
+        }
+
     });
 
     table.innerHTML = tableHtml;

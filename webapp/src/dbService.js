@@ -132,11 +132,14 @@ class DbService {
                 //                         FROM partecipazioni
                 //                         group by id_evento) as c
                 //                 on ev.id_evento = c.id_evento;`
-                const query = ` select ev.*, en.nome as organizzatore
+                const query = ` select ev.*, en.nome as organizzatore, periodi.*
                                 from eventi ev
                                 join enti en
                                 on ev.id_ente = en.id_ente
-                                where now() < ev.fine_validita;`
+                                join periodi
+                                on periodi.id_periodo = ev.id_periodo
+                                where now() < ev.fine_validita;
+                                `
                 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));

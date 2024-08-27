@@ -195,7 +195,7 @@ INSERT INTO `citycarddb`.`partecipazioni` (`id_partecipazione`, `data_registrazi
 
 create table PERIODI (
      id_periodo int not null auto_increment,
-     ripeti_ogni int not null,
+     -- ripeti_ogni int not null,
      periodo varchar(30) not null,
      lunedi tinyint not null default 0,
      martedi tinyint not null default 0,
