@@ -41,6 +41,8 @@ function loadUsersTable(data) {
 
         if (media_recensioni == null) {
             media_recensioni = "Non disponibile"
+        } else {
+            media_recensioni = "⭐".repeat(Math.floor(parseInt(media_recensioni)));
         }
 
         bottoneBannato = `<td><button class="edit-row-btn btn btn-primary" onclick="compraServizio(${id_servizio})")>Compra</td>`

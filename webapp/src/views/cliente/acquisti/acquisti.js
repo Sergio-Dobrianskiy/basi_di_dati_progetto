@@ -24,7 +24,7 @@ function loadTableAcquisti(data) {
 
     let tableHtml = "";
 
-    
+    var index = 0;
     data.forEach((acquisto) => {
         var data_acquisto = new Date(acquisto['data_acquisto']).toLocaleDateString('en-GB');
         var prezzo_pagato = acquisto['prezzo_pagato'];
@@ -34,7 +34,26 @@ function loadTableAcquisti(data) {
         var id_user = acquisto['id_user'];
         var id_servizio = acquisto['id_servizio'];
 
-        // var rating = `
+        var rating = `
+            <div class="container">
+                <div class="rating">
+                    <input type="radio" name="star" id="star5_${index}" onclick="votaServizio(${id_user}, 5, ${id_servizio})"><label for="star5_${index}">&#9733;</label>
+                    <input type="radio" name="star" id="star4_${index}" onclick="votaServizio(${id_user}, 4, ${id_servizio})"><label for="star4_${index}">&#9733;</label>
+                    <input type="radio" name="star" id="star3_${index}" onclick="votaServizio(${id_user}, 3, ${id_servizio})"><label for="star3_${index}">&#9733;</label>
+                    <input type="radio" name="star" id="star2_${index}" onclick="votaServizio(${id_user}, 2, ${id_servizio})"><label for="star2_${index}">&#9733;</label>
+                    <input type="radio" name="star" id="star1_${index}" onclick="votaServizio(${id_user}, 1, ${id_servizio})"><label for="star1_${index}">&#9733;</label>
+                </div>
+            </div>
+    
+        `
+
+        tableHtml += "<tr>";
+        tableHtml += `<td>${data_acquisto}</td>`;
+        tableHtml += `<td>${prezzo_pagato}</td>`;
+        tableHtml += `<td>${nome_servizio}</td>`;
+        tableHtml += `<td>${id_city_card}</td>`;
+        tableHtml += `<td>${num_carta_credito}</td>`;
+        // tableHtml += `<td>
         //     <div class="container">
         //         <div class="rating">
         //             <input type="radio" name="star" id="star5" onclick="votaServizio('${id_user}', '5', '${id_servizio}')"><label for="star5">&#9733;</label>
@@ -44,28 +63,13 @@ function loadTableAcquisti(data) {
         //             <input type="radio" name="star" id="star1" onclick="votaServizio('${id_user}', '1', '${id_servizio}')"><label for="star1">&#9733;</label>
         //         </div>
         //     </div>
-    
-        // `
-
-        tableHtml += "<tr>";
-        tableHtml += `<td>${data_acquisto}</td>`;
-        tableHtml += `<td>${prezzo_pagato}</td>`;
-        tableHtml += `<td>${nome_servizio}</td>`;
-        tableHtml += `<td>${id_city_card}</td>`;
-        tableHtml += `<td>${num_carta_credito}</td>`;
-        tableHtml += `<td>
-            <div class="container">
-                <div class="rating">
-                    <input type="radio" name="star" id="star5" onclick="votaServizio('${id_user}', '5', '${id_servizio}')"><label for="star5">&#9733;</label>
-                    <input type="radio" name="star" id="star4" onclick="votaServizio('${id_user}', '4', '${id_servizio}')"><label for="star5">&#9733;</label>
-                    <input type="radio" name="star" id="star3" onclick="votaServizio('${id_user}', '3', '${id_servizio}')"><label for="star3">&#9733;</label>
-                    <input type="radio" name="star" id="star2" onclick="votaServizio('${id_user}', '2', '${id_servizio}')"><label for="star2">&#9733;</label>
-                    <input type="radio" name="star" id="star1" onclick="votaServizio('${id_user}', '1', '${id_servizio}')"><label for="star1">&#9733;</label>
-                </div>
-            </div>
-        </td>`;
+        // </td>`;
+        tableHtml += `<td>${rating}</td>`;
         // tableHtml += `<td>${id_user}, ${id_servizio}</td>`;
         tableHtml += "</tr>";
+
+        index ++;
+        
     });
 
     table.innerHTML = tableHtml;

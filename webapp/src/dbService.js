@@ -159,7 +159,8 @@ class DbService {
                                 on u.id_user = cc.id_user
                                 join servizi
                                 on servizi.id_servizio = sa.id_servizio
-                                where cc.data_scadenza>now() and cc.id_user = ?;`
+                                where cc.data_scadenza>now() and cc.id_user = ?
+                                ORDER BY sa.data_acquisto DESC;`
                 
                 connection.query(query, [id_user] , (err, results) => {
                     if (err) reject(new Error(err.message));
@@ -214,6 +215,7 @@ class DbService {
         }
     }
 
+
     async crea_ente(id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente) {
         console.log("Arrivati ", id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente)
         try {
@@ -232,6 +234,9 @@ class DbService {
         }
     }
     
+    
+    // dato che un utente puà avere una recensione per servizio cancello la precedente
+    // inserisco il voto nuovo, calcolo la media, la inserisco nel servizio
     async vota(id_user, votazione, id_servizio) {
         console.log("Arrivati ", id_user, votazione, id_servizio)
         try {
@@ -239,12 +244,20 @@ class DbService {
                 const query = ` 
                                 SET @idUser = ?;
                                 SET @idServizio = ?;
+                                SET @media = (SELECT AVG(votazione) 
+                                    FROM recensioni 
+                                    WHERE id_user = @idUser and id_servizio = @idServizio);
 
                                 DELETE 
                                 FROM recensioni 
                                 WHERE id_user = @idUser and id_servizio = @idServizio;
 
-                                insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);`;
+                                insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
+                                
+                                UPDATE servizi
+                                SET media_recensioni = @media
+                                WHERE id_servizio = @idServizio;
+                                `;
 
                 connection.query(query, [id_user, id_servizio, votazione] , (err, result) => {
                     if (err) reject(new Error(err.message));
