@@ -1,7 +1,5 @@
 document.querySelector('#update-enti-btn').onclick = () => { getEnti() };
 function getEnti() {
-    console.log("Aggiorna getEnti")
-
     fetch('http://localhost:5000/api/getEnti')
         .then(response => response.json())
         .then(data => loadEntiTable(data['data']));
@@ -10,8 +8,6 @@ function getEnti() {
 
 
 function loadEntiTable(data) {
-    // console.log(JSON.stringify(data));
-    
     const table = document.querySelector('table tbody');
 
     if (data.length === 0) {
@@ -24,14 +20,13 @@ function loadEntiTable(data) {
     data.forEach((ente) => {
         // console.log(utente)
         var nome_ente = ente['nome_ente'];
-        var nome = ente['nome'];
+        var nome = ente['nome_user'];
         var cognome = ente['cognome'];
         var descrizione = ente['descrizione'];
         var contatto = ente['contatto'];
         var creatore = convertToTitleCase(cognome)+ " " + convertToTitleCase(nome)
         var media_recensioni = ente['media_recensioni'];
         var id_ente = ente['id_ente'];
-        console.log("RECE", id_ente)
         
         if (media_recensioni == null) {
             media_recensioni = "Non disponibile"
