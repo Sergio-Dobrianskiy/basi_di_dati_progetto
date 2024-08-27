@@ -82,31 +82,32 @@ class DbService {
                 //                     GROUP BY s.id_ente
                 //                 ) as r
                 //                 on r.id_ente = e.id_ente`
-                const query = ` select *
-                                from enti e
-                                join users u
-                                on e.id_user = u.id_user
-                                left join (
-                                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
-                                    FROM recensioni r
-                                    join servizi s
-                                    on s.id_servizio = r.id_servizio
-                                    GROUP BY s.id_ente
-                                ) as r
-                                on r.id_ente = e.id_ente 
-                                union
-                                select *
-                                from enti e
-                                join users u
-                                on e.id_user = u.id_user
-                                right join (
-                                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
-                                    FROM recensioni r
-                                    join servizi s
-                                    on s.id_servizio = r.id_servizio
-                                    GROUP BY s.id_ente
-                                ) as r
-                                on r.id_ente = e.id_ente `
+                const query = ` 
+                select e.id_ente, e.nome as nome_ente, descrizione, e.indirizzo as indirizzo_ente, numero_telefono, e.id_user, u.nome as nome_user, cognome, email, cf, telefono, id_ruolo, media_recensioni
+                from enti e
+                join users u
+                on e.id_user = u.id_user
+                left join (
+                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                    FROM recensioni r
+                    join servizi s
+                    on s.id_servizio = r.id_servizio
+                    GROUP BY s.id_ente
+                ) as r
+                on r.id_ente = e.id_ente 
+                union
+                select e.id_ente, e.nome as nome_ente, descrizione, e.indirizzo as indirizzo_ente, numero_telefono, e.id_user, u.nome as nome_user, cognome, email, cf, telefono, id_ruolo, media_recensioni
+                from enti e
+                join users u
+                on e.id_user = u.id_user
+                right join (
+                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                    FROM recensioni r
+                    join servizi s
+                    on s.id_servizio = r.id_servizio
+                    GROUP BY s.id_ente
+                ) as r
+                on r.id_ente = e.id_ente  `
                 
                 connection.query(query, (err, results) => {
                     if (err) reject(new Error(err.message));
