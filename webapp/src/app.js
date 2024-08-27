@@ -77,6 +77,16 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/compraServizio', (request, response) => {
+    const { id_user, id_evento } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.compraServizio(id_user, id_evento);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 app.post('/api/crea_ente', (request, response) => {
     const { id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente } = request.body;
@@ -225,6 +235,14 @@ app.get('/api/getUsers', (request, response) => {
 app.get('/api/getEnti', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEnti();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+app.get('/api/getServizi/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getServizi(id_user);
     result
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));

@@ -110,6 +110,43 @@ class DbService {
         }
     }
 
+    // ritorna eventi
+    async getServizi(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                // const query = ` select se.*, en.nome as organizzatore
+                //                 from servizi se
+                //                 join enti en
+                //                 on se.id_ente = en.id_ente
+                //                 where now() < se.fine_validita;`
+                const query = ` set @id_user = ?;     
+                                set @cityCard = ( select id_city_card
+                                        from city_card
+                                        where id_user = @id_user and data_scadenza > now());
+                                set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                                            from sconti 
+                                            join listino_abbonamenti ls 
+                                            on sconti.id_sconto = ls.id_sconto
+                                            join sottoscrizioni_abbonamento sa
+                                            on  ls.id_sconto = sa.id_listino_abbonamento
+                                            where sa.id_city_card = @cityCard);
+                                select se.*, en.nome as organizzatore, se.prezzo_servizio * @percentToPay as prezzo_scontato
+                                        from servizi se
+                                        join enti en
+                                        on se.id_ente = en.id_ente
+                                        where now() < se.fine_validita;`
+                
+                connection.query(query, [id_user] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async getListinoAbbonamenti() {
         try {
             const response = await new Promise((resolve, reject) => {
@@ -434,15 +471,12 @@ class DbService {
     // Placeholder
     async partecipaEvento(id_evento, id_user) {
         console.log("ARRIVATI", id_evento, id_user)
-        var errore;
         try {
-            const dateAdded = new Date();
-            const insertId = await new Promise((resolve, reject) => {
+            const response = await new Promise((resolve, reject) => {
                 const query = "INSERT INTO partecipazioni (id_evento, id_user) VALUES (?,?);";
 
                 connection.query(query, [id_evento, id_user] , (err, result) => {
                     if (err) {
-                        errore = err;
                         reject(new Error(err.message));
                     } else {
                         resolve(result.insertId);
@@ -450,13 +484,9 @@ class DbService {
 
                 })
             });
-            return {
-                id : insertId,
-                dateAdded : dateAdded
-            };
+            return response;
         } catch (error) {
-            console.log("***ERRORE****", error);
-            return {fail: errore}
+            return {fail: error}
         }
     }
 
@@ -754,6 +784,95 @@ class DbService {
             console.log(error);
         }
     }
+
+    // compra un servizio tenendo conto dello sconto concesso dalla fascia di abbonamento posseduto
+    // poi aggiunge la somma pagata al saldo dell'ente che eroga il servizio 
+    // la parte commentata esegue esegue l'acquisto senza l'utilizzo di variabili, ho abbandonato l'idea 
+    // di aggiornare il saldo senza variabili perché incappo nello stesso problema di ban()
+    async compraServizio(id_user, id_evento) {
+        console.log("Arrivati ", id_user, id_evento)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                // const query = ` INSERT INTO servizi_acquistati (id_servizio, prezzo_pagato, num_carta_credito, id_city_card) 
+                //                 VALUES (
+                //                         ?, 
+                //                         ( SELECT prezzo_servizio * 
+                //                             (SELECT (100 - sconti.percentuale_sconto) / 100
+                //                             from sconti 
+                //                             join listino_abbonamenti ls 
+                //                             on sconti.id_sconto = ls.id_sconto
+                //                             join sottoscrizioni_abbonamento sa
+                //                             on  ls.id_sconto = sa.id_listino_abbonamento
+                //                             where sa.id_city_card = 
+                //                                                     ( select id_city_card
+                //                                                     from city_card
+                //                                                     where id_user = ? and data_scadenza > now()) 
+                //                             )
+                //                         from servizi
+                //                         where id_servizio = ?
+                //                         ), 
+                //                         ( SELECT num_carta_credito 
+                //                         FROM carte_credito
+                //                         where id_user = ? and predefinita = 1),
+                //                         ( select id_city_card
+                //                         from city_card
+                //                         where id_user = ? and data_scadenza > now()) 
+                //                     );`;
+                const query = ` 
+                                set @id_user = ?;
+                                set @id_servizio = ?;
+                                set @idEnte = (
+                                                    SELECT enti.id_ente 
+                                                    from enti
+                                                    join servizi
+                                                    on enti.id_ente = servizi.id_ente
+                                                    where servizi.id_servizio = @id_servizio);
+                                set @creditCard = ( SELECT num_carta_credito 
+                                                    FROM carte_credito
+                                                    where id_user = @id_user and predefinita = 1);
+                                set @cityCard = (   select id_city_card
+                                                    from city_card
+                                                    where id_user = @id_user and data_scadenza > now());
+                                set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                                                    from sconti 
+                                                    join listino_abbonamenti ls 
+                                                    on sconti.id_sconto = ls.id_sconto
+                                                    join sottoscrizioni_abbonamento sa
+                                                    on  ls.id_sconto = sa.id_listino_abbonamento
+                                                    where sa.id_city_card = @cityCard);
+                                set @paidPrice = (  SELECT prezzo_servizio * @percentToPay
+                                                    from servizi
+                                                    where id_servizio = @id_servizio);
+
+                                INSERT INTO servizi_acquistati (id_servizio, prezzo_pagato, num_carta_credito, id_city_card) 
+                                VALUES (@id_servizio, @paidPrice, @creditCard,@cityCard );
+                                
+                                UPDATE enti 
+                                set saldo = saldo + @paidPrice
+                                WHERE id_ente = @idEnte;
+                                `
+
+                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
+                connection.query(query, [id_user, id_evento] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
 
 module.exports = DbService;
