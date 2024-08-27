@@ -247,6 +247,14 @@ app.get('/api/getServizi/:id_user', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+app.get('/api/getAcquisti/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getAcquisti(id_user);
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
 
 app.get('/api/getEventi', (request, response) => {
     const db = dbService.getDbServiceInstance();
