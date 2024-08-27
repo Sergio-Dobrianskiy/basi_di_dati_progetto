@@ -19,10 +19,6 @@ use CityCardDB;
 -- Tables Section
 -- _____________ 
 
-
-
-
-
 create table STATI_CHECK (
      id_stato int unique not null,
      descrizione_stato varchar(30) not null,
@@ -159,15 +155,16 @@ INSERT INTO `citycarddb`.`collaborazioni` (`id_collaborazione`, `inizio_collabor
 
 
 create table ENTI (
-     id_ente int not null auto_increment,
-     descrizione_ente varchar(30) not null,
-     saldo int not null,
-     indirizzo varchar(30) not null,
-     numero_telefono varchar(30) not null,
-     nome varchar(30) not null,
-     id_user int not null,
-     constraint IDENTI primary key (id_ente));
-INSERT INTO `citycarddb`.`enti` (`id_ente`, `descrizione_ente`, `saldo`, `indirizzo`, `numero_telefono`, `nome`, `id_user`) VALUES ('1', 'alma mater', '50', 'via Cesena', '3494773321', 'Alma Mater', '2');
+	id_ente int not null auto_increment,
+	nome varchar(30) not null,
+	descrizione_ente varchar(30) not null,
+	saldo int not null default 0,
+	indirizzo varchar(30) not null,
+	numero_telefono varchar(30) not null,
+	id_user int not null,
+	constraint IDENTI primary key (id_ente));
+INSERT INTO `citycarddb`.`enti` (`nome`, `descrizione_ente`, `indirizzo`, `numero_telefono`,  `id_user`, `saldo`) 
+VALUES ('Alma Mater', 'Università', 'via Cesena', '3494773321',  '2', '50');
 
 
 create table EVENTI (
@@ -270,8 +267,8 @@ create table SOTTOSCRIZIONI_ABBONAMENTO (
 --     END IF;
 -- END;;
 -- DELIMITER ;
-INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`prezzo_pagato`, `id_listino_abbonamento`, `id_city_card`, `num_carta_credito`) 
-VALUES ('35', '1', '1000001', '1234567890123456');
+INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`id_listino_abbonamento`, `id_city_card`, `num_carta_credito`) 
+VALUES ('1', '1000001', '1234567890123456');
 
 
 

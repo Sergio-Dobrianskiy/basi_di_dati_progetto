@@ -77,6 +77,16 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/crea_ente', (request, response) => {
+    const { id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.crea_ente(id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 
 app.post('/api/createNewCityCard', (request, response) => {
     const { id_user } = request.body;

@@ -151,6 +151,24 @@ class DbService {
         }
     }
 
+    async crea_ente(id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente) {
+        console.log("Arrivati ", id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` INSERT INTO enti (nome, descrizione_ente, indirizzo, numero_telefono, id_user) 
+                                VALUES (?, ?, ?, ?,  ?);`;
+
+                connection.query(query, [nome_ente, descrizione_ente, indirizzo_ente, telefono_ente, id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async registerNewUser(username, nome, cognome, email, password, id_ruolo) {
         console.log("ARRIVATI", username, nome, cognome, email, password, id_ruolo)
         var errore;

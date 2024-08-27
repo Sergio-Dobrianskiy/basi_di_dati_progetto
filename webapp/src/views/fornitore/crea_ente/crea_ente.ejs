@@ -13,9 +13,37 @@
 <body>
     <header-component-user page="fornitore_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h2>Crea un nuovo ente</h2>
+        <div class="container mt-4 d-flex justify-content-center">
+            <div class="card" style="width: 18rem;">            
+                <div class="card-header">Ente</div>    
+                <div class="card-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="nome_ente" name="nome_ente">                        
+                            <label for="nome_ente" class="form-label">Nome Ente</label>
+                        </div>       
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="descrizione_ente" name="descrizione_ente">                        
+                            <label for="descrizione_ente" class="form-label">Descrizione Ente</label>
+                        </div>       
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="indirizzo_ente" name="indirizzo_ente">                        
+                            <label for="indirizzo_ente" class="form-label">Indirizzo Ente</label>
+                        </div>       
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="telefono_ente" name="telefono_ente">                        
+                            <label for="telefono_ente" class="form-label">Telefono Ente</label>
+                        </div>       
+    
+                        <button id="button_crea_ente" type="submit" class="btn btn-primary">Check-in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/fornitore/crea_ente/crea_ente.js"></script>
 </body>
 </html>
