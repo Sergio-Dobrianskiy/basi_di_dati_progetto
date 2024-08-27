@@ -77,6 +77,16 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+app.post('/api/vota', (request, response) => {
+    const { id_user, voto, id_servizio } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.vota(id_user, voto, id_servizio);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
 app.post('/api/compraServizio', (request, response) => {
     const { id_user, id_evento } = request.body;
     const db = dbService.getDbServiceInstance();

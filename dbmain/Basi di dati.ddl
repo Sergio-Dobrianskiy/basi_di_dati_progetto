@@ -216,7 +216,7 @@ create table RECENSIONI (
      id_user int not null,
      constraint IDRECENSIONI primary key (id_recensione),
      constraint IDRECENSIONI_1 unique (id_servizio, id_user));
-
+insert into recensioni (id_user, votazione, id_servizio) VALUES(1,3,1);
 
 
 create table SERVIZI (

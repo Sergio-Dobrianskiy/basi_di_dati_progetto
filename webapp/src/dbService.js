@@ -146,6 +146,32 @@ class DbService {
             console.log(error);
         }
     }
+    // ritorna servizi acquistati dall'utente
+    async getAcquisti(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+
+                const query = ` SELECT sa.data_acquisto, sa.prezzo_pagato, cc.id_city_card, sa.num_carta_credito, servizi.descrizione_servizio as nome_servizio, u.id_user, sa.id_servizio
+                                FROM servizi_acquistati sa
+                                join city_card cc
+                                on cc.id_city_card = sa.id_city_card
+                                join users u
+                                on u.id_user = cc.id_user
+                                join servizi
+                                on servizi.id_servizio = sa.id_servizio
+                                where cc.data_scadenza>now() and cc.id_user = ?;`
+                
+                connection.query(query, [id_user] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     async getListinoAbbonamenti() {
         try {
@@ -196,6 +222,31 @@ class DbService {
                                 VALUES (?, ?, ?, ?,  ?);`;
 
                 connection.query(query, [nome_ente, descrizione, indirizzo_ente, telefono_ente, id_user] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
+    async vota(id_user, votazione, id_servizio) {
+        console.log("Arrivati ", id_user, votazione, id_servizio)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` 
+                                SET @idUser = ?;
+                                SET @idServizio = ?;
+
+                                DELETE 
+                                FROM recensioni 
+                                WHERE id_user = @idUser and id_servizio = @idServizio;
+
+                                insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);`;
+
+                connection.query(query, [id_user, id_servizio, votazione] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })
