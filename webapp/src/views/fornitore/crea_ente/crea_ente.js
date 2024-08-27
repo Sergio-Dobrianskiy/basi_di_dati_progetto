@@ -3,11 +3,11 @@ const addBtn = document.querySelector("#button_crea_ente");
 addBtn.onclick = function (e) {
     e.preventDefault();
     const nome_ente = document.querySelector('#nome_ente').value;
-    const descrizione_ente = document.querySelector('#descrizione_ente').value;
+    const descrizione = document.querySelector('#descrizione_ente').value;
     const indirizzo_ente = document.querySelector('#indirizzo_ente').value;
     const telefono_ente = document.querySelector('#telefono_ente').value;
     
-    if (nome_ente === "", descrizione_ente === "", indirizzo_ente === "", telefono_ente === "") {
+    if (nome_ente === "", descrizione === "", indirizzo_ente === "", telefono_ente === "") {
         alert("INSERIRE I DATI ")
     } else {
 
@@ -26,7 +26,7 @@ addBtn.onclick = function (e) {
                 body: JSON.stringify({ 
                     id_user : id_user,
                     nome_ente : nome_ente,
-                    descrizione_ente : descrizione_ente,
+                    descrizione : descrizione,
                     indirizzo_ente : indirizzo_ente,
                     telefono_ente : telefono_ente
                 })

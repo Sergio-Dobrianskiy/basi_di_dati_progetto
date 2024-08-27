@@ -66,7 +66,7 @@ class DbService {
     async getEnti() {
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` select e.nome as ente, e.descrizione_ente as descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
+                const query = ` select e.nome as ente, e.descrizione, e.indirizzo, e.numero_telefono as contatto, u.nome, u.cognome
                                 from enti e
                                 join users u
                                 on e.id_user = u.id_user;`
@@ -151,14 +151,14 @@ class DbService {
         }
     }
 
-    async crea_ente(id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente) {
-        console.log("Arrivati ", id_user, nome_ente, descrizione_ente, indirizzo_ente, telefono_ente)
+    async crea_ente(id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente) {
+        console.log("Arrivati ", id_user, nome_ente, descrizione, indirizzo_ente, telefono_ente)
         try {
             const response = await new Promise((resolve, reject) => {
-                const query = ` INSERT INTO enti (nome, descrizione_ente, indirizzo, numero_telefono, id_user) 
+                const query = ` INSERT INTO enti (nome, descrizione, indirizzo, numero_telefono, id_user) 
                                 VALUES (?, ?, ?, ?,  ?);`;
 
-                connection.query(query, [nome_ente, descrizione_ente, indirizzo_ente, telefono_ente, id_user] , (err, result) => {
+                connection.query(query, [nome_ente, descrizione, indirizzo_ente, telefono_ente, id_user] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })
@@ -336,6 +336,27 @@ class DbService {
                 })
             });
             return response === 1 ? true : false;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
+
+    // associa utente a ente
+    async associaEnte(id_user, id_ente) {
+        console.log("arrivati", id_user, id_ente)
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = `
+                                INSERT INTO collaborazioni 
+                                (id_user, id_ente) 
+                                VALUES (?, ?);`;
+                connection.query(query, [id_user, id_ente] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            return response;
         } catch (error) {
             console.log(error);
             return false;
@@ -602,6 +623,23 @@ class DbService {
             console.log(error);
         }
     }
+    // ritorna, se presente, la l'ente associato all'utente
+    async getAssociatedEnte(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` select *
+                                from collaborazioni
+                                where id_user = ? and fine_collaborazione is null;`;
+                connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // ritorna, se presente, la citycard attiva dell'utente
     // TODO raffinare il select *
@@ -642,6 +680,25 @@ class DbService {
                                 on ch.id_mezzo = m.id_mezzo
                                 where u.id_user = ?;`;
                 connection.query(query, [id_user], (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    // ritorna gli enti disponibili, eventualmente filtrati per nome
+    async search_ente(nome_ente) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` SELECT * FROM enti
+                                where nome like ?;`;
+                console.log(query)
+                connection.query(query, ["%" + nome_ente + "%"], (err, results) => {
                     if (err) reject(new Error(err.message));
                     resolve(results);
                 })

@@ -146,25 +146,25 @@ VALUES ('1'), ('2'), ('3');
 
 create table COLLABORAZIONI (
      id_collaborazione int not null auto_increment,
-     inizio_collaborazione date not null,
-     fine_collaborazione date,
+     inizio_collaborazione datetime not null default now(),
+     fine_collaborazione datetime,
      id_user int not null,
      id_ente int not null,
      constraint IDCOLLABORATORI primary key (id_collaborazione));
-INSERT INTO `citycarddb`.`collaborazioni` (`id_collaborazione`, `inizio_collaborazione`, `id_user`, `id_ente`) VALUES ('1', '2024-08-23', '2', '1');
+INSERT INTO `citycarddb`.`collaborazioni` (`id_user`, `id_ente`) VALUES ('2', '1');
 
 
 create table ENTI (
 	id_ente int not null auto_increment,
 	nome varchar(30) not null,
-	descrizione_ente varchar(30) not null,
+	descrizione varchar(30) not null,
 	saldo int not null default 0,
 	indirizzo varchar(30) not null,
 	numero_telefono varchar(30) not null,
 	id_user int not null,
 	constraint IDENTI primary key (id_ente));
-INSERT INTO `citycarddb`.`enti` (`nome`, `descrizione_ente`, `indirizzo`, `numero_telefono`,  `id_user`, `saldo`) 
-VALUES ('Alma Mater', 'Università', 'via Cesena', '3494773321',  '2', '50');
+INSERT INTO `citycarddb`.`enti` (`nome`, `descrizione`, `indirizzo`, `numero_telefono`,  `id_user`) 
+VALUES ('Alma Mater', 'Università', 'via Cesena', '3494773321',  '2');
 
 
 create table EVENTI (
