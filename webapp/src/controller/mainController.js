@@ -61,14 +61,8 @@ const crea_evento = async function (req, res){
 const crea_servizio = async function (req, res){
     res.render('fornitore/crea_servizio/crea_servizio', { text: 'This is EJS'})
 }
-const statistiche_eventi = async function (req, res){
-    res.render('fornitore/statistiche_eventi/statistiche_eventi', { text: 'This is EJS'})
-}
-const statistiche_saldo = async function (req, res){
-    res.render('fornitore/statistiche_saldo/statistiche_saldo', { text: 'This is EJS'})
-}
-const statistiche_servizi = async function (req, res){
-    res.render('fornitore/statistiche_servizi/statistiche_servizi', { text: 'This is EJS'})
+const statistiche_fornitore = async function (req, res){
+    res.render('fornitore/statistiche_fornitore/statistiche_fornitore', { text: 'This is EJS'})
 }
 
 
@@ -113,9 +107,7 @@ module.exports = {
     crea_ente,
     crea_evento,
     crea_servizio,
-    statistiche_eventi,
-    statistiche_saldo,
-    statistiche_servizi,
+    statistiche_fornitore,
 
     
     admin_home,

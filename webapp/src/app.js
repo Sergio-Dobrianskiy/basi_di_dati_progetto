@@ -57,9 +57,7 @@ app.use('/fornitore_home', route);
 app.use('/associa_ente', route);
 app.use('/crea_evento', route);
 app.use('/crea_servizio', route);
-app.use('/statistiche_eventi', route);
-app.use('/statistiche_saldo', route);
-app.use('/statistiche_servizi', route);
+app.use('/statistiche_fornitore', route);
 
 // ADMIN
 app.use('/admin_home', route);
@@ -285,6 +283,15 @@ app.get('/api/getUsers', (request, response) => {
 app.get('/api/getStatAdmin', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getStatAdmin();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getStatisticheFornitore/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getStatisticheFornitore(id_user);
     result
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
