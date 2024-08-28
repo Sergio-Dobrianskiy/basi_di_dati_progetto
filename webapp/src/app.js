@@ -282,6 +282,14 @@ app.get('/api/getUsers', (request, response) => {
         .catch(err => console.log(err));
 })
 
+app.get('/api/getStatAdmin', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getStatAdmin();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
 app.get('/api/getEnti', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEnti();

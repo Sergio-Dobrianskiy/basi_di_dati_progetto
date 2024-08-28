@@ -220,6 +220,34 @@ class DbService {
         }
     }
 
+    async getStatAdmin(id_user) {
+        try {
+            const response = await new Promise((resolve, reject) => {
+
+                const query = ` SET @numeroCheckin = (SELECT count(id_check) FROM checks);
+                                SET @numeroCheckinFalliti = (SELECT count(id_check) FROM checks WHERE id_check != 1);
+                                SET @numeroCityCardAttive = (SELECT count(id_city_card) from city_card where data_scadenza > now());
+                                SET @numeroEventiAttivi = (SELECT count(id_evento) from eventi where fine_validita > now());
+                                SET @numeroServiziAttivi = (SELECT count(id_servizio) from servizi where fine_validita > now());
+
+                                SELECT 
+                                    @numeroCheckin as numero_checkin,
+                                    @numeroCheckinFalliti as numeroCheckinFalliti,
+                                    @numeroCityCardAttive as numeroCityCardAttive,
+                                    @numeroEventiAttivi as numeroEventiAttivi,
+                                    @numeroServiziAttivi as numeroServiziAttivi`
+                
+                connection.query(query, [id_user] , (err, results) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(results);
+                })
+            });
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     async getListinoAbbonamenti() {
         try {
