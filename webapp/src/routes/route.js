@@ -24,7 +24,7 @@ route.get("/servizi", mainController.servizi)
 // FORNITORE
 route.get("/fornitore_home", mainController.fornitore_home)
 route.get("/associa_ente", mainController.associa_ente)
-route.get("/crea_ente", mainController.crea_ente)
+route.get("/crea_evento", mainController.crea_evento)
 route.get("/crea_servizio", mainController.crea_servizio)
 route.get("/statistiche_eventi", mainController.statistiche_eventi)
 route.get("/statistiche_saldo", mainController.statistiche_saldo)

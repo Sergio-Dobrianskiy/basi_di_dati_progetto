@@ -55,8 +55,8 @@ function loadCheckInTable(data) {
 // *******************************
 // ***********REGISTRA NUOVA CARTA
 // *******************************
-const createCreditCardBtn = document.querySelector("#button_reg");
-createCreditCardBtn.onclick = (e) => {
+const creazioneEventoBtn = document.querySelector("#button_reg");
+creazioneEventoBtn.onclick = (e) => {
     e.preventDefault();
     fetch('http://localhost:5000/api/user/')
     .then(response => response.json())

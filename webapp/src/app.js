@@ -54,7 +54,7 @@ app.use('/servizi', route);
 //FORNITORE
 app.use('/fornitore_home', route);
 app.use('/associa_ente', route);
-app.use('/crea_ente', route);
+app.use('/crea_evento', route);
 app.use('/crea_servizio', route);
 app.use('/statistiche_eventi', route);
 app.use('/statistiche_saldo', route);
@@ -186,6 +186,19 @@ app.post('/api/associaEnte', (request, response) => {
     const db = dbService.getDbServiceInstance();
     
     const result = db.associaEnte(id_user, id_ente);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
+app.post('/api/creazioneEvento', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creazioneEvento(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom);
 
     result
         .then(data => response.json({ data: data}))

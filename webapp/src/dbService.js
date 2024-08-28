@@ -9,7 +9,8 @@ const connection = mysql.createConnection({
     password:   process.env.PASSWORD,
     database:   process.env.DATABASE,
     port:       process.env.DB_PORT,
-    multipleStatements: true
+    multipleStatements: true,
+    // PersistentConnections: true,
 });
 
 connection.connect((err) => {
@@ -781,7 +782,6 @@ class DbService {
     async login(username, password) {
         try {
             const response = await new Promise((resolve, reject) => {
-                // const query = "SELECT bannato, id_ruolo FROM user WHERE username = ? AND password = ?;";
                 const query = `SELECT u.*, r.descrizione_ruolo as ruolo
                                 from users u
                                 join ruoli r 
@@ -995,6 +995,44 @@ class DbService {
 
                 // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
                 connection.query(query, [id_user, id_evento] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    // trova l'ente associato all'utente e crea un'evento
+    async creazioneEvento(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom) {
+        console.log("Arrivati ", id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom)
+
+        id_user = parseInt(id_user, 10); 
+        numero_pertecipanti = parseInt(numero_pertecipanti, 10); 
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` 
+                                set @idUser = ?;
+                                set @idEnte = ( select c.id_ente
+                                        from collaborazioni c
+                                        where c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+
+                                INSERT INTO periodi (lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica) 
+                                VALUES (?,?,?,?,?,?,?);
+                                -- set @idPeriodo = SELECT LAST_INSERT_ID('id_periodo'); --  serve PersistentConnections
+                                set @idPeriodo = (SELECT MAX(id_periodo) FROM periodi);
+
+                                INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
+                                VALUES (@idPeriodo, ?,?, @idEnte);
+
+                                `
+
+                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
+                connection.query(query, [id_user, lun,mar,mer,gio,ven,sab,dom, nomeEvento, numero_pertecipanti] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })
