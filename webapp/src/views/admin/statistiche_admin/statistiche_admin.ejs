@@ -13,9 +13,20 @@
 <body>
     <header-component-user page="admin_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Statistiche</h1>
+        <button id="update-statisticheAdmin-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Campo</th>
+                    <th scope="col">Valore</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/admin/statistiche_admin/statistiche_admin.js"></script>
 </body>
 </html>

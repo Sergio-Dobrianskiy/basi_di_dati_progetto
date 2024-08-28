@@ -11,11 +11,11 @@ function getCarteUtente() {
         fetch('http://localhost:5000/api/getCarteUtente/' + user[0]["id_user"])
             .then(response => response.json())
             // .then(response => console.log(JSON.stringify(response)))
-            .then(carte => loadCheckInTable(carte['data']));
+            .then(carte => loadStatisticheInTable(carte['data']));
     })
 }
 
-function loadCheckInTable(data) {
+function loadStatisticheInTable(data) {
     const table = document.querySelector('table tbody');
     if (! data || data.length == 0) {
         table.innerHTML = "<tr><td class='no-data' colspan='5'>No Data</td></tr>";

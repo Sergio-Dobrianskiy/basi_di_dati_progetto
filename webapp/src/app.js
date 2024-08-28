@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 console.log(__dirname)
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
+app.use('/img', express.static(path.join(__dirname, '../public/img')));
 // app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/js', express.static(path.join(__dirname, '/views')));
 app.use('/common', express.static(path.join(__dirname, '/common')));
