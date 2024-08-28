@@ -203,7 +203,8 @@ create table PERIODI (
      sabato tinyint not null default 0,
      domenica tinyint not null default 0,
      constraint IDPERIODI_ID primary key (id_periodo));
-INSERT INTO `citycarddb`.`periodi` (`id_periodo`, `lunedi`) VALUES ('1', '1');
+INSERT INTO `citycarddb`.`periodi` () VALUES (); -- ID 1 = non periodico
+INSERT INTO `citycarddb`.`periodi` (`lunedi`) VALUES ('1');
 
 
 create table RECENSIONI (

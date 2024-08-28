@@ -28,7 +28,7 @@ function loadUsersTable(data) {
         var inizio = new Date(evento['inizio_validita']).toLocaleDateString('en-GB');
         var fine = new Date(evento['fine_validita']).toLocaleDateString('en-GB');
         var partecipanti = evento['partecipanti'] == 1;
-        var periodico = id_periodo == 0 ? "Evento Singolo" : "Evento periodico";
+        var periodico = id_periodo == 1 ? "Evento Singolo" : "Evento periodico";
 
 
 
@@ -43,7 +43,7 @@ function loadUsersTable(data) {
         tableHtml += bottoneBannato;
         tableHtml += `</tr>`;
 
-        if (periodico != 0) {
+        if (id_periodo != 1) {
             var lunedi = evento["lunedi"] == "1"? "✔️" : "❌";
             var martedi = evento["martedi"] == "1"? "✔️" : "❌";
             var mercoledi = evento["mercoledi"] == "1"? "✔️" : "❌";

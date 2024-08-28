@@ -192,13 +192,25 @@ app.post('/api/associaEnte', (request, response) => {
         .catch(err => console.log(err));
 });
 
-app.post('/api/creazioneEvento', (request, response) => {
+app.post('/api/creazioneEventoPeriodico', (request, response) => {
     console.log(JSON.stringify(request.body))
     
     const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
     const db = dbService.getDbServiceInstance();
     
-    const result = db.creazioneEvento(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom);
+    const result = db.creazioneEventoPeriodico(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.post('/api/creazioneEventoNonPeriodico', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creazioneEventoNonPeriodico(id_user, nomeEvento, numero_pertecipanti);
 
     result
         .then(data => response.json({ data: data}))

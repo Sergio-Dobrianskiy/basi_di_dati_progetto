@@ -139,7 +139,8 @@ class DbService {
                                 on ev.id_ente = en.id_ente
                                 join periodi
                                 on periodi.id_periodo = ev.id_periodo
-                                where now() < ev.fine_validita;
+                                where now() < ev.fine_validita
+                                order by ev.inizio_validita DESC;
                                 `
                 
                 connection.query(query, (err, results) => {
@@ -1008,7 +1009,7 @@ class DbService {
 
 
     // trova l'ente associato all'utente e crea un'evento
-    async creazioneEvento(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom) {
+    async creazioneEventoPeriodico(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom) {
         console.log("Arrivati ", id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom)
 
         id_user = parseInt(id_user, 10); 
@@ -1033,6 +1034,37 @@ class DbService {
 
                 // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
                 connection.query(query, [id_user, lun,mar,mer,gio,ven,sab,dom, nomeEvento, numero_pertecipanti] , (err, result) => {
+                    if (err) reject(new Error(err.message));
+                    resolve(result);
+                })
+            });
+            console.log(response)
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    // trova l'ente associato all'utente e crea un'evento
+    async creazioneEventoNonPeriodico(id_user, nomeEvento, numero_pertecipanti) {
+        console.log("Arrivati ", id_user, nomeEvento, numero_pertecipanti)
+
+        id_user = parseInt(id_user, 10); 
+        numero_pertecipanti = parseInt(numero_pertecipanti, 10); 
+        try {
+            const response = await new Promise((resolve, reject) => {
+                const query = ` 
+                                set @idUser = ?;
+                                set @idEnte = ( select c.id_ente
+                                        from collaborazioni c
+                                        where c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+
+                                INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
+                                VALUES (1, ?,?, @idEnte);
+
+                                `
+
+                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
+                connection.query(query, [id_user, nomeEvento, numero_pertecipanti] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })

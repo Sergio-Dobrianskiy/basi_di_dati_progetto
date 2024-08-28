@@ -27,9 +27,18 @@
                             <input type="number" class="form-control" id="numero_pertecipanti" name="numero_pertecipanti" placeholder="Nome">                        
                             <label for="numero_pertecipanti" class="form-label">Numero massimo partecipanti</label>
                         </div>
-                        
+
                         <div class="form-floating">
                             <div class="form-check">
+                                
+                                <input type="checkbox" class="btn-check" id="btn-check-periodico" autocomplete="off">
+                                <label class="btn btn-outline-info w-50 p-1" for="btn-check-periodico">Si ripete</label><br>
+
+                            </div>
+                        </div>
+
+                        <div class="form-floating" >
+                            <div class="form-check" id="checkSettimana" style="display: none;">
                                 
                                 <input type="checkbox" class="btn-check" id="btn-check-outlined1" autocomplete="off">
                                 <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined1">Lunedì</label><br>
@@ -54,7 +63,7 @@
                             </div>
                         </div>
                         
-                        <button id="crea-evento-btn" type="submit" class="btn btn-primary ">Crea</button>
+                        <button id="crea-evento-btn" type="submit" class="btn btn-success">Crea</button>
                     </form>
                 </div>
             </div>
