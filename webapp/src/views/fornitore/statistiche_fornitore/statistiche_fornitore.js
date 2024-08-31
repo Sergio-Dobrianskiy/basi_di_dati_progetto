@@ -1,3 +1,4 @@
+getStatisticheFornitore();
 document.querySelector('#update-statisticheFornitore-btn').onclick = () => { getStatisticheFornitore() };
 
 function getStatisticheFornitore() {

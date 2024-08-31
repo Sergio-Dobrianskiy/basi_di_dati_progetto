@@ -88,21 +88,21 @@ class DbService {
                 FROM enti e
                 JOIN users u
                 on e.id_user = u.id_user
-                left JOIN (
-                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                LEFT JOIN (
+                    SELECT  s.id_ente as id_ente,  AVG(coalesce(votazione, 0)) as media_recensioni
                     FROM recensioni r
                     JOIN servizi s
                     on s.id_servizio = r.id_servizio
                     GROUP BY s.id_ente
                 ) as r
                 on r.id_ente = e.id_ente 
-                union
+            UNION
                 SELECT e.id_ente, e.nome as nome_ente, descrizione, e.indirizzo as indirizzo_ente, numero_telefono, e.id_user, u.nome as nome_user, cognome, email, cf, telefono, id_ruolo, media_recensioni
                 FROM enti e
                 JOIN users u
                 on e.id_user = u.id_user
-                right JOIN (
-                    SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+                RIGHT JOIN (
+                    SELECT  s.id_ente as id_ente,  AVG(coalesce(votazione, 0)) as media_recensioni
                     FROM recensioni r
                     JOIN servizi s
                     on s.id_servizio = r.id_servizio
@@ -253,7 +253,7 @@ class DbService {
         try {
             const response = await new Promise((resolve, reject) => {
 
-                const query = ` set @id_utente = 2;
+                const query = ` set @id_utente = ?;
                                 set @id_ente = ( SELECT c.id_ente
                                 FROM collaborazioni c
                                 WHERE c.id_user = @id_utente and c.fine_collaborazione is null limit 1);

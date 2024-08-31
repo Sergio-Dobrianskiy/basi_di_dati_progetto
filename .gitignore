@@ -1,2 +1,5 @@
 *.lun#
 node_modules
+*.log
+*.gz
+*.toc
