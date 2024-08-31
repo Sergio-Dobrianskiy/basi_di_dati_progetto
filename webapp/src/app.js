@@ -26,6 +26,7 @@ app.set('views', path.join(__dirname, 'views'));
 console.log(__dirname)
 app.use(express.static(path.join(__dirname, '../public')));
 app.use('/css', express.static(path.join(__dirname, '../public/css')));
+app.use('/img', express.static(path.join(__dirname, '../public/img')));
 // app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/js', express.static(path.join(__dirname, '/views')));
 app.use('/common', express.static(path.join(__dirname, '/common')));
@@ -55,10 +56,9 @@ app.use('/servizi', route);
 app.use('/fornitore_home', route);
 app.use('/associa_ente', route);
 app.use('/crea_ente', route);
+app.use('/crea_evento', route);
 app.use('/crea_servizio', route);
-app.use('/statistiche_eventi', route);
-app.use('/statistiche_saldo', route);
-app.use('/statistiche_servizi', route);
+app.use('/statistiche_fornitore', route);
 
 // ADMIN
 app.use('/admin_home', route);
@@ -77,6 +77,20 @@ app.post('/api/insert', (request, response) => {
         .then(data => response.json({ data: data}))
         .catch(err => console.log(err));
 });
+
+
+
+app.post('/api/resetRecensioni', (request, response) => {
+    const { id_ente } = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.resetRecensioni(id_ente);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 app.post('/api/vota', (request, response) => {
     const { id_user, voto, id_servizio } = request.body;
     const db = dbService.getDbServiceInstance();
@@ -178,6 +192,31 @@ app.post('/api/associaEnte', (request, response) => {
         .catch(err => console.log(err));
 });
 
+app.post('/api/creazioneEventoPeriodico', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creazioneEventoPeriodico(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+app.post('/api/creazioneEventoNonPeriodico', (request, response) => {
+    console.log(JSON.stringify(request.body))
+    
+    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const db = dbService.getDbServiceInstance();
+    
+    const result = db.creazioneEventoNonPeriodico(id_user, nomeEvento, numero_pertecipanti);
+
+    result
+        .then(data => response.json({ data: data}))
+        .catch(err => console.log(err));
+});
+
 // TODO : vedere se spostare in PATCH
 app.post('/api/edit_user', (request, response) => {
     const { id_user, username, nome, cognome, email, password, indirizzo, telefono , cf } = request.body;
@@ -242,6 +281,23 @@ app.get('/api/getUsers', (request, response) => {
         .catch(err => console.log(err));
 })
 
+app.get('/api/getStatAdmin', (request, response) => {
+    const db = dbService.getDbServiceInstance();
+    const result = db.getStatAdmin();
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
+app.get('/api/getStatisticheFornitore/:id_user', (request, response) => {
+    const { id_user } = request.params;
+    const db = dbService.getDbServiceInstance();
+    const result = db.getStatisticheFornitore(id_user);
+    result
+        .then(data => response.json({data : data}))
+        .catch(err => console.log(err));
+})
+
 app.get('/api/getEnti', (request, response) => {
     const db = dbService.getDbServiceInstance();
     const result = db.getEnti();
@@ -257,6 +313,7 @@ app.get('/api/getServizi/:id_user', (request, response) => {
         .then(data => response.json({data : data}))
         .catch(err => console.log(err));
 })
+
 app.get('/api/getAcquisti/:id_user', (request, response) => {
     const { id_user } = request.params;
     const db = dbService.getDbServiceInstance();

@@ -1,0 +1,83 @@
+In questa fase esponiamo una tabella delle operazioni utilizzate per costituire una stima delle principali operazioni richieste dal sito. 
+
+
+
+\begingroup % localize the following settings  
+\setlength{\arrayrulewidth}{0.5mm}
+\renewcommand{\arraystretch}{1.5}
+
+
+\begin{longtblr}
+[
+  caption = {Operazioni comuni},
+  label = {tab:Operazioni richieste da cliente},
+]{
+  colspec = {|X[1]X[8]X[3]X[1]X[8]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {ColdPurple},
+} 
+Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+0.1 & Accedere tramite login & \num{50} & I & Login dell'account \\ 
+0.2 & Registrarsi alla piattaforma & \num{100} & I & x Registrazione al sito\\ 
+\end{longtblr}
+
+
+\begin{longtblr}
+[
+  caption = {Operazioni richieste da cliente},
+  label = {tab:Operazioni richieste da cliente},
+]{
+  colspec = {|X[1]X[8]X[3]X[1]X[8]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {ColdPurple},
+} 
+Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+1 & Acquistare un servizio & \num{100} & I & Il cliente può acquistare un servizio \\ 
+2 & Lasciare una recensione riguardo un servizio acquistato & \num{70} & I & Il cliente rilascia una votazione \\ 
+3 & Consultare la lista degli acquisti fatti & \num{80} & B & Consulta una lista \\ 
+4 & Prenotare un evento & \num{100} & I & Chiede all'applicativo una disponibilità di eventi 
+
+\end{longtblr}
+% I = Interattiva
+% B = Batch
+\begin{longtblr}
+[
+  caption = {Operazioni richieste fornitore},
+  label = {tab:Operazioni richieste fornitore},
+]{
+  colspec = {|X[1]X[8]X[3]X[1]X[8]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+5 & Creare servizi & \num{5}/giorno & I & Il fornitore va a creare servizi\\
+6 & Creare eventi & \mum{5} & I & Il fornitore crea eventi \\ 
+7 & Consultare statistiche  & \num{50} & B & Il fornitore va a consultare una tabella contenente i dati\\ 
+8 & Consultare il saldo & \num{50} & B & Il fornitore può consultare il saldo degli acquisti fatti dai clienti \\ 
+x & x & x & x & x \\
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Operazioni richieste amministratore},
+  label = {tab:Operazioni richieste amministratore},
+]{
+  colspec = {|X[1]X[8]X[3]X[1]X[8]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {CornflowerBlue},
+} 
+Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+9 & Bannare tutti i tipi di account & \num{50} & I & L'admin può interdire l'accesso alla piattaforma \\ 
+10 & Reset delle recensioni 6 \num{30} & I Può cancellare le recensioni \\
+11 & Consultare la lista degli enti & \num{50} & B & Può consultare la lista degli enti registrati \\
+\end{longtblr}
+
+\endgroup

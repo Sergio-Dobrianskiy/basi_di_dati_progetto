@@ -195,8 +195,6 @@ INSERT INTO `citycarddb`.`partecipazioni` (`id_partecipazione`, `data_registrazi
 
 create table PERIODI (
      id_periodo int not null auto_increment,
-     ripeti_ogni int not null,
-     periodo varchar(30) not null,
      lunedi tinyint not null default 0,
      martedi tinyint not null default 0,
      mercoledi tinyint not null default 0,
@@ -205,7 +203,8 @@ create table PERIODI (
      sabato tinyint not null default 0,
      domenica tinyint not null default 0,
      constraint IDPERIODI_ID primary key (id_periodo));
-INSERT INTO `citycarddb`.`periodi` (`id_periodo`, `ripeti_ogni`, `periodo`, `lunedi`) VALUES ('1', '1', '1', '1');
+INSERT INTO `citycarddb`.`periodi` () VALUES (); -- ID 1 = non periodico
+INSERT INTO `citycarddb`.`periodi` (`lunedi`) VALUES ('1');
 
 
 create table RECENSIONI (

@@ -1,0 +1,156 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[dvipsnames]{xcolor}
+\usepackage{changepage} % required for adjustwidth
+\usepackage{soul} % required for \ul, underline doesn't wrap
+\usepackage{color, colortbl}
+\usepackage{longtable}
+\usepackage{tabu}
+\usepackage{tabularray}
+\usepackage{siunitx}  % required for \num 
+\usepackage{enumitem}% http://ctan.org/pkg/enumitem
+\usepackage{fmtcount}
+\usepackage{listings}
+\usepackage{pifont,amssymb} % for the symbols
+% \usepackage[shortlabels]{enumitem}
+\graphicspath{ {./images/} }
+% le prossime 4 righe rendono doc cartella default per input
+% \makeatletter
+% \providecommand*{\input@path}{}
+% \edef\input@path{{./doc/}\input@path}% prepend
+% \makeatother
+
+\def\indent1{0.3cm}
+\newcommand{\speciale}[1]{\textbf{\textcolor{blue}{\ul{#1}}}}
+\newcommand{\specialeb}[1]{\textit{\textcolor{ForestGreen}{#1}}}
+
+
+	
+\definecolor{Gray}{gray}{0.9}
+\definecolor{PaleGreen}{RGB}{152,251,152}
+\definecolor{SkyBlue}{RGB}{135,206,235}
+\definecolor{PaleTurquoise}{RGB}{179,238,238}
+\definecolor{MediumAquamarine}{RGB}{102,205,170}
+\definecolor{ColdPurple}{RGB}{171, 160, 217}
+\definecolor{LightCoral}{RGB}{240, 128, 128}
+\definecolor{CornflowerBlue}{RGB}{100, 149, 237}
+\definecolor{PalePink}{RGB}{253, 215, 244}
+
+\newlist{answerlist}{enumerate}{2}
+\setlist[answerlist]{label={\alph*.\makebox[0pt][r]{\noexpand\emptysquare\hspace{2em}}},ref=\alph*}
+
+\newcommand{\emptysquare}{$\square$}
+\newcommand{\checkedsquare}{\makebox[0pt][l]{\raisebox{1pt}[0pt][0pt]{\large\hspace{1pt}\cmark}}$\square$}
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\correctanswer}{{\renewcommand{\emptysquare}{\checkedsquare}\item\leavevmode}}
+
+
+% https://erd.dbdesigner.net/designer/schema/1721817964-basi-di-dati
+
+%%%%%%%%%%%%%%%%%
+% DOC BEGINS HERE
+%%%%%%%%%%%%%%%%%
+
+\title{Relazione Basi di Dati}
+\author{
+  Dobrianskiy, Sergio \\
+  \texttt{sergio.dobrianskiy@studio.unibo.it}\\
+  \texttt{0001019553}
+  \and
+  Rigato, Valentina\\
+  \texttt{valentina.rigato@studio.unibo.it}\\
+  \texttt{0001027266}
+}
+\date{01 Marzo 2024}
+
+\begin{document} 
+\maketitle
+\includegraphics[width=0.95\columnwidth]{CesenaCard2.png}
+\newpage
+
+\paragraph{Esempio}
+
+\newpage
+
+\tableofcontents
+\clearpage
+
+\section{Introduzione}
+% include usa automaticamente dei clearpage, a noi interessa input.
+% conviene usare input? 
+\input{doc/1_Introduzione}
+
+
+\section{Analisi dei requisiti}
+
+\subsection{Requisiti in linguaggio naturale}
+\input{doc/2_1_Requisiti_in_linguaggio_naturale}
+
+\subsection{Estrazione dei concetti fondamentali}
+\input{doc/2_2_Estrazione_dei_concetti_fondamentali}
+
+\subsection{Schema Iniziale}
+\input{doc/2_3_Schema_iniziale}
+
+
+% \subsection{Schema finale} % Eviterei
+%\section{Progettazione Concettuale}
+\subsection{Schema scheletro prima delle correzioni}
+\input{doc/3_1_Schema_Scheletro}
+
+
+\section{Progettazione Logica}
+
+\subsection{Stima del volume dei dati}
+\input{doc/4_1_Stima_del_volume_dei_dati}
+
+\subsection{Operazioni richieste e la loro frequenza}
+\input{doc/4_2_Operazioni_richieste_e_la_loro_frequenza}
+
+% \subsection{Schemi di navigazione}
+% \input{doc/4_3_Schemi_di_navigazione}
+
+\subsection{Frequenza e costo degli accessi}
+
+\subsection{Analisi delle ridondanze}
+\input{doc/4_4_Analisi_delle_ridondanze}
+% \subsection{Trasformazioni dello schema concettuale}
+% \subsection{Il progetto logico per il modello relazionale}
+ \subsection{Traduzioni delle operazioni in Query SQL}
+ \input{doc/4_8_Traduzioni_delle_operazioni_in_query_SQL}
+ 
+ \section{Progetto dello schema concettuale}
+ \input{doc/3_Progetto_dello_schema_concettuale}
+
+% \section{Specifiche funzionali}
+% %TODO: al momento è nella sezione 2.2, spostarla?
+% % \subsection{Analisi delle funzionalità richieste}
+% \subsection{Raffinamento dello schema}
+% \input{doc/5_Raffinamento_dello_schema}
+% \section{Il progetto fisico}
+% \subsection{Indicizzazione degli attributi}
+% \subsection{Ordinamento su attributi}
+
+% \section{Traduzione delle entità}
+% \input{doc/Traduzione_entita}
+% \section{Traduzione delle associazioni}
+% \input{doc/Traduzione_associazioni}
+% \section{Interfaccia utente}
+% \input{doc/7_Interfaccia_utente}
+% \subsection{L'amministratore}
+% \input{doc/7_1_L'amministratore}
+% \subsection{Il fornitore}
+% \input{doc/7_2_Il_fornitore}
+% \subsection{Il cliente}
+% \input{doc/7_3_Il_cliente}
+
+
+% \section{ESEMPI}
+% \begin{enumerate}
+%     \item
+%     \item
+%     \item
+% \end{enumerate}
+
+
+\end{document}

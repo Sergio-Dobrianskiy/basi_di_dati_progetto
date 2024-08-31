@@ -17,9 +17,7 @@ function activateIfAssociated(data) {
         document.querySelector('#associa_ente').innerHTML = "Ente associato"
         document.querySelector('#crea_evento').classList.remove("disabled")
         document.querySelector('#crea_servizio').classList.remove("disabled")
-        document.querySelector('#statistiche_eventi').classList.remove("disabled")
-        document.querySelector('#statistiche_saldo').classList.remove("disabled")
-        document.querySelector('#statistiche_servizi').classList.remove("disabled")
+        document.querySelector('#statistiche_fornitore').classList.remove("disabled")
 
         // getActiveSubscription()
     }

@@ -20,10 +20,50 @@
                 <div class="card-body">
                     <form>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="nome_ente" name="nome_ente" placeholder="Nome">                        
-                            <label for="nome_ente" class="form-label">Nome ente</label>
+                            <input type="text" class="form-control" id="nome_evento" name="nome_evento" placeholder="Nome Evento">                        
+                            <label for="nome_evento" class="form-label">Nome Evento</label>
                         </div>
-                        <button id="button_search_ente" type="submit" class="btn btn-primary">Cerca</button>
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="numero_pertecipanti" name="numero_pertecipanti" placeholder="Nome">                        
+                            <label for="numero_pertecipanti" class="form-label">Numero massimo partecipanti</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <div class="form-check">
+                                
+                                <input type="checkbox" class="btn-check" id="btn-check-periodico" autocomplete="off">
+                                <label class="btn btn-outline-info w-50 p-1" for="btn-check-periodico">Si ripete</label><br>
+
+                            </div>
+                        </div>
+
+                        <div class="form-floating" >
+                            <div class="form-check" id="checkSettimana" style="display: none;">
+                                
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined1" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined1">Lunedì</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined2" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50" for="btn-check-outlined2">Martedì</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined3" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined3">Mercoledì</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined4" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined4">Giovedì</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined5" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined5">Venerdì</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined6" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined6">Sabato</label><br>
+
+                                <input type="checkbox" class="btn-check" id="btn-check-outlined7" autocomplete="off">
+                                <label class="btn btn-outline-primary w-50 p-1" for="btn-check-outlined7">Domenica</label><br>
+                            </div>
+                        </div>
+                        
+                        <button id="crea-evento-btn" type="submit" class="btn btn-success">Crea</button>
                     </form>
                 </div>
             </div>

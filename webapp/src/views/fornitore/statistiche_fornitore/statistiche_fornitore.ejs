@@ -13,9 +13,35 @@
 <body>
     <header-component-user page="fornitore_home" name="segnaposto"></header-component-user>
     <main>
-        segnaposto
+        <h1>Statistiche Fornitore</h1>
+        <button id="update-statisticheFornitore-btn" class="btn btn-primary">Aggiorna</button>
+        <table class="table table-striped" id="table">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Campo</th>
+                    <th scope="col">Valore</th>
+                </tr>
+                
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="campo1"></td>
+                    <td id="valore1"></td>
+                </tr>
+                <tr>
+                    <td id="campo2"></td>
+                    <td id="valore2"></td>
+                </tr>
+                <tr>
+                    <td id="campo3"></td>
+                    <td id="valore3"></td>
+                </tr>
+
+            </tbody>
+        </table>
     </main>
     <script src="components/header_component_user.js"></script>
     <script src="js/common/utility.js"></script>
+    <script src="js/fornitore/statistiche_fornitore/statistiche_fornitore.js"></script>
 </body>
 </html>

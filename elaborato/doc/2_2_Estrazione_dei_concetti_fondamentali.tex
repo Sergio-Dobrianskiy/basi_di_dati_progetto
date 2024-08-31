@@ -1,0 +1,230 @@
+\subsubsection{Entità e Attributi}
+Lo schema va analizzato per individuarne le parole e le espressioni chiave, con queste verrà realizzato un primo schema riassuntivo che verrà raffinato in seguito. I termini di rilievo appaiono nel testo con un colore diverso:
+
+\begin{adjustwidth}{\indent1}{\indent1}
+"La software house CityNet© richiede un sistema informativo per la gestione del servizio \speciale{CityCard} che consenta agli utenti di acquistare \speciale{abbonamenti} e accedere a \speciale{servizi} ed \speciale{eventi} forniti da enti affiliati. CityCard può essere emessa sia in formato fisico che virtuale (online) e ha una durata di 5 anni, l'emissione della carta è gratuita e ogni utente ne può avere attiva al massimo una.
+
+Gli abbonamenti disponibili con CityCard si suddividono in tre \speciale{tipologie}, ciascuna con una durata e un prezzo specifici. L'abbonamento permette agli utenti di acquistare servizi o prenotare eventi forniti dagli \speciale{enti} partner con uno sconto che varia dalla durata dell'abbonamento.
+
+Il servizio deve essere fornito su un \speciale{sito} al quale l'\speciale{utente} si deve registrare.
+
+Gli utenti si suddividono in tre categorie: \speciale{cliente}, \speciale{fornitore} e \speciale{admin} o amministratore. Una persona può creare più di un account.
+
+Gli enti sono gestiti da utenti di tipo "fornitore", i quali, una volta associati a un ente, hanno la possibilità di creare nuovi servizi o eventi. 
+
+Al primo login gli utenti di tipo "cliente" possono solamente ottenere una CityCard e gestire le carte di credito. Dopo l'attivazione potranno accedere anche alla sezione abbonamenti. Una volta sottoscritto all'abbonamento potranno accedere a tutti i servizi.
+
+I clienti potranno aggiungere più di una \speciale{carta di credito} e renderne una predefinita per i pagamenti.
+
+I clienti possono acquistare i servizi forniti utilizzando la carta di credito predefinita e godendo dello \speciale{sconto} già nominato in precedenza. Inoltre la CityCard permette di partecipare agli eventi gratuiti e di usufruire gratuitamente del trasporto pubblico. I clienti, inoltre, avranno la possibilità di lasciare una \speciale{recensione} sul servizio acquistato o sull'evento a cui ha partecipato.
+
+L'utente di tipo "admin" ha la facoltà di \speciale{bannare} gli altri utenti. I clienti, invece, possono acquistare i servizi offerti e prenotare eventi attraverso il sistema.
+
+Il sistema dovrà essere progettato per garantire una gestione efficace delle diverse funzionalità descritte, assicurando un'esperienza utente intuitiva e fluida per tutte le tipologie di utenti."
+\end{adjustwidth}
+\medskip
+La descrizione del prodotto è già abbastanza chiara, ma presenta alcune entità che vengono nominate più di una volta usando dei sinonimi, sarà quindi importante chiarire che si sta parlando sempre della stessa entità e non confondersi. 
+
+
+
+%TODO TABELLA SINONIMI%
+%TODO Rivedere larghezza colonne%
+%IDEA: segnare in un altro stile attributi%
+\begingroup % localize the following settings      
+\setlength{\arrayrulewidth}{0.5mm}
+\renewcommand{\arraystretch}{1.5}
+ \rowcolors{2}{PaleTurquoise}{white}
+\begin{longtblr}
+[
+  caption = {Estrazione delle entità principali},
+  label = {tab:Estrazione delle entità principali},
+]{
+  colspec = {|XXX[2]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {PaleTurquoise},
+  row{1} = {SkyBlue},
+} 
+Termine & Sinonimi usati & Descrizione\\
+CityCard & Carta servizi & x Tessera che permette l'acquisto di un abbonamento\\
+Clienti & Visitatori & Persone che usufruiscono di servizi offerti da un ente\\
+Fornitori & Venditore, rifornitore & Persone che, per conto di terzi, fornisce servizi per la clientela \\
+Admin & Amministratore & Persona responsabile della gestione del sito \\
+Servizi & Attività, prestazioni & Operazioni svolte per soddisfare le esigenze dei clienti \\
+Abbonamento & Sottoscrizione & Contratto che prevede un pagamento una tantum per poter accedere ai servizi\\
+Ente & Associato & Un'azienda o un'entità con accordi per offrire servizi \\
+Eventi & Incontri & Attività organizzate per riunire persone in occasione specifiche \\
+Recensioni & Valutazioni & Commenti o giudizi espressi dai clienti su servizi \\
+Sconto & Riduzione & Ribasso del prezzo originale di un prodotto o servizio.\\
+\end{longtblr}
+
+
+Lo schema concettuale nella sua versione finale si avvarrà delle seguenti entità e associazioni:
+
+
+
+
+\begin{longtblr}
+[
+  caption = {Entità e associazioni},
+  label = {tab:Entità e associazioni},
+]{
+  colspec = {|XXX[2]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {PalePink},
+  row{1} = {pink},
+} 
+Nome & Tipo & Descrizione\\
+Utente & E & Possessore di un account \\
+Servizio & E & Attività messa a disposizione da un fornitore \\
+Ente & E & Associazioni che forniscono servizi (es. Musei) \\
+Evento & E & Avvenimento gratuito con o senza prenotazione \\
+Cliente & E & Colui che potrà usufruire di servizi \\
+Fornitore & E & Erogatore servizi o eventi \\
+Transazione & A & Acquisto di un servizio \\
+Recensione & E & Valutazione di un servizio, evento o fornitore \\
+Carta di credito & E & Mezzo con il quale si effettua la transazione \\
+Possiede City Card & A & Lega l'utente alla city card a lui assegnata \\
+Possiede Carta Credito & A & Lega l'utente alla sua carta di credito \\
+Abbonamento & E & Permette l'utilizzo del trasporto pubblico \\
+Organizza & A & Attività che lega il fornitore all'utente garantendo servizi o eventi \\
+Lavora & A & Indica per quale/i ente/i collabora il fornitore  \\
+Admin & E & Utente che ha il controllo della piattaforma \\
+Partecipa & A & I clienti partecipano agli eventi \\
+Sottoscrive & A & Attività di un utente che si "abbona" ad uno o più fornitori per seguire le novità \\
+% TODO: Aggiungere allo schema ABBONA
+Abbona & A & Un cliente si abbona ad un abbonamento \\
+CityCard & E & Carta che permette di usufruire dei servizi \\
+% TODO: Aggiungere allo schema COMITIVA
+% TODO: Aggiungere allo schema RAGGRUPPA
+Percentuale sconto  & A & L'esatto importo di riduzione di prezzo\\
+Sconti & E & Riduzione di prezzo di un servizio \\
+Prenotazione & A & Attività che lega un utente e uno o più eventi laddove è necessaria confermare la propria presenza\\
+*Trasporti pubblici*  & E & Lista dei trasporti da interrogare \\
+Viaggia & A &  Lista utilizzi CityCard 
+\end{longtblr}
+
+
+%%%% TABELLA ATTRIBUTI%%%
+%%%% TABELLA ATTRIBUTI%%%
+
+% \setlength{\arrayrulewidth}{0.5mm}
+% \renewcommand{\arraystretch}{1.5}
+%  \rowcolors{2}{PaleGreen}{white}
+
+\endgroup
+%TODO: decidere e in caso aggiungere una descrizione estesa di tutte le entità e attributi
+\subsubsection{Analisi dettagliata di entità e attributi}
+
+\textbf{Utente:} L'utente sarà l'utilizzatore generico del servizio e al database al quale sarà appoggiato. 
+Ogni utente dovrà appartenere ad una delle seguenti categorie. 
+\begin{itemize}
+    \item Cliente: può visionare e comprare i servizi offerti
+    \item Fornitore: può creare e offrire servizi
+    \item Admin: ha accesso totale al database e può compiere azioni necessarie per la moderazione e la manutenzione del sistema.
+\end{itemize}
+Le informazioni minime associate a ciascun utente saranno: 
+\begin{itemize}
+    \item Nome
+    \item Cognome
+    \item Codice fiscale
+    \item email
+\end{itemize}
+
+\textbf{Ente:} L'ente sarà l'azienda partner che metterà a disposizione i suoi servizi e gli eventi organizzati in favore dei clienti.
+Le informazioni minime associate a ciascun ente saranno:
+\begin{itemize}
+    \item Nome
+    \item Descrizione dell'ente
+    \item La data di creazione
+\end{itemize}
+
+\textbf{Servizio:} Il servizio è la macro area che il fornitore mette a disposizione nella piattaforma.
+Un servizio avrà queste caratteristiche.
+\begin{itemize}
+    \item Fornitore: sarà l'ente che creerà il servizio
+\end{itemize}
+
+\textbf{Evento:} Con evento si intende l'attività specifica all'interno del servizio. Ad esempio, si può acquistare
+\begin{itemize}
+    \item Prezzo: il costo per poterne usufruire
+    \item Data di validità: data in cui potrà usufruire dell'evento o il range di date disponibili
+\end{itemize}
+
+\textbf{Abbonamento:} L'abbonamento è una sottoscrizione tramite la quale il cliente potrà accedere alla lista eventi e a quella dei servizi per poterli prenotare o acquistare. Ci sono tre tipi di abbonamento tra cui scegliere, tutte con una durata e un prezzo specifico.
+Un abbonamento avrà le seguenti caratteristiche:
+\begin{itemize}
+    \item Descrizione del tipo di abbonamento
+    \item Prezzo
+    \item Periodo di validità
+\end{itemize}
+
+\textbf{CityCard:} La CityCard è una tessera fisica o virtuale che permette la sottoscrizione di un abbonamento.
+Un utente può avere solo una CityCard alla volta ed avrà la durata massima di 5 anni.
+Una CityCard avrà le seguenti caratteristiche:
+\begin{itemize}
+    \item Data di emissione
+    \item Data di scadenza
+    \item Numero identificativo della tessera
+\end{itemize}
+
+\textbf{Ban di un utente:} La possibilità di bannare un utente è prerogativa dell'admin che, a sua discrezione, può intercedere un utente dall'utilizzo della piattaforma. Se l'utente viene bannato non gli è più possibile fare il login.
+Caratteristiche di questa associazione:
+\begin{itemize}
+    \item Essere un admin
+    \item Il cliente e il fornitore hanno un attributo booleano "bannato" il cui valore cambia in base allo stato in cui si trova (attivo o disattivato).
+\end{itemize}
+
+\textbf{Carta di credito:}La carta di credito è lo strumento con la quale si può acquistare un abbonamento, ogni cliente può avere più carte di credito associate al suo account ma solo una può essere predefinita per gli acquisti.
+Le caratteristiche della carta di credito sono le seguenti:
+\begin{itemize}
+    \item Numero della carta di credito
+    \item Mese e anno di scadenza
+    \item La data di scadenza
+    \item Un attributo che chiarisce quale carta di credito è quella di default
+\end{itemize}
+
+
+%TODO: mettiamo solo le principali o tutte, ad esempio serve login per tutti gli account o calcoliamo solamente per l'utente normale
+
+
+\vspace{0.5cm}
+\subsubsection{Funzionalità richieste dall'applicativo}
+Di seguito un elenco delle funzionalità richieste per l'\ul{cliente}:
+\begin{enumerate}[label=c\arabic*)]
+    \item Richiedere una CityCard
+    \item Sottoscrivere un abbonamento per una CityCard
+    \item Aggiungere carte di credito al proprio account
+    \item Rendere predefinita una carta di credito
+    \item Acquistare un servizio
+    \item Prenotare un evento
+    \item Lasciare rating ai servizi acquistati (1-5 stelle)
+    \item Effettuare checkin per il mezzo di trasporto scelto
+\end{enumerate}
+
+Di seguito un elenco delle funzionalità richieste per un \ul{amministratore}:
+\begin{enumerate}[label=a\arabic*)]
+    \item Visualizzare lista utenti
+    \item Bannare tutti i tipi di account
+    \item Cancellare enti
+    \item Resettare recensioni di un ente
+    \item Consultare le statistiche
+\end{enumerate}
+
+\vspace{0.5cm}
+
+%TODO: mettiamo solo le principali o tutte, ad esempio serve login per tutti gli account o calcoliamo solamente per l'utente normale
+Di seguito un elenco delle funzionalità richieste per un \ul{fornitore}: 
+\begin{enumerate}[label=b\arabic*)]
+    \item Creare enti
+    \item Associasi a un ente
+    \item Creare servizi
+    \item Creare eventi
+    \item Consultare statistiche riguardo l'ente al quale è associato 
+    \item Consultare il saldo
+    
+\end{enumerate}
+
+
+%Lo schema dell'applicativo potrà risultare un po' vasto da qui la nostra scelta di illustrare le varie entità volta per volta.
