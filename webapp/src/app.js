@@ -55,6 +55,7 @@ app.use('/servizi', route);
 //FORNITORE
 app.use('/fornitore_home', route);
 app.use('/associa_ente', route);
+app.use('/crea_ente', route);
 app.use('/crea_evento', route);
 app.use('/crea_servizio', route);
 app.use('/statistiche_fornitore', route);
