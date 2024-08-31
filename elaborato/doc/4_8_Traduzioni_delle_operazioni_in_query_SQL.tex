@@ -1,0 +1,466 @@
+In questa sezione tradurremo tutte le singole operazioni elementari che abbiamo finora analizzato solo
+attraverso gli schemi di navigazione dell’E/R in vere e proprie query in linguaggio SQL. 
+Da notare che per facilitare lo dell'applicazione web alcune query sono multiple e di conseguenza è stata posta l'opzione multipleStatements.
+
+\\
+\subsubsection{Recuperare tutti gli utenti}
+\begin{lstlisting}
+    SELECT id_user, nome, cognome, email, bannato, descrizione_ruolo as ruolo
+    FROM users u
+    JOIN ruoli r 
+    on u.id_ruolo = r.id_ruolo;
+\end{lstlisting}
+
+\subsubsection{Recuperare tutti gli enti con e senza recensioni}
+seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c'è una media, i due JOIN imitano una FULL JOIN .
+\begin{lstlisting}
+    SELECT e.id_ente, e.nome as nome_ente, descrizione, e.indirizzo as indirizzo_ente, numero_telefono, e.id_user, u.nome as nome_user, cognome, email, cf, telefono, id_ruolo, media_recensioni
+    FROM enti e
+    JOIN users u
+    on e.id_user = u.id_user
+    left JOIN (
+        SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+        FROM recensioni r
+        JOIN servizi s
+        on s.id_servizio = r.id_servizio
+        GROUP BY s.id_ente
+    ) as r
+    on r.id_ente = e.id_ente 
+    union
+    SELECT e.id_ente, e.nome as nome_ente, descrizione, e.indirizzo as indirizzo_ente, numero_telefono, e.id_user, u.nome as nome_user, cognome, email, cf, telefono, id_ruolo, media_recensioni
+    FROM enti e
+    JOIN users u
+    on e.id_user = u.id_user
+    right JOIN (
+        SELECT  s.id_ente as id_ente,  avg(coalesce(votazione, 0)) as media_recensioni
+        FROM recensioni r
+        JOIN servizi s
+        on s.id_servizio = r.id_servizio
+        GROUP BY s.id_ente
+    ) as r
+    on r.id_ente = e.id_ente
+\end{lstlisting}
+
+
+\subsubsection{Recupero lista eventi}
+\begin{lstlisting}
+    SELECT ev.*, en.nome as organizzatore, periodi.*
+    FROM eventi ev
+    JOIN enti en
+    on ev.id_ente = en.id_ente
+    JOIN periodi
+    on periodi.id_periodo = ev.id_periodo
+    WHERE now() < ev.fine_validita
+    ORDER BY ev.inizio_validita DESC;
+\end{lstlisting}
+
+\subsubsection{Recupero lista servizi}
+\begin{lstlisting}
+    set @id_user = ?;     
+    set @cityCard = ( SELECT id_city_card
+            FROM city_card
+            WHERE id_user = @id_user and data_scadenza > now());
+    set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                FROM sconti 
+                JOIN listino_abbonamenti ls 
+                on sconti.id_sconto = ls.id_sconto
+                JOIN sottoscrizioni_abbonamento sa
+                on  ls.id_sconto = sa.id_listino_abbonamento
+                WHERE sa.id_city_card = @cityCard);
+    SELECT se.*, en.nome as organizzatore, se.prezzo_servizio * @percentToPay as prezzo_scontato
+            FROM servizi se
+            JOIN enti en
+            on se.id_ente = en.id_ente
+            WHERE now() < se.fine_validita;
+\end{lstlisting}
+
+\subsubsection{Recupero acquisti di un utente}
+\begin{lstlisting}
+    SELECT sa.data_acquisto, sa.prezzo_pagato, cc.id_city_card, sa.num_carta_credito, servizi.descrizione_servizio as nome_servizio, u.id_user, sa.id_servizio
+    FROM servizi_acquistati sa
+    JOIN city_card cc
+    on cc.id_city_card = sa.id_city_card
+    JOIN users u
+    on u.id_user = cc.id_user
+    JOIN servizi
+    on servizi.id_servizio = sa.id_servizio
+    WHERE cc.data_scadenza>now() and cc.id_user = ?
+    ORDER BY sa.data_acquisto DESC;
+\end{lstlisting}
+
+
+
+\subsubsection{Reitorna statistiche amministratore}
+Uso le variabili per rendere più leggibili le query e le unisco in un unico select per rendere l'inserimento in tabello più semplice. 
+\begin{lstlisting}
+    INSERT INTO users (username, nome, cognome, email,
+    password, id_ruolo, data_creazione) 
+    VALUES (SET @numeroCheckin = (SELECT count(coalesce(id_check,0)) FROM checks);
+    SET @numeroCheckinFalliti = (SELECT count(coalesce(id_check,0)) FROM checks WHERE id_check != 1);
+    SET @numeroCityCardAttive = (SELECT count(coalesce(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
+    SET @numeroEventiAttivi = (SELECT count(coalesce(id_evento,0)) FROM eventi WHERE fine_validita > now());
+    SET @numeroServiziAttivi = (SELECT count(coalesce(id_servizio,0)) FROM servizi WHERE fine_validita > now());
+
+    SELECT 
+        @numeroCheckin as numero_checkin,
+        @numeroCheckinFalliti as numeroCheckinFalliti,
+        @numeroCityCardAttive as numeroCityCardAttive,
+        @numeroEventiAttivi as numeroEventiAttivi,
+        @numeroServiziAttivi as numeroServiziAttivi);
+\end{lstlisting}
+
+
+
+
+
+\subsubsection{Recupero statistiche fornitore}
+\begin{lstlisting}
+    set @id_utente = 2;
+    set @id_ente = ( SELECT c.id_ente
+    FROM collaborazioni c
+    WHERE c.id_user = @id_utente and c.fine_collaborazione is null limit 1);
+    
+    SET @saldo = (SELECT saldo FROM enti WHERE id_ente = @id_ente);
+    SET @numeroEventiAttivi = (SELECT count(coalesce(id_evento,0)) FROM eventi WHERE fine_validita > now() and id_ente = @id_ente);
+    SET @numeroServiziAttivi = (SELECT count(coalesce(id_servizio,0)) FROM servizi WHERE fine_validita > now() and id_ente = @id_ente);
+
+
+    SELECT  
+        ifnull(@saldo,0) as saldo,
+        @numeroEventiAttivi as numeroEventiAttivi,
+        @numeroServiziAttivi as numeroServiziAttivi;
+\end{lstlisting}
+
+
+
+
+\subsubsection{Recupero listino abbonamenti}
+\begin{lstlisting}
+    SELECT l.*, s.percentuale_sconto
+    FROM listino_abbonamenti l
+    JOIN sconti s
+    on l.id_sconto = s.id_sconto
+    WHERE l.data_disattivazione is null or l.data_disattivazione < now();
+\end{lstlisting}
+
+
+\subsubsection{Creazione nuovo ente}
+\begin{lstlisting}
+    INSERT INTO enti (nome, descrizione, indirizzo, numero_telefono, id_user) 
+    VALUES (?, ?, ?, ?,  ?);
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+\subsubsection{Inserimento voto utente}
+Dato che un utente può avere una recensione per servizio cancello la inserisco il voto nuovo, calcolo la media, la inserisco nel servizio.
+\begin{lstlisting}
+    SET @idUser = ?;
+    SET @idServizio = ?;
+    
+    DELETE 
+    FROM recensioni 
+    WHERE id_user = @idUser and id_servizio = @idServizio;
+    
+    insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
+    
+    SET @media = (SELECT AVG(votazione) 
+        FROM recensioni 
+        WHERE id_user = @idUser and id_servizio = @idServizio);
+    
+    UPDATE servizi
+    SET media_recensioni = @media
+    WHERE id_servizio = @idServizio;
+\end{lstlisting}
+
+
+
+\subsubsection{Reset recensioni di un ente}
+Reset di tutte le recensioni riguardanti un ente
+\begin{lstlisting}
+    SET @id_ente = ?;
+
+    DELETE recensioni 
+    FROM recensioni
+    JOIN servizi s
+    on s.id_servizio = recensioni.id_servizio
+    WHERE s.id_ente = @id_ente;
+
+    UPDATE servizi s
+    SET media_recensioni = null
+    WHERE s.id_ente = @id_ente;
+\end{lstlisting}
+
+
+
+
+\subsubsection{Creazione servizio}
+Crea un servizio, "LIMIT 1" non dovrebbe servire in quanto un fornitore può essere
+associato con solo un ente ma protegge da possibili errori come una doppia scrittura dello stesso record
+\begin{lstlisting}
+    INSERT INTO servizi (descrizione_servizio, indirizzo_servizio, id_ente, prezzo_servizio) 
+    VALUES (?, ?, 
+        ( SELECT c.id_ente
+        FROM collaborazioni c
+        WHERE c.id_user = ? and c.fine_collaborazione is null LIMIT 1), ?);
+\end{lstlisting}
+
+\subsubsection{Registrazione nuovo utente}
+\begin{lstlisting}
+    INSERT INTO users (username, nome, cognome, email, password, id_ruolo, data_creazione) 
+    VALUES (?,?,?,?,?,?,?);
+\end{lstlisting}
+
+\subsubsection{Registrazione nuova carta di credito}
+\begin{lstlisting}
+    INSERT INTO carte_credito (num_carta_credito, cognome_associato, nome_associato, mese_scadenza, anno_scadenza, id_user) 
+    VALUES (?,?,?,?,?,?);
+\end{lstlisting}
+
+\subsubsection{Creazione nuova CityCard}
+\begin{lstlisting}
+    INSERT INTO city_card (id_user) 
+    VALUES('?');
+\end{lstlisting}
+
+\subsubsection{Disattivazione CityCard}
+Per disattivare una card pongo la data di scadenza a now().
+Per controllare se la card è attiva controllo se il momento di disattivazione è già passato.
+In ogni momento un utente può avere al massimo una CityCard attiva,
+quindi per default disattivo tutte quelle attive.
+\begin{lstlisting}
+    update city_card
+    set data_scadenza = now()
+    WHERE id_user = ? and data_scadenza > now();
+\end{lstlisting}
+
+\subsubsection{Rendere predefinita una carta di credito}
+rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte le altre. Query doppia, una delle alternative a quello fatto in ban
+\begin{lstlisting}
+    update carte_credito
+    set predefinita = 0
+    WHERE id_user = ?;
+
+    update carte_credito
+    set predefinita = 1
+    WHERE num_carta_credito = ?;
+\end{lstlisting}
+
+\subsubsection{Sottoscrizione abbonamento}
+\begin{lstlisting}
+    INSERT INTO sottoscrizioni_abbonamento (id_listino_abbonamento, id_city_card, num_carta_credito) 
+    VALUES (?, 
+            ( SELECT id_city_card
+                        FROM city_card
+                        WHERE id_user = ? and data_scadenza > now()), 
+            ( SELECT num_carta_credito 
+                        FROM carte_credito
+                        WHERE id_user = ? and predefinita = 1));
+\end{lstlisting}
+
+\subsubsection{Associa utente a ente}
+\begin{lstlisting}
+    INSERT INTO collaborazioni 
+    (id_user, id_ente) 
+    VALUES (?, ?);`
+\end{lstlisting}
+
+\subsubsection{Effettua check-in}
+\begin{lstlisting}
+    INSERT INTO checks (id_city_card, id_mezzo, id_stato) 
+    VALUES (( SELECT id_city_card
+                FROM city_card
+                WHERE id_user = ? and data_scadenza > now()), 
+                ?, ?);`
+\end{lstlisting}
+
+\subsubsection{Ottieni CityCard di un utente}
+\begin{lstlisting}
+    SELECT *, (if (data_scadenza > now(), "attiva", "non attiva")) as stato
+    FROM city_card 
+    WHERE id_user = ?
+    ORDER BY id_city_card DESC
+\end{lstlisting}
+
+\subsubsection{Partecipa a un evento}
+\begin{lstlisting}
+    INSERT INTO partecipazioni (id_evento, id_user) VALUES (?,?);
+\end{lstlisting}
+
+\subsubsection{Edita Utente}
+\begin{lstlisting}
+    UPDATE users 
+    SET username = ?, nome = ?, cognome = ?, email = ?, password = ?, indirizzo = ?, telefono = ?, cf = ? 
+    WHERE id_user = ?;
+\end{lstlisting}
+
+\subsubsection{Banna/sbanna utente}
+Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN per aggirare il problema. L'alternativa è fare due query separate ban/unban.
+\begin{lstlisting}
+    UPDATE users u
+    INNER JOIN users u1 
+    on u.id_user = u1.id_user
+    SET u.bannato = CASE
+    WHEN (
+       (
+       SELECT u1.bannato
+       WHERE u1.id_user = ?
+       ) = 1
+        ) THEN 0
+     ELSE 1
+     END
+    WHERE u.id_user = ?;
+\end{lstlisting}
+
+\subsubsection{Cancella carta di credito}
+\begin{lstlisting}
+    DELETE FROM carte_credito
+    WHERE num_carta_credito = ?;
+\end{lstlisting}
+
+\subsubsection{Effettua login}
+\begin{lstlisting}
+    SELECT u.*, r.descrizione_ruolo as ruolo
+    FROM users u
+    JOIN ruoli r 
+    on u.id_ruolo = r.id_ruolo
+    WHERE username = ? AND password = ?;
+\end{lstlisting}
+
+\subsubsection{Ritorna, se presente, la CityCard attiva dell'utente}
+\begin{lstlisting}
+    SELECT *
+    FROM city_card
+    WHERE id_user = ? and data_scadenza > now();
+\end{lstlisting}
+
+\subsubsection{Ritorna ente associato all'utente}
+\begin{lstlisting}
+    SELECT *
+    FROM collaborazioni
+    WHERE id_user = ? and fine_collaborazione is null;
+\end{lstlisting}
+
+
+\subsubsection{ritorna, se presente, la sottoscrizione attiva attiva dell'utente}
+\begin{lstlisting}
+    SELECT sa.* 
+    FROM sottoscrizioni_abbonamento sa
+    JOIN city_card cc
+    on sa.id_city_card = cc.id_city_card
+    JOIN users u
+    on cc.id_user = u.id_user
+    WHERE u.id_user = ?;
+\end{lstlisting}
+
+
+\subsubsection{Ritorna lista check-in fatti da un utente}
+\begin{lstlisting}
+    SELECT ch.*, sc.descrizione_stato, m.*
+    FROM checks ch
+    JOIN city_card cc
+    on ch.id_city_card = cc.id_city_card
+    JOIN users u
+    on cc.id_user = u.id_user
+    JOIN stati_check sc
+    on ch.id_stato = sc.id_stato
+    JOIN mezzi m
+    on ch.id_mezzo = m.id_mezzo
+    WHERE u.id_user = ?;`
+\end{lstlisting}
+
+
+\subsubsection{Recupera enti}
+\begin{lstlisting}
+    SELECT * FROM enti
+    WHERE nome like ?;
+\end{lstlisting}
+
+
+
+
+\subsubsection{Recupera carte di credito di un utente}
+\begin{lstlisting}
+    SELECT c.*, u.nome, u.cognome
+    FROM carte_credito c
+    JOIN users u
+    on c.id_user = u.id_user
+    WHERE c.id_user = ?;
+\end{lstlisting}
+
+
+\subsubsection{Compra servizio}
+Compra un servizio tenendo conto dello sconto concesso dalla fascia di abbonamento posseduto, poi aggiunge la somma pagata al saldo dell'ente che eroga il servizio.
+La query è stata fatta con le variabili perché senza incappava nello stesso problema del ban utente, cioè conflitto in caso di stesso attributi in INSERT E WHERE della stessa query.
+\begin{lstlisting}
+    set @id_user = ?;
+    set @id_servizio = ?;
+    set @idEnte = (
+                        SELECT enti.id_ente 
+                        FROM enti
+                        JOIN servizi
+                        on enti.id_ente = servizi.id_ente
+                        WHERE servizi.id_servizio = @id_servizio);
+    set @creditCard = ( SELECT num_carta_credito 
+                        FROM carte_credito
+                        WHERE id_user = @id_user and predefinita = 1);
+    set @cityCard = (   SELECT id_city_card
+                        FROM city_card
+                        WHERE id_user = @id_user and data_scadenza > now());
+    set @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
+                        FROM sconti 
+                        JOIN listino_abbonamenti ls 
+                        on sconti.id_sconto = ls.id_sconto
+                        JOIN sottoscrizioni_abbonamento sa
+                        on  ls.id_sconto = sa.id_listino_abbonamento
+                        WHERE sa.id_city_card = @cityCard);
+    set @paidPrice = (  SELECT prezzo_servizio * @percentToPay
+                        FROM servizi
+                        WHERE id_servizio = @id_servizio);
+
+    INSERT INTO servizi_acquistati (id_servizio, prezzo_pagato, num_carta_credito, id_city_card) 
+    VALUES (@id_servizio, @paidPrice, @creditCard,@cityCard );
+    
+    UPDATE enti 
+    set saldo = saldo + @paidPrice
+    WHERE id_ente = @idEnte;
+\end{lstlisting}
+
+
+
+
+\subsubsection{Creazione evento periodico}
+Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizzo di LAST{\_}INSERT{\_}ID ma questo richiedeva l'attivazione di PersistentConnections al momento della connessione.
+
+\begin{lstlisting}
+    set @idUser = ?;
+    set @idEnte = ( SELECT c.id_ente
+            FROM collaborazioni c
+            WHERE c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+
+    INSERT INTO periodi (lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica) 
+    VALUES (?,?,?,?,?,?,?);
+    
+    set @idPeriodo = (SELECT MAX(id_periodo) FROM periodi);
+
+    INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
+    VALUES (@idPeriodo, ?,?, @idEnte);
+\end{lstlisting}
+
+
+\subsubsection{Creazione evento occasionale}
+\begin{lstlisting}
+    set @idUser = ?;
+    set @idEnte = ( SELECT c.id_ente
+            FROM collaborazioni c
+            WHERE c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+
+    INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
+    VALUES (1, ?,?, @idEnte);
+\end{lstlisting}

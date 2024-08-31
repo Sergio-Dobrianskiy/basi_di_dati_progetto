@@ -1,0 +1,129 @@
+Dopo aver determinato il volume dei dati ed aver associato a ciascuna operazione principale richiesta la frequenza di esecuzione procediamo ad esaminare gli schemi di navigazione per le principali operazioni richieste.
+
+
+\begin{longtblr}
+[
+  caption = {Registrazione di un nuovo utente},
+]{
+ colspec = {|X[3]X[1]X[2]X[4]|},
+ rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+Users & E & 1 & Scrittura \\
+&  & Totale: 1S \textrightarrow 500/giorno & 
+
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Login di un utente},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Users & E & 1 & L\\ 
+ & & Totale: 1L \textrightarrow 10000/settimana &
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Visualizzazione lista carta di credito},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Cliente & E & 1 & L\\ 
+Possiede & R & 2 & L \\
+Carta di credito & E & 2 & L \\
+ & & Totale: 5L \textrightarrow 10000/settimana & \\
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Sottoscrizione abbonamento},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Cliente & E &  & L\\ 
+Possiede CityCard & R &  & L \\
+Possiede carta di credito & R & & L \\
+CityCard & E & & L \\
+Carta di credito & E & & L \\
+Sottoscrive & R & & S \\
+Abbonamento & E & & L \\
+ & & Totale: \textrightarrow  & \\
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Ente organizza eventi},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Ente & E &  & L\\ 
+Organizza & R &  & S \\
+Evento & E & & S \\
+ & & Totale: \textrightarrow  & 
+\end{longtblr}
+
+\begin{longtblr}
+[
+  caption = {Cliente recensisce servizio},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Cliente & E &  & L\\ 
+Recensisce & R &  & S \\
+Servizio & E & & S \\
+ & & Totale: \textrightarrow  & 
+\end{longtblr}
+
+
+\begin{longtblr}
+[
+  caption = {Ente fornisce servizio},
+]{
+   colspec = {|X[3]X[1]X[2]X[4]|},
+  rowhead = 2,
+  hlines,
+  row{even} = {lightgray},
+  row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo\\
+
+Ente & E &  & L\\ 
+Fornisce & R &  & S \\
+Servizio & E & & L \\
+ & & Totale: \textrightarrow  & \\
+\end{longtblr}
