@@ -1,2 +1,10 @@
 *.lun#
 node_modules
+*.log
+*.gz
+*.toc
+*.fls
+*.aux
+*.fdb_latexmk
+elaborato/main.pdf
+elaborato/*.pdf

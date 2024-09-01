@@ -1,3 +1,4 @@
+getStatisticheAdmin();
 document.querySelector('#update-statisticheAdmin-btn').onclick = () => { getStatisticheAdmin() };
 
 function getStatisticheAdmin() {
