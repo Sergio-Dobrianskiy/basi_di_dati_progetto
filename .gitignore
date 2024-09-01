@@ -8,3 +8,4 @@ node_modules
 *.fdb_latexmk
 elaborato/main.pdf
 elaborato/*.pdf
+*.synctex(busy)
