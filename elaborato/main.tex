@@ -11,7 +11,9 @@
 \usepackage{enumitem}% http://ctan.org/pkg/enumitem
 \usepackage{fmtcount}
 \usepackage{pifont,amssymb} % for the symbols
-\usepackage{listings}
+\usepackage{listings} % parti di codice sql
+\usepackage{ulem} % dasuline
+
 \lstset{ % listings config
   % basicstyle=\ttfamily,
   % emphstyle=\textbf
@@ -30,7 +32,7 @@
 
 \def\indent1{0.3cm}
 \newcommand{\speciale}[1]{\textbf{\textcolor{blue}{\ul{#1}}}}
-\newcommand{\specialeb}[1]{\textit{\textcolor{ForestGreen}{#1}}}
+\newcommand{\specialeb}[1]{\textit{\textcolor{ForestGreen}{\dashuline{#1}}}}
 
 
 	
@@ -74,10 +76,6 @@
 \begin{document} 
 \maketitle
 \includegraphics[width=0.95\columnwidth]{CesenaCard2.png}
-\newpage
-
-\paragraph{Esempio}
-
 \newpage
 
 \tableofcontents
