@@ -9,3 +9,4 @@ node_modules
 elaborato/main.pdf
 elaborato/*.pdf
 *.synctex(busy)
+*.aux
