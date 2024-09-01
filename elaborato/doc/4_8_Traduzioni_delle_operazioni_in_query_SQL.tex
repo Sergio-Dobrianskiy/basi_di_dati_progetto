@@ -20,7 +20,7 @@ Seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c
 	JOIN users u
 	ON e.id_user = u.id_user
 	LEFT JOIN (
-	SELECT  s.id_ente AS id_ente,  avg(coalesce(votazione, 0)) AS media_recensioni
+	SELECT  s.id_ente AS id_ente,  AVG(COALESCE(votazione, 0)) AS media_recensioni
 	FROM recensioni r
 	JOIN servizi s
 	ON s.id_servizio = r.id_servizio
@@ -33,7 +33,7 @@ Seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c
 	JOIN users u
 	ON e.id_user = u.id_user
 	RIGHT JOIN (
-	SELECT  s.id_ente AS id_ente,  avg(coalesce(votazione, 0)) AS media_recensioni
+	SELECT  s.id_ente AS id_ente,  AVG(COALESCE(votazione, 0)) AS media_recensioni
 	FROM recensioni r
 	JOIN servizi s
 	ON s.id_servizio = r.id_servizio
@@ -60,7 +60,7 @@ Seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c
 	SET @id_user = ?;     
 	SET @cityCard = ( SELECT id_city_card
 	FROM city_card
-	WHERE id_user = @id_user and data_scadenza > now());
+	WHERE id_user = @id_user AND data_scadenza > now());
 	SET @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
 	FROM sconti 
 	JOIN listino_abbonamenti ls 
@@ -85,7 +85,7 @@ Seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c
 	ON u.id_user = cc.id_user
 	JOIN servizi
 	ON servizi.id_servizio = sa.id_servizio
-	WHERE cc.data_scadenza>now() and cc.id_user = ?
+	WHERE cc.data_scadenza>now() AND cc.id_user = ?
 	ORDER BY sa.data_acquisto DESC;
 \end{lstlisting}
 
@@ -96,11 +96,11 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 \begin{lstlisting}[language=SQL]
 	INSERT INTO users (username, nome, cognome, email,
 	password, id_ruolo, data_creazione) 
-	VALUES (SET @numeroCheckin = (SELECT count(coalesce(id_check,0)) FROM checks);
-	SET @numeroCheckinFalliti = (SELECT count(coalesce(id_check,0)) FROM checks WHERE id_check != 1);
-	SET @numeroCityCardAttive = (SELECT count(coalesce(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
-	SET @numeroEventiAttivi = (SELECT count(coalesce(id_evento,0)) FROM eventi WHERE fine_validita > now());
-	SET @numeroServiziAttivi = (SELECT count(coalesce(id_servizio,0)) FROM servizi WHERE fine_validita > now());
+	VALUES (SET @numeroCheckin = (SELECT count(COALESCE(id_check,0)) FROM checks);
+	SET @numeroCheckinFalliti = (SELECT count(COALESCE(id_check,0)) FROM checks WHERE id_check != 1);
+	SET @numeroCityCardAttive = (SELECT count(COALESCE(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
+	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now());
+	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now());
 	
 	SELECT 
 	@numeroCheckin AS numero_checkin,
@@ -119,11 +119,11 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 	SET @id_utente = 2;
 	SET @id_ente = ( SELECT c.id_ente
 	FROM collaborazioni c
-	WHERE c.id_user = @id_utente and c.fine_collaborazione is null limit 1);
+	WHERE c.id_user = @id_utente AND c.fine_collaborazione is null limit 1);
 	
 	SET @saldo = (SELECT saldo FROM enti WHERE id_ente = @id_ente);
-	SET @numeroEventiAttivi = (SELECT count(coalesce(id_evento,0)) FROM eventi WHERE fine_validita > now() and id_ente = @id_ente);
-	SET @numeroServiziAttivi = (SELECT count(coalesce(id_servizio,0)) FROM servizi WHERE fine_validita > now() and id_ente = @id_ente);
+	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now() AND id_ente = @id_ente);
+	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now() AND id_ente = @id_ente);
 	
 	
 	SELECT  
@@ -153,12 +153,6 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 
 
 
-
-
-
-
-
-
 \subsubsection{Inserimento voto utente}
 Dato che un utente può avere una recensione per servizio cancello la inserisco il voto nuovo, calcolo la media, la inserisco nel servizio.
 \begin{lstlisting}[language=SQL]
@@ -167,13 +161,13 @@ Dato che un utente può avere una recensione per servizio cancello la inserisco 
 	
 	DELETE 
 	FROM recensioni 
-	WHERE id_user = @idUser and id_servizio = @idServizio;
+	WHERE id_user = @idUser AND id_servizio = @idServizio;
 	
-	insert into recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
+	INSERT INTO recensioni (id_user, votazione, id_servizio) VALUES(@idUser,?,@idServizio);
 	
 	SET @media = (SELECT AVG(votazione) 
 	FROM recensioni 
-	WHERE id_user = @idUser and id_servizio = @idServizio);
+	WHERE id_user = @idUser AND id_servizio = @idServizio);
 	
 	UPDATE servizi
 	SET media_recensioni = @media
@@ -209,7 +203,7 @@ associato con solo un ente ma protegge da possibili errori come una doppia scrit
 	VALUES (?, ?, 
 	( SELECT c.id_ente
 	FROM collaborazioni c
-	WHERE c.id_user = ? and c.fine_collaborazione is null LIMIT 1), ?);
+	WHERE c.id_user = ? AND c.fine_collaborazione is null LIMIT 1), ?);
 \end{lstlisting}
 
 \subsubsection{Registrazione nuovo utente}
@@ -238,7 +232,7 @@ quindi per default disattivo tutte quelle attive.
 \begin{lstlisting}[language=SQL]
 	\dfrac{update}{\dfrac{num}{den}} city_card
 	SET data_scadenza = now()
-	WHERE id_user = ? and data_scadenza > now();
+	WHERE id_user = ? AND data_scadenza > now();
 \end{lstlisting}
 
 \subsubsection{Rendere predefinita una carta di credito}
@@ -259,10 +253,10 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 	VALUES (?, 
 	( SELECT id_city_card
 	FROM city_card
-	WHERE id_user = ? and data_scadenza > now()), 
+	WHERE id_user = ? AND data_scadenza > now()), 
 	( SELECT num_carta_credito 
 	FROM carte_credito
-	WHERE id_user = ? and predefinita = 1));
+	WHERE id_user = ? AND predefinita = 1));
 \end{lstlisting}
 
 \subsubsection{Associa utente a ente}
@@ -277,7 +271,7 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 	INSERT INTO checks (id_city_card, id_mezzo, id_stato) 
 	VALUES (( SELECT id_city_card
 	FROM city_card
-	WHERE id_user = ? and data_scadenza > now()), 
+	WHERE id_user = ? AND data_scadenza > now()), 
 	?, ?);`
 \end{lstlisting}
 
@@ -338,14 +332,14 @@ Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN pe
 \begin{lstlisting}[language=SQL]
 	SELECT *
 	FROM city_card
-	WHERE id_user = ? and data_scadenza > now();
+	WHERE id_user = ? AND data_scadenza > now();
 \end{lstlisting}
 
 \subsubsection{Ritorna ente associato all'utente}
 \begin{lstlisting}[language=SQL]
 	SELECT *
 	FROM collaborazioni
-	WHERE id_user = ? and fine_collaborazione is null;
+	WHERE id_user = ? AND fine_collaborazione is null;
 \end{lstlisting}
 
 
@@ -410,10 +404,10 @@ La query è stata fatta con le variabili perché senza incappava nello stesso pr
 	WHERE servizi.id_servizio = @id_servizio);
 	SET @creditCard = ( SELECT num_carta_credito 
 	FROM carte_credito
-	WHERE id_user = @id_user and predefinita = 1);
+	WHERE id_user = @id_user AND predefinita = 1);
 	SET @cityCard = (   SELECT id_city_card
 	FROM city_card
-	WHERE id_user = @id_user and data_scadenza > now());
+	WHERE id_user = @id_user AND data_scadenza > now());
 	SET @percentToPay = (SELECT (100 - sconti.percentuale_sconto) / 100
 	FROM sconti 
 	JOIN listino_abbonamenti ls 
@@ -443,7 +437,7 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	SET @idUser = ?;
 	SET @idEnte = ( SELECT c.id_ente
 	FROM collaborazioni c
-	WHERE c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+	WHERE c.id_user = @idUser AND c.fine_collaborazione is null limit 1);
 	
 	INSERT INTO periodi (lunedi, martedi, mercoledi, giovedi, venerdi, sabato, domenica) 
 	VALUES (?,?,?,?,?,?,?);
@@ -460,7 +454,7 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	SET @idUser = ?;
 	SET @idEnte = ( SELECT c.id_ente
 	FROM collaborazioni c
-	WHERE c.id_user = @idUser and c.fine_collaborazione is null limit 1);
+	WHERE c.id_user = @idUser AND c.fine_collaborazione is null limit 1);
 	
 	INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
 	VALUES (1, ?,?, @idEnte);

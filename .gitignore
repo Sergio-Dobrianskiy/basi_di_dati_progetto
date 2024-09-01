@@ -6,3 +6,5 @@ node_modules
 *.fls
 *.aux
 *.fdb_latexmk
+elaborato/main.pdf
+elaborato/*.pdf
