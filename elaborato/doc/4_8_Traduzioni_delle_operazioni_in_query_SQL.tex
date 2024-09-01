@@ -96,11 +96,11 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 \begin{lstlisting}[language=SQL]
 	INSERT INTO users (username, nome, cognome, email,
 	password, id_ruolo, data_creazione) 
-	VALUES (SET @numeroCheckin = (SELECT count(COALESCE(id_check,0)) FROM checks);
-	SET @numeroCheckinFalliti = (SELECT count(COALESCE(id_check,0)) FROM checks WHERE id_check != 1);
-	SET @numeroCityCardAttive = (SELECT count(COALESCE(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
-	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now());
-	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now());
+	VALUES (SET @numeroCheckin = (SELECT COUNT(COALESCE(id_check,0)) FROM checks);
+	SET @numeroCheckinFalliti = (SELECT COUNT(COALESCE(id_check,0)) FROM checks WHERE id_check != 1);
+	SET @numeroCityCardAttive = (SELECT COUNT(COALESCE(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
+	SET @numeroEventiAttivi = (SELECT COUNT(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now());
+	SET @numeroServiziAttivi = (SELECT COUNT(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now());
 	
 	SELECT 
 	@numeroCheckin AS numero_checkin,
@@ -122,8 +122,8 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 	WHERE c.id_user = @id_utente AND c.fine_collaborazione is null limit 1);
 	
 	SET @saldo = (SELECT saldo FROM enti WHERE id_ente = @id_ente);
-	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now() AND id_ente = @id_ente);
-	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now() AND id_ente = @id_ente);
+	SET @numeroEventiAttivi = (SELECT COUNT(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now() AND id_ente = @id_ente);
+	SET @numeroServiziAttivi = (SELECT COUNT(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now() AND id_ente = @id_ente);
 	
 	
 	SELECT  
@@ -238,11 +238,11 @@ quindi per default disattivo tutte quelle attive.
 \subsubsection{Rendere predefinita una carta di credito}
 rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte le altre. Query doppia, una delle alternative a quello fatto in ban
 \begin{lstlisting}[language=SQL]
-	UPDATEcarte_credito
+	UPDATE carte_credito
 	SET predefinita = 0
 	WHERE id_user = ?;
 	
-	UPDATEcarte_credito
+	UPDATE carte_credito
 	SET predefinita = 1
 	WHERE num_carta_credito = ?;
 \end{lstlisting}
