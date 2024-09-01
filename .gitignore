@@ -3,3 +3,6 @@ node_modules
 *.log
 *.gz
 *.toc
+*.fls
+*.aux
+*.fdb_latexmk

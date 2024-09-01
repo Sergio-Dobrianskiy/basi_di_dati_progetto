@@ -10,8 +10,16 @@
 \usepackage{siunitx}  % required for \num 
 \usepackage{enumitem}% http://ctan.org/pkg/enumitem
 \usepackage{fmtcount}
-\usepackage{listings}
 \usepackage{pifont,amssymb} % for the symbols
+\usepackage{listings}
+\lstset{ % listings config
+  % basicstyle=\ttfamily,
+  % emphstyle=\textbf
+  columns=fullflexible,
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
 % \usepackage[shortlabels]{enumitem}
 \graphicspath{ {./images/} }
 % le prossime 4 righe rendono doc cartella default per input
