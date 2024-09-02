@@ -1,0 +1,26 @@
+\subsubsection{Modifica chiave primaria utente}
+In seguito a una analisi approfondita dei requisiti, la necessità di permettere a una persona di poter creare più di un account e di poter modificare i propri dati rende comodo l'utilizzo di una chiave primaria numerica.  
+
+\subsubsection{Scelta chiave primaria carta di credito}
+L'univocità del numero della carta di credito ci permette di utilizzarlo come chiave primaria dell'entità.
+
+\subsubsection{Scelta delle altre chiavi primarie delle altre tabelle}
+Per semplicità è stato deciso di utilizzare una chiave primaria numerica in tutte le altre tabelle.
+
+\subsection{Normalizzazione User} %TODO
+Tolto attributo composto (primo livello)
+
+\subsection{Normalizzazione evento} %TODO
+Tolto visibile (secondo livello), si fa check fine validità
+
+\subsection{Aggiunta relazione tra Abbonamento e Sconto} %TODO
+
+\subsection{Aggiunta attributi minimi in Trasporti pubblici} %TODO
+
+\subsection{Modifica tabella sconto} %TODO
+Non è più uno storico di chi ha ricevuto lo sconto ma una lista di sconti disponibili.
+
+\subsection{Aggiunta di CityCard alla relazione 'transazione'} %TODO
+Citycard identifica l'utente che compra il servizio.
+
+\subsection{Modifica tabella sconto} %TODO
