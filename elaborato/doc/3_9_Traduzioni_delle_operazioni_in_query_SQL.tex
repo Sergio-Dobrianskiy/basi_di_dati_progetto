@@ -444,8 +444,8 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	
 	SET @idPeriodo = (SELECT MAX(id_periodo) FROM periodi);
 	
-	INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-	VALUES (@idPeriodo, ?,?, @idEnte);
+	INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+	VALUES (@idPeriodo, ?, @idEnte);
 \end{lstlisting}
 
 
@@ -456,6 +456,6 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	FROM collaborazioni c
 	WHERE c.id_user = @idUser AND c.fine_collaborazione is null limit 1);
 	
-	INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-	VALUES (1, ?,?, @idEnte);
+	INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+	VALUES (1, ?, @idEnte);
 \end{lstlisting}

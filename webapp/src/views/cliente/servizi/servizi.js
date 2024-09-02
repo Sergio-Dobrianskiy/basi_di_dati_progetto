@@ -1,3 +1,4 @@
+getServizi()
 document.querySelector('#update-servizi-btn').onclick = () => { getServizi() };
 function getServizi() {
     console.log("Aggiorna servizi")

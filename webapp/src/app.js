@@ -195,10 +195,10 @@ app.post('/api/associaEnte', (request, response) => {
 app.post('/api/creazioneEventoPeriodico', (request, response) => {
     console.log(JSON.stringify(request.body))
     
-    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const { id_user, nomeEvento, lun,mar,mer,gio,ven,sab,dom} = request.body;
     const db = dbService.getDbServiceInstance();
     
-    const result = db.creazioneEventoPeriodico(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom);
+    const result = db.creazioneEventoPeriodico(id_user, nomeEvento, lun,mar,mer,gio,ven,sab,dom);
 
     result
         .then(data => response.json({ data: data}))
@@ -207,10 +207,10 @@ app.post('/api/creazioneEventoPeriodico', (request, response) => {
 app.post('/api/creazioneEventoNonPeriodico', (request, response) => {
     console.log(JSON.stringify(request.body))
     
-    const { id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom} = request.body;
+    const { id_user, nomeEvento, lun,mar,mer,gio,ven,sab,dom} = request.body;
     const db = dbService.getDbServiceInstance();
     
-    const result = db.creazioneEventoNonPeriodico(id_user, nomeEvento, numero_pertecipanti);
+    const result = db.creazioneEventoNonPeriodico(id_user, nomeEvento);
 
     result
         .then(data => response.json({ data: data}))

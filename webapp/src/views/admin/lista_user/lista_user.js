@@ -1,3 +1,4 @@
+getUsers()
 document.querySelector('#update-user-btn').onclick = () => { getUsers() };
 function getUsers() {
     console.log("Aggiorna utenti")

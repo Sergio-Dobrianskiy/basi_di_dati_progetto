@@ -1,3 +1,4 @@
+getEventi()
 document.querySelector('#update-eventi-btn').onclick = () => { getEventi() };
 function getEventi() {
     console.log("Aggiorna utenti")
@@ -27,7 +28,6 @@ function loadUsersTable(data) {
         var organizzatore = convertToTitleCase(evento['organizzatore']) || evento['organizzatore'];
         var inizio = new Date(evento['inizio_validita']).toLocaleDateString('en-GB');
         var fine = new Date(evento['fine_validita']).toLocaleDateString('en-GB');
-        var partecipanti = evento['partecipanti'] == 1;
         var periodico = id_periodo == 1 ? "Evento Singolo" : "Evento periodico";
 
 
@@ -39,7 +39,6 @@ function loadUsersTable(data) {
         tableHtml += `<td>${organizzatore}</td>`;
         tableHtml += `<td>${fine}</td>`;
         tableHtml += `<td>${periodico}</td>`;
-        tableHtml += `<td>${partecipanti}</td>`;
         tableHtml += bottoneBannato;
         tableHtml += `</tr>`;
 
@@ -77,6 +76,7 @@ function partecipaEvento(id_evento) {
             })
         })
             .then(response => response.json())
-            .then(getEventi())
+            // .then(getEventi())
+            .then(alert("Evento prenotato"))
     })
 }

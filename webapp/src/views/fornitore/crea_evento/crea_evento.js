@@ -3,13 +3,10 @@ creazioneEventoBtn.onclick = (e) => {
     e.preventDefault();
     console.log("creaEvento")
     const nomeEvento = document.querySelector('#nome_evento').value;
-    const numero_pertecipanti = document.querySelector('#numero_pertecipanti').value;
 
     var periodico = document.querySelector('#btn-check-periodico').checked;
-    
 
     if (periodico === true){
-
         var lun = document.querySelector('#btn-check-outlined1').checked;
         var mar = document.querySelector('#btn-check-outlined2').checked;
         var mer = document.querySelector('#btn-check-outlined3').checked;
@@ -31,7 +28,6 @@ creazioneEventoBtn.onclick = (e) => {
                 method: 'POST',
                 body: JSON.stringify({  id_user : id_user,
                                         nomeEvento : nomeEvento,
-                                        numero_pertecipanti : numero_pertecipanti,
                                         lun : lun,
                                         mar : mar,
                                         mer : mer,
@@ -60,8 +56,7 @@ creazioneEventoBtn.onclick = (e) => {
                 },
                 method: 'POST',
                 body: JSON.stringify({  id_user : id_user,
-                                        nomeEvento : nomeEvento,
-                                        numero_pertecipanti : numero_pertecipanti
+                                        nomeEvento : nomeEvento
                 })
             })
                 .then(response => response.json())

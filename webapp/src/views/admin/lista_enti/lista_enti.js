@@ -1,3 +1,4 @@
+getEnti()
 document.querySelector('#update-enti-btn').onclick = () => { getEnti() };
 function getEnti() {
     fetch('http://localhost:5000/api/getEnti')

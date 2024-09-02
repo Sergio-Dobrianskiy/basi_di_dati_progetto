@@ -1,3 +1,4 @@
+getAcquisti()
 document.querySelector('#update-serviziAcquistati-btn').onclick = () => { getAcquisti() };
 function getAcquisti() {
     console.log("Aggiorna acquisti")
