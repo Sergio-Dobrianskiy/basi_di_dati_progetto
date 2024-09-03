@@ -9,79 +9,89 @@ In questa fase esponiamo una tabella delle operazioni utilizzate per costituire 
 
 \begin{longtblr}
 [
-  caption = {Operazioni comuni},
-  label = {tab:Operazioni richieste da cliente},
+  caption = {Operazioni richieste da tutti gli User},
+  label = {tab:Operazioni richieste da tutti gli User},
 ]{
   colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
-  rowhead = 2,
+  rowhead = 1,
   hlines,
   row{even} = {lightgray},
   row{1} = {ColdPurple},
 } 
 Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-0.1 & Accedere tramite login & \num{50} & I & Login dell'account \\ 
-0.2 & Registrarsi alla piattaforma & \num{100} & I & Registrazione al sito\\ 
+u.1 & Registrarsi alla piattaforma & \num{300} & I & Registrazione al sito\\ 
+u.2 & Accedere tramite login & \num{50} & I & Login dell'account \\ 
+u.3 & Modificare i dati del proprio account & \num{50} & I & Login dell'account 
 \end{longtblr}
+
+
+
+\begin{longtblr}
+  [
+    caption = {Operazioni richieste amministratore},
+    label = {tab:Operazioni richieste amministratore},
+  ]{
+    colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
+    rowhead = 1,
+    hlines,
+    row{even} = {lightgray},
+    row{1} = {CornflowerBlue},
+  } 
+  Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+  a.1 & Consultare la lista degli enti & \num{50} & B & Può consultare la lista degli enti registrati \\
+  a.2 & Bannare gli altri utenti & \num{50} & I & L'admin può interdire l'accesso alla piattaforma \\ 
+  a.3 & Reset delle recensioni & \num{30} & I & Può cancellare le recensioni \\
+  a.4 & Consultazione statistiche & \num{30} & I & Può consultare statistiche globali della piattaforma \\
+  \end{longtblr}
+  
+
+  \begin{longtblr}
+    [
+      caption = {Operazioni richieste da Fornitore},
+      label = {tab:Operazioni richieste da Fornitore},
+    ]{
+      colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
+      rowhead = 1,
+      hlines,
+      row{even} = {lightgray},
+      row{1} = {LightCoral},
+    } 
+    Cod & Nome Operazione & Freq & Tipo & Descrizione\\
+    f.1 & Creare enti & \num{5} & I & Il fornitore crea enti \\ 
+    f.2 & Associarsi a un ente  & \num{5} & I & Il deve associarsi al suo ente \\ 
+    f.3 & Creare servizi & \num{5}/giorno & I & Il fornitore va a creare servizi\\
+    f.4 & Creare eventi occasionali & \num{5} & I & Il fornitore crea eventi \\ 
+    f.5 & Creare eventi periodici & \num{5} & I & Il fornitore crea eventi \\ 
+    f.6 & Consultare statistiche riguardo il proprio ente  & \num{50} & B & Il fornitore va a consultare una tabella contenente i dati\\ 
+    
+    \end{longtblr}
 
 
 \begin{longtblr}
 [
-  caption = {Operazioni richieste da cliente},
+  caption = {Operazioni richieste dai Clienti},
   label = {tab:Operazioni richieste da cliente},
 ]{
   colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
-  rowhead = 2,
+  rowhead = 1,
   hlines,
   row{even} = {lightgray},
   row{1} = {ColdPurple},
 } 
 Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-1 & Acquistare un servizio & \num{100} & I & Il cliente può acquistare un servizio \\ 
-2 & Lasciare una recensione riguardo un servizio acquistato & \num{70} & I & Il cliente rilascia una votazione \\ 
-3 & Consultare la lista degli acquisti fatti & \num{80} & B & Consulta una lista \\ 
-4 & Prenotare un evento & \num{100} & I & Chiede all'applicativo una disponibilità di eventi 
+c.1 & Richiedere una CityCard & \num{100} & I & Il cliente può richiedere una CityCard \\ 
+c.2 & Sottoscrivere un abbonamento & \num{100} & I & Il cliente sottoscrive un abbonamento per utilizzare la piattaforma \\ 
+c.3 & Aggiungere una carta di credito & \num{100} & I & Il cliente memorizza una carta di credito nella piattaforma \\ 
+c.4 & Rendere una carta di credito predefinita & \num{100} & I & Il cliente rende predefinita la carta che utilizzera per gli acquisti \\ 
+c.5 & Acquistare un servizio & \num{100} & I & Il cliente può acquistare un servizio \\ 
+c.6 & Prenotare un evento & \num{100} & I & Chiede all'applicativo una disponibilità di eventi \\
+c.7 & Effettuare un check-in & \num{100} & I & Chiede all'applicativo una disponibilità di eventi \\ 
+c.8 & Consultare la lista degli acquisti fatti & \num{80} & B & Consulta una lista \\ 
+c.9 & Lasciare una recensione riguardo un servizio acquistato & \num{70} & I & Il cliente rilascia una votazione \\ 
 
 \end{longtblr}
 % I = Interattiva
 % B = Batch
-\begin{longtblr}
-[
-  caption = {Operazioni richieste fornitore},
-  label = {tab:Operazioni richieste fornitore},
-]{
-  colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
-  rowhead = 2,
-  hlines,
-  row{even} = {lightgray},
-  row{1} = {LightCoral},
-} 
-Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-5 & Creare servizi & \num{5}/giorno & I & Il fornitore va a creare servizi\\
-6 & Creare eventi & \num{5} & I & Il fornitore crea eventi \\ 
-7 & Consultare statistiche  & \num{50} & B & Il fornitore va a consultare una tabella contenente i dati\\ 
-8 & Consultare il saldo & \num{50} & B & Il fornitore può consultare il saldo degli acquisti fatti dai clienti \\ 
-x & x & x & x & x 
-
-\end{longtblr}
-
-
-\begin{longtblr}
-[
-  caption = {Operazioni richieste amministratore},
-  label = {tab:Operazioni richieste amministratore},
-]{
-  colspec = {|X[1]X[8,l]X[3]X[1]X[8,l]|},
-  rowhead = 2,
-  hlines,
-  row{even} = {lightgray},
-  row{1} = {CornflowerBlue},
-} 
-Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-9 & Bannare tutti i tipi di account & \num{50} & I & L'admin può interdire l'accesso alla piattaforma \\ 
-10 & Reset delle recensioni & \num{30} & I & Può cancellare le recensioni \\
-11 & Consultare la lista degli enti & \num{50} & B & Può consultare la lista degli enti registrati \\
-\end{longtblr}
-
 
 
 
