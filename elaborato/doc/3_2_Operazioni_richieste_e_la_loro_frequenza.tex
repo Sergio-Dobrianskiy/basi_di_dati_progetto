@@ -1,4 +1,4 @@
-In questa fase esponiamo una tabella delle operazioni utilizzate per costituire una stima delle principali operazioni richieste dal sito. 
+In questa fase esponiamo le tabelle delle operazioni utilizzate per costituire una stima delle principali operazioni richieste dal sito. La stima è su base \ul{settimanale}.
 
 
 
@@ -6,6 +6,8 @@ In questa fase esponiamo una tabella delle operazioni utilizzate per costituire 
 \setlength{\arrayrulewidth}{0.5mm}
 \renewcommand{\arraystretch}{1.5}
 
+% I = Interattiva
+% B = Batch
 
 \begin{longtblr}
 [
@@ -19,9 +21,9 @@ In questa fase esponiamo una tabella delle operazioni utilizzate per costituire 
   row{1} = {ColdPurple},
 } 
 Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-u.1 & Registrarsi alla piattaforma & \num{300} & I & Registrazione al sito\\ 
-u.2 & Accedere tramite login & \num{50} & I & Login dell'account \\ 
-u.3 & Modificare i dati del proprio account & \num{50} & I & Login dell'account 
+u.1 & Registrarsi alla piattaforma & \num{2100} & I & Registrazione al sito\\ 
+u.2 & Accedere tramite login & \num{7000} & I & Login dell'account \\ 
+u.3 & Modificare i dati del proprio account & \num{2100} & I & Login dell'account 
 \end{longtblr}
 
 
@@ -38,10 +40,10 @@ u.3 & Modificare i dati del proprio account & \num{50} & I & Login dell'account
     row{1} = {CornflowerBlue},
   } 
   Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-  a.1 & Consultare la lista degli enti & \num{50} & B & Può consultare la lista degli enti registrati \\
-  a.2 & Bannare gli altri utenti & \num{50} & I & L'admin può interdire l'accesso alla piattaforma \\ 
-  a.3 & Reset delle recensioni & \num{30} & I & Può cancellare le recensioni \\
-  a.4 & Consultazione statistiche & \num{30} & I & Può consultare statistiche globali della piattaforma \\
+  a.1 & Consultare la lista degli enti & \num{350} & I & Può consultare la lista degli enti registrati \\
+  a.2 & Bannare gli altri utenti & \num{5} & I & L'admin può interdire l'accesso alla piattaforma \\ 
+  a.3 & Reset delle recensioni & \num{5} & I & Può cancellare le recensioni \\
+  a.4 & Consultazione statistiche & \num{400} & B & Può consultare statistiche globali della piattaforma \\
   \end{longtblr}
   
 
@@ -57,12 +59,12 @@ u.3 & Modificare i dati del proprio account & \num{50} & I & Login dell'account
       row{1} = {LightCoral},
     } 
     Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-    f.1 & Creare enti & \num{5} & I & Il fornitore crea enti \\ 
-    f.2 & Associarsi a un ente  & \num{5} & I & Il deve associarsi al suo ente \\ 
-    f.3 & Creare servizi & \num{5}/giorno & I & Il fornitore va a creare servizi\\
-    f.4 & Creare eventi occasionali & \num{5} & I & Il fornitore crea eventi \\ 
+    f.1 & Creare enti & \num{50} & I & Il fornitore crea enti, all'apertura della piattaforma ci può essere un picco di operazioni al giorno ma poi calerà drasticamente \\ 
+    f.2 & Associarsi a un ente  & \num{50} & I & Il deve associarsi al suo ente, con un picco iniziale come la creazione enti \\ 
+    f.3 & Creare servizi & \num{50} & I & Il fornitore va a creare servizi \\
+    f.4 & Creare eventi occasionali & \num{20} & I & Il fornitore crea eventi \\ 
     f.5 & Creare eventi periodici & \num{5} & I & Il fornitore crea eventi \\ 
-    f.6 & Consultare statistiche riguardo il proprio ente  & \num{50} & B & Il fornitore va a consultare una tabella contenente i dati\\ 
+    f.6 & Consultare statistiche riguardo il proprio ente  & \num{4000} & B & Il fornitore va a consultare una tabella contenente i dati\\ 
     
     \end{longtblr}
 
@@ -79,19 +81,19 @@ u.3 & Modificare i dati del proprio account & \num{50} & I & Login dell'account
   row{1} = {ColdPurple},
 } 
 Cod & Nome Operazione & Freq & Tipo & Descrizione\\
-c.1 & Richiedere una CityCard & \num{100} & I & Il cliente può richiedere una CityCard \\ 
-c.2 & Sottoscrivere un abbonamento & \num{100} & I & Il cliente sottoscrive un abbonamento per utilizzare la piattaforma \\ 
-c.3 & Aggiungere una carta di credito & \num{100} & I & Il cliente memorizza una carta di credito nella piattaforma \\ 
-c.4 & Rendere una carta di credito predefinita & \num{100} & I & Il cliente rende predefinita la carta che utilizzera per gli acquisti \\ 
-c.5 & Acquistare un servizio & \num{100} & I & Il cliente può acquistare un servizio \\ 
-c.6 & Prenotare un evento & \num{100} & I & Chiede all'applicativo una disponibilità di eventi \\
-c.7 & Effettuare un check-in & \num{100} & I & Chiede all'applicativo una disponibilità di eventi \\ 
-c.8 & Consultare la lista degli acquisti fatti & \num{80} & B & Consulta una lista \\ 
-c.9 & Lasciare una recensione riguardo un servizio acquistato & \num{70} & I & Il cliente rilascia una votazione \\ 
+c.1 & Richiedere una CityCard & \num{2000} & I & Il cliente può richiedere una CityCard \\ 
+c.2 & Sottoscrivere un abbonamento & \num{2000} & I & Il cliente sottoscrive un abbonamento per utilizzare la piattaforma \\ 
+c.3 & Aggiungere una carta di credito & \num{2000} & I & Il cliente memorizza una carta di credito nella piattaforma \\ 
+c.4 & Rendere una carta di credito predefinita & \num{2000} & I & Il cliente rende predefinita la carta che utilizzera per gli acquisti \\ 
+c.5 & Acquistare un servizio & \num{10000} & I & Il cliente può acquistare un servizio \\ 
+c.6 & Prenotare un evento & \num{600} & I & Chiede all'applicativo una disponibilità di eventi \\
+c.7 & Effettuare un check-in & \num{40000} & I & Chiede all'applicativo una disponibilità di eventi \\ 
+c.8 & Consultare la lista degli acquisti fatti & \num{20000} & B & Consulta una lista \\ 
+c.9 & Lasciare una recensione riguardo un servizio acquistato & \num{1500} & I & Il cliente rilascia una votazione \\ 
+c.9 & Visualizzare lista servizi & \num{30000} & I & Il cliente visualizza la lista dei servizi disponibili \\ 
+c.9 & Visualizzare lista eventi & \num{2000} & I & Il cliente visualizza la lista degli eventi disponibili \\ 
 
 \end{longtblr}
-% I = Interattiva
-% B = Batch
 
 
 
