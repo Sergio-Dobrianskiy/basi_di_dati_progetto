@@ -13,8 +13,7 @@ Dopo aver determinato il volume dei dati ed aver associato a ciascuna operazione
 } 
 Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & Scrittura \\
-% \multicolumn{4}{|c|}{Totale: 1S \textrightarrow 500/giorno}
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
   Costo totale: 300 x (1) = 300/giorno
   }
@@ -35,7 +34,7 @@ Users & E & 1 & Scrittura \\
 } 
 Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & L\\ 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
   Totale: 1L \textrightarrow 1500/giorno\\
   Costo totale: 300 x (1) = 1500/giorno
   }
@@ -55,7 +54,7 @@ Users & E & 1 & L\\
   } 
   Concetto & Costrutto & Accessi & Tipo\\
   Users & E & 1 & L\\ 
-  \SetCell[c=4]{l} {
+  \SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
   Costo totale: 300 x (1) = 300/giorno
   }
@@ -78,7 +77,7 @@ Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
   } 
   Concetto & Costrutto & Accessi & Tipo\\
   Ente & E & 1 & L\\ 
-  \SetCell[c=4]{l} {
+  \SetCell[c=4]{l, white} {
     Totale: 1L \textrightarrow 50/giorno\\
     Costo totale: 50 x (1) = 50/giorno
     }
@@ -101,7 +100,7 @@ Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
     Users & E & 1 & L\\
     Ban & R & 1 & L \\ 
     \SetCell[c=4]{c} {Totale: 1S \textrightarrow 5/giorno}
-    \SetCell[c=4]{l} {
+    \SetCell[c=4]{l, white} {
       Totale: 2L\textrightarrow 5/giorno\\
       Costo totale: 5 x (2) = 10/giorno
       }
@@ -127,7 +126,7 @@ Servizio & E & 1 & L\\
 Recensione & R & 1 & L \\
 Recensione & R & 1 & S \\
 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 4L + 1S \textrightarrow 1/giorno\\
     Costo totale: 1 x (5) = 5/giorno
     }
@@ -156,7 +155,7 @@ row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & L\\ 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 1L \textrightarrow 5/giorno\\
     Costo totale: 1 x (5) = 5/giorno
     }
@@ -177,7 +176,7 @@ row{1} = {LightCoral},
 Fornitore & E & 1 & L\\ 
 Crea Ente & R & 1 & S \\
 Ente & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 8/giorno\\
     Costo totale: 3 x (8) = 15/giorno
     }
@@ -199,7 +198,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Fornitore & E & 1 & L\\ 
 Lavora & R & 1 & S \\ 
 Ente & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 3/giorno\\
     Costo totale: 3 x (3) = 9/giorno
     }
@@ -220,7 +219,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Ente & E & 1 & L\\ 
 Vende & R & 1 & S \\
 Servizio & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S\textrightarrow 10/giorno\\
     Costo totale: 3 x (10) = 30/giorno
     }
@@ -242,7 +241,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Ente & E & 1 & L\\ 
 Organizza & R & 1 & S \\
 Occasionale & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 4/giorno\\
     Costo totale: 3 x (4) = 12/giorno
     }
@@ -268,7 +267,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Ente & E & 1 & L\\ 
 Organizza & R & 1 & S \\
 Periodico & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 1/giorno\\
     Costo totale: 3 x (1) = 4/giorno
     }
@@ -297,7 +296,7 @@ row{1} = {LightCoral},
 Concetto & Costrutto & Accessi & Tipo\\
 Fornitore & E & 1 & L\\ 
 Ente & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L \textrightarrow 800/giorno\\
     Costo totale: 2 x (800) = 1600/giorno
     }
@@ -319,7 +318,7 @@ Concetto & Costrutto & Accessi & Tipo \\
 Cliente & E & 1 & L\\ 
 Possesso CityCard & R & 1 & S \\
 CityCard & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 2000/giorno\\
     Costo totale: 5 x (2000) = 6000/giorno
     }
@@ -345,7 +344,7 @@ Possesso Carta di credito & R & 1 & L \\
 Carta Credito & E & 1 & L \\
 Sottoscrizione & R & 1 & S \\
 Abbonamento & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 2000/giorno\\
     Costo totale: 3 x (2000) = 6000/giorno
     }
@@ -366,7 +365,7 @@ row{1} = {LightCoral},
 Concetto & Costrutto & Accessi & Tipo \\
 Cliente & E & 1 & L\\ 
 Carta credito & R & S \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 1L + 1S \textrightarrow 2000/giorno\\
     Costo totale: 2 x (2000) = 4000/giorno
     }
@@ -396,7 +395,7 @@ Abbonamenti & E & 1 & L\\
 Sottoscrizione & E & 1 & L\\ 
 Servizi & E & 1 & L\\ 
 Transazione & E & 1 & R\\ 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 8L + 1S \textrightarrow 3000/giorno\\
     Costo totale: 9 x (3000) = 27000/giorno
     }
@@ -417,7 +416,7 @@ Concetto & Costrutto & Accessi & Tipo \\
 Cliente & E & 1 & L \\
 Partecipazione & R & 1 & S \\
 Eventi & E & 1 & L\\ 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 500/giorno\\
     Costo totale: 3 x (500) = 1500/giorno
     }
@@ -442,7 +441,7 @@ Checkin completato & R & 1 & S\\
 Trasporto pubblico & E & 1 & L \\
 Checkin fallito & R & 1 & S \\
 Errore & E & 1 & L \\   % TODO verificare
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 3L + 2S \textrightarrow 5000/giorno\\
     Costo totale: 5 x (5000) = 25000/giorno
     }
@@ -463,7 +462,7 @@ Concetto & Costrutto & Accessi & Tipo \\
 servizi acquistati & E & 1 & L\\ 
 Cliente & E & 1 & L\\ 
 Servizi & E & 1 & L\\ 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L \textrightarrow 3000/giorno\\
     Costo totale: 2 x (3000) = 6000/giorno
     }
@@ -488,7 +487,7 @@ Cliente & E & 1 & L\\
 Recensione & R & 1 & S \\
 Servizio & E & 1 & L \\
 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 1500/giorno\\
     Costo totale: 3 x (1500) = 4500/giorno
     }
@@ -516,7 +515,7 @@ Cliente & E & 1 & L \\
 Ente & E & 1 & L \\
 Servizi & E & 1 & L\\ 
 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 3L \textrightarrow 7500/giorno\\
     Costo totale: 3 x (7500) = 22500/giorno
     }
@@ -544,7 +543,7 @@ Ente & E & 1 & L \\
 Organizza & R & 1 & S \\
 Eventi & E & 1 & L\\ 
 
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 3L + 1S\textrightarrow 7500/giorno\\
     Costo totale: 4 x (7500) = 30000/giorno
     }
@@ -568,7 +567,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Cliente & E & 1 & L\\ 
 Possiede & R & 1 & L \\
 Carta di credito & E & 1 & L \\
-\SetCell[c=4]{l} {
+\SetCell[c=4]{l, white} {
     Totale: 3L \textrightarrow 1500/giorno\\
     Costo totale: 3 x (1500) = 4500/giorno
     }
