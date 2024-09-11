@@ -1,6 +1,7 @@
-\subsubsection*{u.1 Registrazione di un nuovo utente}
-
 Dopo aver determinato il volume dei dati ed aver associato a ciascuna operazione principale richiesta la frequenza di esecuzione procediamo ad esaminare gli schemi di navigazione per le principali operazioni richieste.
+
+\subsubsection*{u.1 Registrazione di un nuovo utente}
+L'utente si registra inserendo i dati minimi richiesti, in seguito potrà aggiungere altri campi modificando il proprio profilo.
 \begin{longtblr}
 [
   caption = {Registrazione di un nuovo utente},
@@ -15,13 +16,14 @@ Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & Scrittura \\
 \SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
-  Costo totale: 300 x (1) = 300/giorno
+  Costo totale: 300 x (1x2) = 600/giorno
   }
 
 \end{longtblr}
 
 
 \subsubsection*{u2. Login di un utente}
+Per consentire il login si controlla che la combinazione username/password sia corretta e che l'utente non sia bannato. 
 \begin{longtblr}
 [
   caption = {Login di un utente},
@@ -36,12 +38,13 @@ Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & L\\ 
 \SetCell[c=4]{l, white} {
   Totale: 1L \textrightarrow 1500/giorno\\
-  Costo totale: 300 x (1) = 1500/giorno
+  Costo totale: 1500 x (1) = 1500/giorno
   }
 
 \end{longtblr}
 
 \subsubsection*{u3. Modificare i dati del proprio account}
+L'utente modifica i propri dati oppure inserisce quelli mancanti.
 \begin{longtblr}
   [
     caption = {Modificare i dati del proprio account},
@@ -53,18 +56,18 @@ Users & E & 1 & L\\
     row{1} = {LightCoral},
   } 
   Concetto & Costrutto & Accessi & Tipo\\
-  Users & E & 1 & L\\ 
+  Users & E & 1 & S\\ 
   \SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
-  Costo totale: 300 x (1) = 300/giorno
+  Costo totale: 300 x (1x2) = 600/giorno
   }
   \end{longtblr}
 
-
+%%%%%%%%%%%%%%%%%%%%
 %%%%%% ADMIN %%%%%%%
-\subsubsection*{a1. Consultare la lista degli enti}
-Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
-\includegraphics[width=0.95\columnwidth]{a1getUser.png}
+%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{a1. Consultare la lista degli utenti}
+L'amministratore può visualizzare gli utenti registrati e bannarli o riattivarli all'occorrenza.
 \begin{longtblr}
   [
     caption = {Consultare la lista degli enti},
@@ -76,16 +79,18 @@ Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
     row{1} = {LightCoral},
   } 
   Concetto & Costrutto & Accessi & Tipo\\
-  Ente & E & 1 & L\\ 
+  User & E & 1 & L\\  
+  ban & R & 1 & L\\ 
   \SetCell[c=4]{l, white} {
-    Totale: 1L \textrightarrow 50/giorno\\
-    Costo totale: 50 x (1) = 50/giorno
+    Totale: 2L \textrightarrow 50/giorno\\
+    Costo totale: 50 x (2) = 100/giorno
     }
 
   \end{longtblr}
 
 
   \subsubsection*{a2. Bannare gli altri utenti}
+  Un amministratore banna un utente impedendone i futuri login.
   \begin{longtblr}
     [
       caption = {Bannare gli altri utenti},
@@ -97,18 +102,22 @@ Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
       row{1} = {LightCoral},
     } 
     Concetto & Costrutto & Accessi & Tipo\\
-    Users & E & 1 & L\\
-    Ban & R & 1 & L \\ 
-    \SetCell[c=4]{c} {Totale: 1S \textrightarrow 5/giorno}
+    User & E & 1 & L\\
+    ban & R & 1 & S \\ 
+
     \SetCell[c=4]{l, white} {
-      Totale: 2L\textrightarrow 5/giorno\\
-      Costo totale: 5 x (2) = 10/giorno
+      Totale: 1L + 1S \textrightarrow 5/giorno\\
+      Costo totale: 5 x (1 + 1 * 2) = 15/giorno
       }
   \end{longtblr}
 
 
 
+
+
+
 \subsubsection*{a3. Reset delle recensioni}
+In caso di necessità è possibile cancellare tutte le recensioni di un ente.
 \begin{longtblr}
 [
 caption = {Reset delle recensioni},
@@ -121,18 +130,21 @@ row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
 Ente & E & 1 & L \\
-Vendita & R & 1 & L \\
-Servizio & E & 1 & L\\ 
-Recensione & R & 1 & L \\
-Recensione & R & 1 & S \\
+vendita & R & 1 & L \\
+Servizio & E & 8 & L\\ 
+Servizio & E & 8 & S\\ 
+Recensione & R & 1600 (200 * 8) & L \\
+Recensione & R & 1600 & S \\
 
 \SetCell[c=4]{l, white} {
-    Totale: 4L + 1S \textrightarrow 1/giorno\\
-    Costo totale: 1 x (5) = 5/giorno
+    Totale: 1610L + 1608S \textrightarrow 1/giorno\\
+    Costo totale: 1 x (1610L + 1608S * 2) = 4,826/giorno
     }
 \end{longtblr}
 
 
+
+\subsubsection*{a4. Consultare le statistiche}
 Verranno eseguite le query necessarie per ottenere le seguenti statistiche:\\
 \begin{itemize}
   \item numero check-in
@@ -141,8 +153,6 @@ Verranno eseguite le query necessarie per ottenere le seguenti statistiche:\\
   \item numero eventi attivi
   \item numero servizi attivi
 \end{itemize}
-
-\subsubsection*{a4. Consultare le statistiche}
 \begin{longtblr}
 [
 caption = {Consultare statistiche},
@@ -154,11 +164,11 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Checkin{\_}completato & R & 1 & L \\
-Checkin{\_}falliti & R & 2 & L \\
-Possesso{\_}CityCard & R & 1 & L \\
-Vendita & R & 1 & L \\
-Organizzazione & R & 1 & L \\
+checkin{\_}completato & R & 1 & L \\
+checkin{\_}falliti & R & 2 & L \\
+possesso{\_}CityCard & R & 1 & L \\
+vendita & R & 1 & L \\
+organizzazione & R & 1 & L \\
 
 \SetCell[c=4]{l, white} {
     Totale: 5L \textrightarrow 50/giorno\\
@@ -166,6 +176,10 @@ Organizzazione & R & 1 & L \\
     }
 \end{longtblr}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% FORNITORE %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection*{f1. Creare enti}
 \begin{longtblr}
@@ -252,10 +266,9 @@ Occasionale & E & 1 & L \\
 
 
 
-Per creare un evento periodico si dovrà ottenere l'id dell'ente al quale è associato il fornitore, poi andare a creare un record per l'evento e un altro record per il periodo. \\
-\includegraphics[width=0.95\columnwidth]{a1getUser.png}
 
 \subsubsection*{f5. Creare eventi periodici}
+Per creare un evento periodico si dovrà ottenere l'id dell'ente al quale è associato il fornitore, poi andare a creare un record per l'evento e un altro record per il periodo. \\
 \begin{longtblr}
 [
 caption = {Creare eventi periodici},
@@ -278,6 +291,7 @@ Periodico & E & 1 & L \\
 
 
 
+\subsubsection*{f6. Consultare statistiche riguardo il proprio ente}
 Oltre alla query per ottenere il'id dell'ente del fornitore verranno eseguite quelle necessarie per ottenere le seguenti statistiche:\\
 \begin{itemize}
   \item saldo dell'ente associato al fornitore
@@ -285,7 +299,6 @@ Oltre alla query per ottenere il'id dell'ente del fornitore verranno eseguite qu
   \item numero servizi attivi
 \end{itemize}
 
-\subsubsection*{f6. Consultare statistiche riguardo il proprio ente}
 \begin{longtblr}
 [
 caption = {Consultare statistiche riguardo il proprio ente},
@@ -305,7 +318,9 @@ Ente & E & 1 & L \\
     }
 \end{longtblr}
 
-
+%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% CLIENTE %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{c1. Richiedere una CityCard}
 \begin{longtblr}
 [
@@ -327,10 +342,10 @@ CityCard & E & 1 & L \\
     }
 \end{longtblr}
 
+\subsubsection*{c2. Sottoscrivere un abbonamento}
 Prima di sottoscrivere un abbonamento vengono cercate una CityCard valida e una carta di credito predefinita. \\
 \includegraphics[width=0.95\columnwidth]{c2sottoscrizioneAbbonamento.png}
 
-\subsubsection*{c2. Sottoscrivere un abbonamento}
 \begin{longtblr}
 [
 caption = {Sottoscrivere un abbonamento},
@@ -375,9 +390,9 @@ Carta credito & R & S \\
 \end{longtblr}
 
 
+\subsubsection*{c4. Acquistare un servizio}
 \includegraphics[width=0.95\columnwidth]{c5acquistaServizio.png}
 
-\subsubsection*{c4. Acquistare un servizio}
 \begin{longtblr}
 [
 caption = {Acquistare un servizio},
@@ -426,8 +441,8 @@ Eventi & E & 1 & L\\
 \end{longtblr}
 
 
-Per poter effettuare un check-in devo confermare che la CityCard del cliente sia valida.
 \subsubsection*{c6. Effettuare un check-in}
+Per poter effettuare un check-in devo confermare che la CityCard del cliente sia valida.
 \begin{longtblr}
 [
 caption = {Effettuare un check-in},
@@ -498,11 +513,11 @@ Servizio & E & 1 & L \\
 
 
 
+\subsubsection*{c9. Visualizzare lista servizi}
 \includegraphics[width=0.95\columnwidth]{c10getServizi.png}
 \\
 \\
 Nella tabella dei servizi disponibili si dovrà mettere anche l'ente fornitore, il prezzo scontato in base all'abbonamento sottoscritto dal cliente.
-\subsubsection*{c9. Visualizzare lista servizi}
 \begin{longtblr}
 [
 caption = {Visualizzare lista servizi},
