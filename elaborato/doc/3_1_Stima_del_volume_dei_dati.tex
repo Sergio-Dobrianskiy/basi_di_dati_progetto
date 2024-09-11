@@ -31,13 +31,14 @@ Carta di credito & Entità & \num{150000} & Si stima che per ogni cliente sia as
 Evento & Entità & \num{1200} & Si stima che vengano organizzati almeno 4 eventi per ente \\
 Organizzazione evento & Relazione & \num{1200} & Essendo cardinalità 1-1 per ogni evento è prevista un'organizzazione\\
 Partecipazione & Relazione & \num{180000} & Non tutti i clienti possono essere interessati agli eventi \\
-Recensione & Relazione & \num{60000} & Ogni cliente può lasciare una recensione per servizio acquistato ma non è detto che tutti i clienti lo facciano \\
+Recensione & Relazione & \num{500000} & Ogni cliente può lasciare una recensione per servizio acquistato ma non è detto che tutti i clienti lo facciano \\
 Sconto & Entità &  \num{6} & In base al periodo di alta o bassa stagione ci saranno sconti diversi \\
 Riduzione & Relazione &  \num{3} & In ogni momento ci sarà uno sconto per ogni abbonamento\\
 Ban & Relazione &  \num{100} & Si stima che ci saranno pochissimi utenti bannati \\
 Frequenza & Relazione &  \num{600} & Stimo almeno un evento periodico per ogni ente \\
 Errore & Entità &  \num{10} & Si stimano circa una decina di errori possibili\\
 Checkin completo & Relazione &  \num{2000000} & Si stimano 20 viaggi per abbonamento\\
+Vendita & Relazione &  \num{1000000} & Si stima che ogni utente attivo compri due servizi ogni giorno in media\\
 Checkin fallito & Relazione &  \num{1000} & Si stimano pochi errori durante la fase di check-in \\
 Trasporto pubblico & Entità & ? & Sono API esterne, ignoro il loro volume
 

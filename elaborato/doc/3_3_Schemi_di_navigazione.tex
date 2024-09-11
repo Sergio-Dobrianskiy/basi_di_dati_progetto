@@ -107,7 +107,7 @@ Per ogni ente recupero l'utente che lo ha creato e la media delle recensioni.\\
   \end{longtblr}
 
 
-%%% TODO 
+
 \subsubsection*{a3. Reset delle recensioni}
 \begin{longtblr}
 [
@@ -154,10 +154,15 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Users & E & 1 & L\\ 
+Checkin{\_}completato & R & 1 & L \\
+Checkin{\_}falliti & R & 2 & L \\
+Possesso{\_}CityCard & R & 1 & L \\
+Vendita & R & 1 & L \\
+Organizzazione & R & 1 & L \\
+
 \SetCell[c=4]{l, white} {
-    Totale: 1L \textrightarrow 5/giorno\\
-    Costo totale: 1 x (5) = 5/giorno
+    Totale: 5L \textrightarrow 50/giorno\\
+    Costo totale: 50 x (5) = 250/giorno
     }
 \end{longtblr}
 
@@ -173,12 +178,10 @@ hlines,
 row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
-Fornitore & E & 1 & L\\ 
-Crea Ente & R & 1 & S \\
-Ente & E & 1 & L \\
+crea{\_}ente & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 8/giorno\\
-    Costo totale: 3 x (8) = 15/giorno
+    Totale: 1S \textrightarrow 8/giorno\\
+    Costo totale: 8 x (1) = 24/giorno
     }
 \end{longtblr}
 
