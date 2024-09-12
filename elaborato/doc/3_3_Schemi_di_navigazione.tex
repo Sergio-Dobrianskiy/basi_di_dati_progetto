@@ -182,6 +182,7 @@ organizzazione & R & 1 & L \\
 %%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsubsection*{f1. Creare enti}
+Ogni fornitore può creare uno o più enti.
 \begin{longtblr}
 [
 caption = {Creare enti},
@@ -194,13 +195,14 @@ row{1} = {LightCoral},
 } 
 crea{\_}ente & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 1S \textrightarrow 8/giorno\\
-    Costo totale: 8 x (1) = 24/giorno
-    }
+Totale: 1S \textrightarrow 8/giorno\\
+Costo totale: 8 x (1 x 2) = 16/giorno
+}
 \end{longtblr}
 
 
 \subsubsection*{f2. Associarsi a un ente}
+Il fornitore si può associare a un solo ente.
 \begin{longtblr}
 [
 caption = {Associarsi a un ente},
@@ -212,16 +214,15 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Fornitore & E & 1 & L\\ 
-Lavora & R & 1 & S \\ 
-Ente & E & 1 & L \\
+lavoro & R & 1 & S \\ 
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 3/giorno\\
-    Costo totale: 3 x (3) = 9/giorno
+    Totale: 1S \textrightarrow 3/giorno\\
+    Costo totale: 3 x (1 x 2) = 6/giorno
     }
 \end{longtblr}
 
 \subsubsection*{f3. Creare servizi}
+Ogni fornitore associato ad un ente può creare servizi.
 \begin{longtblr}
 [
 caption = {Creare servizi},
@@ -233,17 +234,18 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Ente & E & 1 & L\\ 
-Vende & R & 1 & S \\
-Servizio & E & 1 & L \\
+vendita & R & 1 & S \\
+lavoro & R & 1 & L \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S\textrightarrow 10/giorno\\
-    Costo totale: 3 x (10) = 30/giorno
+    Totale: 1L + 1S \textrightarrow 10/giorno\\
+    Costo totale: 10 x (1 + 1 x 2) = 30/giorno
     }
 \end{longtblr}
 
 
 \subsubsection*{f4. Creare eventi occasionali}
+\includegraphics[width=0.95\columnwidth]{f4creaEventoOccasionale.png}\\
+I fornitori associati a un ente possono creare eventi occasionali.
 \begin{longtblr}
 [
 caption = {Creare eventi occasionali},
@@ -255,12 +257,13 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Ente & E & 1 & L\\ 
-Organizza & R & 1 & S \\
-Occasionale & E & 1 & L \\
+lavoro & R & 1 & L \\
+organizza & R & 1 & S \\
+Evento & E & 1 & S \\
+Occasionale & E & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 4/giorno\\
-    Costo totale: 3 x (4) = 12/giorno
+    Totale: 1L + 3S \textrightarrow 4/giorno\\
+    Costo totale: 4 x (1 + 3 x 2) = 28/giorno
     }
 \end{longtblr}
 
@@ -268,6 +271,7 @@ Occasionale & E & 1 & L \\
 
 
 \subsubsection*{f5. Creare eventi periodici}
+\includegraphics[width=0.95\columnwidth]{f5creaEventoPeriodico.png}\\
 Per creare un evento periodico si dovrà ottenere l'id dell'ente al quale è associato il fornitore, poi andare a creare un record per l'evento e un altro record per il periodo. \\
 \begin{longtblr}
 [
@@ -280,19 +284,22 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Ente & E & 1 & L\\ 
-Organizza & R & 1 & S \\
+lavoro & R & 1 & L \\
+organizza & R & 1 & S \\
+Evento & E & 1 & S \\
 Periodico & E & 1 & L \\
+frequenza & R & 1 & S \\
+Calendario & E & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 1/giorno\\
-    Costo totale: 3 x (1) = 4/giorno
+    Totale: 2L + 4S \textrightarrow 1/giorno\\
+    Costo totale: 1 x (2 + 4 x 2) = 10/giorno
     }
 \end{longtblr}
 
 
 
 \subsubsection*{f6. Consultare statistiche riguardo il proprio ente}
-Oltre alla query per ottenere il'id dell'ente del fornitore verranno eseguite quelle necessarie per ottenere le seguenti statistiche:\\
+Oltre alla query per ottenere l'id dell'ente del fornitore verranno eseguite quelle necessarie per ottenere le seguenti statistiche:\\
 \begin{itemize}
   \item saldo dell'ente associato al fornitore
   \item numero eventi attivi
@@ -310,11 +317,12 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
-Fornitore & E & 1 & L\\ 
 Ente & E & 1 & L \\
+Eventi & E & 1 & L\\ 
+Servizi & E & 1 & L\\ 
 \SetCell[c=4]{l, white} {
     Totale: 2L \textrightarrow 800/giorno\\
-    Costo totale: 2 x (800) = 1600/giorno
+    Costo totale: 800 x (3) = 2400/giorno
     }
 \end{longtblr}
 
@@ -322,6 +330,7 @@ Ente & E & 1 & L \\
 %%%%%% CLIENTE %%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%
 \subsubsection*{c1. Richiedere una CityCard}
+Il cliente richiede una nuova CityCard.
 \begin{longtblr}
 [
 caption = {Richiedere una CityCard},
@@ -333,18 +342,17 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Cliente & E & 1 & L\\ 
 Possesso CityCard & R & 1 & S \\
-CityCard & E & 1 & L \\
+CityCard & E & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 2000/giorno\\
-    Costo totale: 5 x (2000) = 6000/giorno
+    Totale: 2S \textrightarrow 2000/giorno\\
+    Costo totale: 2000 x (2 x 2) = 8000/giorno
     }
 \end{longtblr}
 
 \subsubsection*{c2. Sottoscrivere un abbonamento}
 Prima di sottoscrivere un abbonamento vengono cercate una CityCard valida e una carta di credito predefinita. \\
-\includegraphics[width=0.95\columnwidth]{c2sottoscrizioneAbbonamento.png}
+\includegraphics[width=0.95\columnwidth]{c2sottoscrizioneAbbonamento.png}\\
 
 \begin{longtblr}
 [
@@ -358,18 +366,20 @@ row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
 Cliente & E & 1 & L\\ 
-Possesso Carta di credito & R & 1 & L \\
-Carta Credito & E & 1 & L \\
-Sottoscrizione & R & 1 & S \\
-Abbonamento & E & 1 & L \\
+possesso{\_}carta{\_}credito & R & 1 & L \\
+Carta{\_}Credito & E & 1 & L \\
+possesso{\_}citycard & R & 1 & L \\
+CityCard & E & 1 & L \\
+sottoscrizione & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 2000/giorno\\
-    Costo totale: 3 x (2000) = 6000/giorno
+    Totale: 5L + 1S \textrightarrow 2000/giorno\\
+    Costo totale: 2000 x (5 + 1 x 2) = 16000/giorno
     }
 \end{longtblr}
 
 
 \subsubsection*{c3. Aggiungere una carta di credito}
+Un cliente può salvare le proprie carte di credito.
 \begin{longtblr}
 [
 caption = {Aggiungere una carta di credito},
@@ -381,17 +391,42 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Cliente & E & 1 & L\\ 
 Carta credito & R & S \\
+possesso{\_}carta{\_}credito & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 1L + 1S \textrightarrow 2000/giorno\\
-    Costo totale: 2 x (2000) = 4000/giorno
+    Totale: 2S \textrightarrow 2000/giorno\\
+    Costo totale: 2000 x (2 x 2) = 8000/giorno
     }
 \end{longtblr}
 
 
-\subsubsection*{c4. Acquistare un servizio}
-\includegraphics[width=0.95\columnwidth]{c5acquistaServizio.png}
+\subsubsection*{c4. Rendere una carta di credito predefinita}
+Rendo predefinita una carta di credito di un utente e non predefinite tutte le altre.\\
+(dato che in media ho 1,5 carte per cliente, approssimo a 2)
+\begin{longtblr}
+[
+caption = {Aggiungere una carta di credito},
+]{
+colspec = {|X[3]X[1]X[2]X[4]|},
+rowhead = 1,
+hlines,
+row{even} = {lightgray},
+row{1} = {LightCoral},
+} 
+Concetto & Costrutto & Accessi & Tipo \\
+possesso{\_}carta{\_}credito & R & 2 & L \\
+Carta credito & R & 2 & L \\
+Carta credito & R & 2 & S \\
+\SetCell[c=4]{l, white} {
+    Totale: 4L + 2S \textrightarrow 2000/giorno\\
+    Costo totale: 2000 x (4 + 2 x 2) = 16000/giorno
+    }
+\end{longtblr}
+
+
+\subsubsection*{c5. Acquistare un servizio}
+Viene controllata la CityCard dell'utente, tramite essa vengono recuperati i dati della sottoscrizione, poi quelli dello sconto, con questi dati viene calcolato il prezzo e infine viene comprato il servizio e aggiornato il saldo dell'ente.
+\includegraphics[width=0.95\columnwidth]{c5acquistaServizio.png}\\
 
 \begin{longtblr}
 [
@@ -404,22 +439,26 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Enti & E & 1 & L\\ 
-Servizi & E & 1 & L\\ 
-Carta di credito & E & 1 & L\\ 
+possesso{\_}citycard & R & 1 & L \\
 CityCard & E & 1 & L\\ 
-Sconti & E & 1 & L\\ 
-Abbonamenti & E & 1 & L\\ 
-Sottoscrizione & E & 1 & L\\ 
-Servizi & E & 1 & L\\ 
-Transazione & E & 1 & R\\ 
+sottoscrizione & R & 1 & L \\
+Abbonamento & E & 1 & L\\ 
+riduzione & R & 1 & L \\
+Sconto & E & 1 & L\\ 
+possesso{\_}carta{\_}credito & R & 1 & L \\
+Carta{\_}credito & E & 1 & L \\
+transazione & R & 1 & S\\ 
+Servizio & E & 1 & L\\ 
+vendita & R & 1 & L\\ 
+Ente & E & 1 & S\\ 
 \SetCell[c=4]{l, white} {
-    Totale: 8L + 1S \textrightarrow 3000/giorno\\
-    Costo totale: 9 x (3000) = 27000/giorno
+    Totale: 10L + 2S \textrightarrow 3000/giorno\\
+    Costo totale: 3000 x (10 + 2 x 2) = 42000/giorno
     }
 \end{longtblr}
 
-\subsubsection*{c5. Prenotare un evento}
+\subsubsection*{c6. Prenotare un evento}
+Gli utenti possono prenotare gratuitamente degli eventi.
 \begin{longtblr}
 [
 caption = {Prenotare un evento},
@@ -431,17 +470,15 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Cliente & E & 1 & L \\
-Partecipazione & R & 1 & S \\
-Eventi & E & 1 & L\\ 
+partecipazione{\_}persona & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 500/giorno\\
-    Costo totale: 3 x (500) = 1500/giorno
+    Totale: 1S \textrightarrow 500/giorno\\
+    Costo totale: 500 x (1 x 2) = 1000/giorno
     }
 \end{longtblr}
 
 
-\subsubsection*{c6. Effettuare un check-in}
+\subsubsection*{c7. Effettuare un check-in}
 Per poter effettuare un check-in devo confermare che la CityCard del cliente sia valida.
 \begin{longtblr}
 [
@@ -454,18 +491,17 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
+possesso{\_}citycard & R & 1 & L \\
 CityCard & E & 1 & L\\ 
-Checkin completato & R & 1 & S\\
-Trasporto pubblico & E & 1 & L \\
-Checkin fallito & R & 1 & S \\
-Errore & E & 1 & L \\   % TODO verificare
+checkin(completato/fallito) & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-    Totale: 3L + 2S \textrightarrow 5000/giorno\\
-    Costo totale: 5 x (5000) = 25000/giorno
+    Totale: 2L + 1S \textrightarrow 5000/giorno\\
+    Costo totale: 5000 x (2 + 1 x 2) = 20000/giorno
     }
 \end{longtblr}
 
-\subsubsection*{c7. Consultare la lista degli acquisti fatti}
+\subsubsection*{c8. Consultare la lista degli acquisti fatti}
+Un utente può visualizzare la lista di tutti gli acquisti fatti.
 \begin{longtblr}
 [
 caption = {Consultare la lista degli acquisti fatti},
@@ -477,74 +513,78 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-servizi acquistati & E & 1 & L\\ 
-Cliente & E & 1 & L\\ 
-Servizi & E & 1 & L\\ 
+possesso{\_}citycard & R & 1 & L \\
+CityCard & E & 1 & L\\ 
+transazione & R & 1 & L\\ 
 \SetCell[c=4]{l, white} {
-    Totale: 2L \textrightarrow 3000/giorno\\
-    Costo totale: 2 x (3000) = 6000/giorno
+    Totale: 3L \textrightarrow 3000/giorno\\
+    Costo totale: 3000 x (3) = 9000/giorno
     }
 \end{longtblr}
 
 
-%% TODO  calcolare ridondanze
-\subsubsection*{c8. Lasciare una recensione riguardo un servizio acquistato}
-\begin{longtblr}
-[
-caption = {Lasciare una recensione riguardo un servizio acquistato},
-]{
-colspec = {|X[3]X[1]X[2]X[4]|},
-rowhead = 1,
-hlines,
-row{even} = {lightgray},
-row{1} = {LightCoral},
-} 
-Concetto & Costrutto & Accessi & Tipo \\
-servizi acquistati & E & 1 & L\\ 
-Cliente & E & 1 & L\\ 
-Recensione & R & 1 & S \\
-Servizio & E & 1 & L \\
+\subsubsection*{c9. Lasciare una recensione riguardo un servizio acquistato}
+Questa funzionalità verrà approfondita nella prossima sezione dedicata al calcolo delle ridondanze.
+% \begin{longtblr}
+% [
+% caption = {Lasciare una recensione riguardo un servizio acquistato},
+% ]{
+% colspec = {|X[3]X[1]X[2]X[4]|},
+% rowhead = 1,
+% hlines,
+% row{even} = {lightgray},
+% row{1} = {LightCoral},
+% } 
+% Concetto & Costrutto & Accessi & Tipo \\
+% servizi acquistati & E & 1 & L\\ 
+% Cliente & E & 1 & L\\ 
+% Recensione & R & 1 & S \\
+% Servizio & E & 1 & L \\
 
-\SetCell[c=4]{l, white} {
-    Totale: 2L + 1S \textrightarrow 1500/giorno\\
-    Costo totale: 3 x (1500) = 4500/giorno
-    }
-\end{longtblr}
-
-
-
-\subsubsection*{c9. Visualizzare lista servizi}
-\includegraphics[width=0.95\columnwidth]{c10getServizi.png}
-\\
-\\
-Nella tabella dei servizi disponibili si dovrà mettere anche l'ente fornitore, il prezzo scontato in base all'abbonamento sottoscritto dal cliente.
-\begin{longtblr}
-[
-caption = {Visualizzare lista servizi},
-]{
-colspec = {|X[3]X[1]X[2]X[4]|},
-rowhead = 1,
-hlines,
-row{even} = {lightgray},
-row{1} = {LightCoral},
-} 
-Concetto & Costrutto & Accessi & Tipo \\
-Cliente & E & 1 & L \\
-Ente & E & 1 & L \\
-Servizi & E & 1 & L\\ 
-
-\SetCell[c=4]{l, white} {
-    Totale: 3L \textrightarrow 7500/giorno\\
-    Costo totale: 3 x (7500) = 22500/giorno
-    }
-\end{longtblr}
+% \SetCell[c=4]{l, white} {
+%     Totale: 2L + 1S \textrightarrow 1500/giorno\\
+%     Costo totale: 3 x (1500) = 4500/giorno
+%     }
+% \end{longtblr}
 
 
-\includegraphics[width=0.95\columnwidth]{c11getEventi.png}
-\\
-\\
-Nella tabella dei servizi disponibili si dovrà mettere anche l'ente fornitore, il prezzo scontato in base all'abbonamento sottoscritto dal cliente.
-\subsubsection*{c10. Visualizzare lista eventi}
+
+\subsubsection*{c10. Visualizzare lista servizi}
+Anche questa funzionalità verrà approfondita nella prossima sezione dedicata al calcolo delle ridondanze.
+
+% \includegraphics[width=0.95\columnwidth]{c10getServizi.png}\\
+% Nella tabella dei servizi disponibili si dovrà mettere anche l'ente fornitore, il prezzo scontato in base all'abbonamento sottoscritto dal cliente.
+% \begin{longtblr}
+% [
+% caption = {Visualizzare lista servizi},
+% ]{
+% colspec = {|X[3]X[1]X[2]X[4]|},
+% rowhead = 1,
+% hlines,
+% row{even} = {lightgray},
+% row{1} = {LightCoral},
+% } 
+% Concetto & Costrutto & Accessi & Tipo \\
+% possesso{\_}citycard & R & 1 & L \\
+% CityCard & E & 1 & L\\ 
+% sottoscrizione & R & 1 & L \\
+% Abbonamento & E & 1 & L\\ 
+% riduzione & R & 1 & L \\
+% Sconto & E & 1 & L\\ 
+% Servizio & E & 1 & L\\ 
+% vendita & R & 1 & L \\
+% Ente & E & 1 & L \\
+
+% \SetCell[c=4]{l, white} {
+%     Totale: 9L \textrightarrow 7500/giorno\\
+%     Costo totale: 3 x (7500) = 22500/giorno
+%     }
+% \end{longtblr}
+
+
+\subsubsection*{c11. Visualizzare lista eventi}
+\includegraphics[width=0.95\columnwidth]{c11getEventi.png}\\
+L'utente visualizza la lista di tutti gli eventi disponibili, sia periodici che occasionali.
 \begin{longtblr}
 [
 caption = {Visualizzare lista eventi},
@@ -556,38 +596,15 @@ row{even} = {lightgray},
 row{1} = {LightCoral},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Cliente & E & 1 & L \\
 Ente & E & 1 & L \\
-Organizza & R & 1 & S \\
-Eventi & E & 1 & L\\ 
+organizzazione & R & 1 & L \\
+Occasionale & E & 1 & L\\ 
+Periodico & E & 1 & L\\ 
+frequenza & R & 1 & L \\
+Calendario & E & 1 & L\\ 
 
 \SetCell[c=4]{l, white} {
-    Totale: 3L + 1S\textrightarrow 7500/giorno\\
-    Costo totale: 4 x (7500) = 30000/giorno
+    Totale: 6L \textrightarrow 1500/giorno\\
+    Costo totale: 1500 x (6) = 9000/giorno
     }
 \end{longtblr}
-
-
-% TODO Decidere se lasciare come extra
-\subsubsection*{c11. Visualizzazione lista carta di credito}
-\begin{longtblr}
-[
-  caption = {Visualizzazione lista carta di credito},
-]{
-  colspec = {|X[3]X[1]X[2]X[4]|},
-  rowhead = 1,
-  hlines,
-  row{even} = {lightgray},
-  row{1} = {LightCoral},
-} 
-Concetto & Costrutto & Accessi & Tipo\\
-
-Cliente & E & 1 & L\\ 
-Possiede & R & 1 & L \\
-Carta di credito & E & 1 & L \\
-\SetCell[c=4]{l, white} {
-    Totale: 3L \textrightarrow 1500/giorno\\
-    Costo totale: 3 x (1500) = 4500/giorno
-    }
-\end{longtblr}
-
