@@ -105,3 +105,8 @@ p{
     color: #f5b301;
 }
 
+/* overwrite bootstrap */
+.form-check {
+    margin-left:0 !important;
+    padding-left:0 !important;
+}
