@@ -1,34 +1,59 @@
 \begin{itemize}
     \item 
-    \textbf{Ban} (Lega ADMIN e USER)\\
-    Un utente di tipo admin ha la facoltà di interdire l'accesso al sito
-    ad un altro utente. L'associazione è di tipo 0-N
-    con la cardinalità minima a 0 in quanto un admin può non bannare nessuno.
+    \textbf{Ban} (Lega ADMIN e USER) \textrightarrow \thinspace 
+    diventa attributo "bannato" nell'entità USERS.
+
     \item 
-    \textbf{Creazione ente} (lega FORNITORE e ENTE)\\
-    Un utente di tipo fornitore ha la possibilità di creare un Ente a cui associarsi.
-    L'associazione è di 0-N in quanto può anche non creare un Ente ma l'Ente può essere creato da un solo utente fornitore (associazione 1-1).
+    \textbf{Creazione ente} (lega FORNITORE e ENTE) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità ENTI.
+
     \item 
-    \textbf{Lavoro} (lega FORNITORE e ENTE)\\
-    Come nell'associazione precedente, la cardinalità però diventa 0-1 in quando un utente di tipo fornitore può lavorare solo per un Ente.
+    \textbf{Lavoro} (lega FORNITORE e ENTE) \textrightarrow \thinspace 
+    diventa la nuova entità COLLABORAZIONI.
+
     \item 
-    \textbf{Organizzazione} (lega ENTE e EVENTO)\\
+    \textbf{Organizzazione} (lega ENTE e EVENTO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità EVENTI.
+
     \item 
-    \textbf{Partecipazione} (lega CLIENTE e EVENTO)\\
-    L'associazione è di tipo 0-N in quanto un cliente può non partecipare a nessun evento come partecipare a molti.
+    \textbf{Partecipazione} (lega CLIENTE e EVENTO) \textrightarrow \thinspace
+    diventa la nuova entità PARTECIPAZIONI.
+
     \item 
-    \textbf{Possiede carta di credito} (lega  CLIENTE e CARTA DI CREDITO)\\
-    Un cliente può registrare sul portale più carte (associazione 0-N)
+    \textbf{Possiede carta di credito} (lega  CLIENTE e CARTA DI CREDITO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità CARTE CREDITO.
+
     \item 
-    \textbf{Possiede CityCard} (lega CLIENTE e CITYCARD)\\
-    Un utente può richiedere più CityCard ma può esserne attiva solo una alla volta
+    \textbf{Possiede CityCard} (lega CLIENTE e CITYCARD) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità CITY CARD.
+
     \item 
-    \textbf{Transazione} (lega CARTA DI CREDITO e CITYCARD e SERVIZIO)\\
-    L'associazione transazione collega tre entità, la transazione può far riferimento sia all'entità CityCard che a quella di Servizio (permette di poter acquistare)
+    \textbf{Transazione} (lega CARTA DI CREDITO e CITYCARD e SERVIZIO) \textrightarrow \thinspace 
+    diventa la nuova entità SERVIZI ACQUISTATI.
+
     \item 
-    \textbf{Sottoscrive} (lega ABBONAMENTO e CITYCARD e CARTA DI CREDITO) \\
-    Stessa triangolazione di prima.
+    \textbf{Sottoscrive} (lega ABBONAMENTO e CITYCARD e CARTA DI CREDITO)  \textrightarrow \thinspace 
+    diventa la nuova entità SOTTOSCRIZIONI ABBONAMENTO.
+
     \item 
-    \textbf{Riduzione} (lega ABBONAMENTO e SCONTO)
-    L'associazione è di tipo 0-N in quanto lo stesso sconto si può applicare su più abbonamenti così come a nessuno.
+    \textbf{Riduzione} (lega ABBONAMENTO e SCONTO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità ABBONAMENTI.
+    
+    \item 
+    \textbf{Checkin completato} e \textbf{Checkin fallito} (lega CITY CARD e TRASPORTO PUBBLICO)  \textrightarrow \thinspace 
+    diventano la nuova entità CHECKS.
+    
+    \item 
+    \textbf{Recensione} (lega CLIENTE e SERVIZIO)  \textrightarrow \thinspace 
+    diventano la nuova entità RECENSIONI.
+    
+    \item 
+    \textbf{Vendita} (lega ENTE e SERVIZIO)  \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità SERVIZI.
+    
+    \item 
+    \textbf{Frequenza} (lega PERIODICO e CALENDARIO)  \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità EVENTI.
+
+    
 \end{itemize}
