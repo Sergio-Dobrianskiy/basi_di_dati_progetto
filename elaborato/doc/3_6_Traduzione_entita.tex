@@ -3,23 +3,26 @@
     \textbf{Carta{\_}credito}(\underline{num{\_}carta{\_}credito}, cognome{\_}associato, nome{\_}associato,
     mese{\_}scadenza, anno{\_}scadenza, data{\_}registrazione{\_}carta, id{\_}user,
     predefinita)\\
-    FK: USERS.id{\_}utente)
+    FK: id{\_}user \textrightarrow USERS.id{\_}user
+
     \item 
     \textbf{Checks}(
     \underline{id{\_}check}, 
     orario{\_}convalida
     id{\_}city{\_}card
     id{\_}mezzo
-    id{\_}stato\\
+    id{\_}stato)\\
     FK: id{\_}mezzo \textrightarrow MEZZI.id{\_}mezzo\\
     FK: id{\_}stato \textrightarrow STATI{\_}CHECK.id{\_}stato\\
-    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card)\\
+    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card\\
+
     \item 
     \textbf{CityCard}
     (\underline{id{\_}city{\_}card},
     id{\_}utente,
     data{\_}emissione,
     data scadenza)
+
     \item 
     \textbf{Collaborazioni}
     (
@@ -27,9 +30,10 @@
     inizio{\_}collaborazione
     fine{\_}collaborazione
     id{\_}user
-    id{\_}ente\\
+    id{\_}ente)\\
     FK: id{\_}user \textrightarrow USER.id{\_}user\\
-    FK: id{\_}ente {\_} \textrightarrow ENTI.id{\_}ente)
+    FK: id{\_}ente \textrightarrow ENTI.id{\_}ente
+
     \item
     \textbf{Enti}
     (
@@ -38,20 +42,22 @@
     saldo,
     indirizzo,
     numero{\_}telefono,
-    nome,\\
+    nome,
+    id{\_}user)\\
     FK: id{\_}user \textrightarrow USERS id{\_}user
-    )
+    
     \item 
     \textbf{Eventi}
     (\underline{id{\_}evento},
     nome{\_}evento,
     num{\_}partecipanti,
+    id{\_}periodo,
     inizio{\_}validità,
     fine{\_}validità,
-    id{\_}ente,\\
-    FK:= PERIODI.id{\_}periodo,\\
+    id{\_}ente)\\
+    FK: id{\_}periodo \textrightarrow PERIODI.id{\_}periodo,\\
     FK: id{\_}ente \textrightarrow ENTI.id{\_}ente
-    )
+    
     \item 
     \textbf{Listino abbonamenti}
     (
@@ -60,9 +66,9 @@
     prezzo{\_}abbonamento,
     durata{\_}abbonamento,
     data{\_}disattivazione,
-    id{\_}sconto,\\
+    id{\_}sconto)\\
     FK: id{\_}sconto \textrightarrow SCONTI.id{\_}sconto
-    )
+    
     \item 
     \textbf{Mezzi}
     (
@@ -71,21 +77,20 @@
     partenza
     destinazione
     )
+
     \item 
     \textbf{Partecipazioni}
     (
     \underline{id{\_}partecipazione},
     data{\_}registrazione,
     id{\_}evento,
-    id{\_}city{\_}card,
-    id: id {\_}partecipazione,\\
+    id{\_}city{\_}card)\\
     FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card,\\
-    FK: id{\_}evento \textrightarrow EVENTI.id{\_}evento)
+    FK: id{\_}evento \textrightarrow EVENTI.id{\_}evento
+
     \item   
     \textbf{Periodi}
     (\underline{id{\_}periodo},
-    ripeti{\_}ogni,
-    periodo,
     lunedi,
     martedi,
     mercoledi,
@@ -93,25 +98,29 @@
     venerdi,
     sabato,
     domenica)
+
     \item 
     \textbf{Recensioni}
     (\underline{id{\_}recensione},
     data{\_}inserimento,
     votazione,
     id{\_}servizio,
-    id{\_}user,\\
+    id{\_}user)\\
     FK: id{\_}servizio \textrightarrow SERVIZI.id{\_}servizio,\\
-    FK: id{\_}user \textrightarrow USERS.id{\_}user)
+    FK: id{\_}user \textrightarrow USERS.id{\_}user
+
     \item 
     \textbf{Ruoli}
     (\underline{id{\_}ruolo},
     descrizione{\_}ruolo
     )
+
     \item 
     \textbf{Sconti}
     (
     \underline{id{\_}sconto},
     percentuale{\_}sconto)
+
     \item 
     \textbf{Servizi}
     (
@@ -122,9 +131,9 @@
     descrizione{\_}servizio
     indirizzo{\_}servizio
     media{\_}recensioni
-    id{\_}ente\\
+    id{\_}ente)\\
     FK: id{\_}ente \textrightarrow ENTI.id{\_}ente
-    )
+    
     \item 
     \textbf{Servizi acquistati}
     (
@@ -134,21 +143,23 @@
     media{\_}recensioni,
     num{\_}carta{\_}credito,
     id{\_}city{\_}card,
-    id{\_}servizio,\\
-    FK: id{\_}servizio \textrightarrow SERVIZI.id{\_}servizio,\\
-    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card,\\
+    id{\_}servizio)\\
+    FK: id{\_}servizio \textrightarrow SERVIZI.id{\_}servizio\\
+    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card\\
     FK: num{\_}carta{\_}credito \textrightarrow CARTE{\_}CREDITO.num{\_}carta{\_}credito
-    )
+    
     \item 
-    (
     \textbf{Sottoscrizioni abbonamento},
-    \underline{id{\_}acquisto},
+    (
+    \underline{id{\_}sottoscrizione{\_}abbonamento},
     scadenza{\_}sottoscrizione,
-    data{\_}sottoscrizione,\\
-    FK: id{\_}listino{\_}abbonamento \textrightarrow LISTINO{\_}ABBONAMENTI.id{\_}listino{\_}abbonamento,\\
-    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card,\\
+    data{\_}sottoscrizione,
+    id{\_}citycard,
+    num{\_}carta{\_}credito)\\
+    FK: id{\_}listino{\_}abbonamento \textrightarrow LISTINO{\_}ABBONAMENTI.id{\_}listino{\_}abbonamento\\
+    FK: id{\_}city{\_}card \textrightarrow CITY{\_}CARD.id{\_}city{\_}card\\
     FK: num{\_}carta{\_}credito \textrightarrow CARTE{\_}CREDITO.num{\_}carta{\_}credito
-    )
+    
     \item 
     \textbf{Stati check}
     (
@@ -172,9 +183,9 @@
     CAP,
     nazione,
     data{\_}creazione,
-    id{\_}ruolo, \\
+    id{\_}ruolo)\\
     FK: id{\_}ruolo \textrightarrow RUOLI.id{\_}ruolo
-    )
+    
 \end{itemize}
 
 
