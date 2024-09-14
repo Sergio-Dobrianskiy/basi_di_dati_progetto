@@ -6,8 +6,6 @@
 \item npm install -g nodemon
 \end{itemize}
 
-% \subsubsection{Dump database}
-% Da dentro la cartella '\textbackslash web{\_}app' lanciare il comando 'mysqldump -uroot -p1234  web{\_}app \texttt{>} dump.sql', non vanno gli spazi dopo i primi due flag
 
 \subsubsection{restore database}
 Dalla cartella 'web{\_}app' lanciare il comando:
@@ -16,7 +14,7 @@ Dalla cartella 'web{\_}app' lanciare il comando:
 \item su unix: 'mysql -uroot -p1234 \texttt{<} dump.sql'
 \end{itemize}
 
-\subsubsection{User}
+\subsubsection{Creazione utente database}
 Il restore dovrebbe creare l'utente necessario per far funzionare l'applicativo, se così non fosse: creare un utente chiamato 'web{\_}app' password '1234' e concedere tutti i diritti.
 
 \subsubsection{avvio app}
@@ -24,4 +22,12 @@ Il restore dovrebbe creare l'utente necessario per far funzionare l'applicativo,
 \item  posizionarsi in /basi{\_}di{\_}dati{\_}progetto/webapp/
 \item  'npm start' oppure 'nodemon src/app'
 \item  andare a http://localhost:5000/
+\end{itemize}
+
+\subsubsection{Utenti applicazione}
+Durante l'utilizzo è possibile creare gli utenti per utilizzare l'applicazione, altrimenti ci sono già presenti tre utenti:
+\begin{itemize}
+    \item  username: admin \hspace{1.5cm} password: admin
+    \item  username: fornitore \hspace{1.5cm} password: fornitore
+    \item  username: cliente \hspace{1.5cm} password: cliente
 \end{itemize}
