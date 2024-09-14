@@ -1,0 +1,59 @@
+\begin{itemize}
+    \item 
+    \textbf{Ban} (Lega ADMIN e USER) \textrightarrow \thinspace 
+    diventa attributo "bannato" nell'entità USERS.
+
+    \item 
+    \textbf{Creazione ente} (lega FORNITORE e ENTE) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità ENTI.
+
+    \item 
+    \textbf{Lavoro} (lega FORNITORE e ENTE) \textrightarrow \thinspace 
+    diventa la nuova entità COLLABORAZIONI.
+
+    \item 
+    \textbf{Organizzazione} (lega ENTE e EVENTO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità EVENTI.
+
+    \item 
+    \textbf{Partecipazione} (lega CLIENTE e EVENTO) \textrightarrow \thinspace
+    diventa la nuova entità PARTECIPAZIONI.
+
+    \item 
+    \textbf{Possiede carta di credito} (lega  CLIENTE e CARTA DI CREDITO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità CARTE CREDITO.
+
+    \item 
+    \textbf{Possiede CityCard} (lega CLIENTE e CITYCARD) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità CITY CARD.
+
+    \item 
+    \textbf{Transazione} (lega CARTA DI CREDITO e CITYCARD e SERVIZIO) \textrightarrow \thinspace 
+    diventa la nuova entità SERVIZI ACQUISTATI.
+
+    \item 
+    \textbf{Sottoscrive} (lega ABBONAMENTO e CITYCARD e CARTA DI CREDITO)  \textrightarrow \thinspace 
+    diventa la nuova entità SOTTOSCRIZIONI ABBONAMENTO.
+
+    \item 
+    \textbf{Riduzione} (lega ABBONAMENTO e SCONTO) \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità ABBONAMENTI.
+    
+    \item 
+    \textbf{Checkin completato} e \textbf{Checkin fallito} (lega CITY CARD e TRASPORTO PUBBLICO)  \textrightarrow \thinspace 
+    diventano la nuova entità CHECKS.
+    
+    \item 
+    \textbf{Recensione} (lega CLIENTE e SERVIZIO)  \textrightarrow \thinspace 
+    diventano la nuova entità RECENSIONI.
+    
+    \item 
+    \textbf{Vendita} (lega ENTE e SERVIZIO)  \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità SERVIZI.
+    
+    \item 
+    \textbf{Frequenza} (lega PERIODICO e CALENDARIO)  \textrightarrow \thinspace 
+    diventa chiave esterna nell'entità EVENTI.
+
+    
+\end{itemize}

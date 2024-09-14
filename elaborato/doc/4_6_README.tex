@@ -1,0 +1,27 @@
+\subsubsection{Installazione su windows}
+\begin{itemize}
+\item Scaricare e installare Node.js: https://nodejs.org/en/download/prebuilt-installer
+\item spostarsi in /basi{\_}di{\_}dati{\_}progetto/webapp/server
+\item 'node install'
+\item npm install -g nodemon
+\end{itemize}
+
+% \subsubsection{Dump database}
+% Da dentro la cartella '\textbackslash web{\_}app' lanciare il comando 'mysqldump -uroot -p1234  web{\_}app \texttt{>} dump.sql', non vanno gli spazi dopo i primi due flag
+
+\subsubsection{restore database}
+Dalla cartella 'web{\_}app' lanciare il comando:
+\begin{itemize}
+\item su windows: 'Get-Content dump.sql | mysql -uroot -p1234 web{\_}app'
+\item su unix: 'mysql -uroot -p1234 \texttt{<} dump.sql'
+\end{itemize}
+
+\subsubsection{User}
+Il restore dovrebbe creare l'utente necessario per far funzionare l'applicativo, se così non fosse: creare un utente chiamato 'web{\_}app' password '1234' e concedere tutti i diritti.
+
+\subsubsection{avvio app}
+\begin{itemize}
+\item  posizionarsi in /basi{\_}di{\_}dati{\_}progetto/webapp/
+\item  'npm start' oppure 'nodemon src/app'
+\item  andare a http://localhost:5000/
+\end{itemize}

@@ -92,15 +92,15 @@ Seleziona tutti gli enti con e senza recensione, COALESCE restituisce 0 se non c
 
 
 \subsubsection{Reitorna statistiche amministratore}
-Uso le variabili per rendere più leggibili le query e le unisco in un unico SELECT per rendere l'inserimento in tabello più semplice. 
+Uso le variabili per rendere più leggibili le query e le unisco in un unico SELECT per rendere l'inserimento in tabelle più semplice. 
 \begin{lstlisting}[language=SQL]
 	INSERT INTO users (username, nome, cognome, email,
 	password, id_ruolo, data_creazione) 
-	VALUES (SET @numeroCheckin = (SELECT count(COALESCE(id_check,0)) FROM checks);
-	SET @numeroCheckinFalliti = (SELECT count(COALESCE(id_check,0)) FROM checks WHERE id_check != 1);
-	SET @numeroCityCardAttive = (SELECT count(COALESCE(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
-	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now());
-	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now());
+	VALUES (SET @numeroCheckin = (SELECT COUNT(COALESCE(id_check,0)) FROM checks);
+	SET @numeroCheckinFalliti = (SELECT COUNT(COALESCE(id_check,0)) FROM checks WHERE id_check != 1);
+	SET @numeroCityCardAttive = (SELECT COUNT(COALESCE(id_city_card,0)) FROM city_card WHERE data_scadenza > now());
+	SET @numeroEventiAttivi = (SELECT COUNT(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now());
+	SET @numeroServiziAttivi = (SELECT COUNT(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now());
 	
 	SELECT 
 	@numeroCheckin AS numero_checkin,
@@ -122,8 +122,8 @@ Uso le variabili per rendere più leggibili le query e le unisco in un unico SEL
 	WHERE c.id_user = @id_utente AND c.fine_collaborazione is null limit 1);
 	
 	SET @saldo = (SELECT saldo FROM enti WHERE id_ente = @id_ente);
-	SET @numeroEventiAttivi = (SELECT count(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now() AND id_ente = @id_ente);
-	SET @numeroServiziAttivi = (SELECT count(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now() AND id_ente = @id_ente);
+	SET @numeroEventiAttivi = (SELECT COUNT(COALESCE(id_evento,0)) FROM eventi WHERE fine_validita > now() AND id_ente = @id_ente);
+	SET @numeroServiziAttivi = (SELECT COUNT(COALESCE(id_servizio,0)) FROM servizi WHERE fine_validita > now() AND id_ente = @id_ente);
 	
 	
 	SELECT  
@@ -238,11 +238,11 @@ quindi per default disattivo tutte quelle attive.
 \subsubsection{Rendere predefinita una carta di credito}
 rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte le altre. Query doppia, una delle alternative a quello fatto in ban
 \begin{lstlisting}[language=SQL]
-	UPDATEcarte_credito
+	UPDATE carte_credito
 	SET predefinita = 0
 	WHERE id_user = ?;
 	
-	UPDATEcarte_credito
+	UPDATE carte_credito
 	SET predefinita = 1
 	WHERE num_carta_credito = ?;
 \end{lstlisting}
@@ -263,7 +263,7 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 \begin{lstlisting}[language=SQL]
 	INSERT INTO collaborazioni 
 	(id_user, id_ente) 
-	VALUES (?, ?);`
+	VALUES (?, ?);
 \end{lstlisting}
 
 \subsubsection{Effettua check-in}
@@ -272,7 +272,7 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 	VALUES (( SELECT id_city_card
 	FROM city_card
 	WHERE id_user = ? AND data_scadenza > now()), 
-	?, ?);`
+	?, ?);
 \end{lstlisting}
 
 \subsubsection{Ottieni CityCard di un utente}
@@ -343,7 +343,7 @@ Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN pe
 \end{lstlisting}
 
 
-\subsubsection{ritorna, se presente, la sottoscrizione attiva attiva dell'utente}
+\subsubsection{Ritorna, se presente, la sottoscrizione attiva attiva dell'utente}
 \begin{lstlisting}[language=SQL]
 	SELECT sa.* 
 	FROM sottoscrizioni_abbonamento sa
@@ -367,7 +367,7 @@ Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN pe
 	ON ch.id_stato = sc.id_stato
 	JOIN mezzi m
 	ON ch.id_mezzo = m.id_mezzo
-	WHERE u.id_user = ?;`
+	WHERE u.id_user = ?;
 \end{lstlisting}
 
 
@@ -444,8 +444,8 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	
 	SET @idPeriodo = (SELECT MAX(id_periodo) FROM periodi);
 	
-	INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-	VALUES (@idPeriodo, ?,?, @idEnte);
+	INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+	VALUES (@idPeriodo, ?, @idEnte);
 \end{lstlisting}
 
 
@@ -456,6 +456,6 @@ Per ottenere l'ultimo ID inserito in periodi una opzione poteva essere l'utilizz
 	FROM collaborazioni c
 	WHERE c.id_user = @idUser AND c.fine_collaborazione is null limit 1);
 	
-	INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-	VALUES (1, ?,?, @idEnte);
+	INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+	VALUES (1, ?, @idEnte);
 \end{lstlisting}

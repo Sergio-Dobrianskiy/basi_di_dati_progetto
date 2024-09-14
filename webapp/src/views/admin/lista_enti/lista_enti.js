@@ -1,11 +1,10 @@
+getEnti()
 document.querySelector('#update-enti-btn').onclick = () => { getEnti() };
 function getEnti() {
     fetch('http://localhost:5000/api/getEnti')
         .then(response => response.json())
         .then(data => loadEntiTable(data['data']));
 }
-
-
 
 function loadEntiTable(data) {
     const table = document.querySelector('table tbody');
@@ -18,12 +17,11 @@ function loadEntiTable(data) {
     let tableHtml = "";
 
     data.forEach((ente) => {
-        // console.log(utente)
         var nome_ente = ente['nome_ente'];
         var nome = ente['nome_user'];
         var cognome = ente['cognome'];
         var descrizione = ente['descrizione'];
-        var contatto = ente['contatto'];
+        var contatto = ente['numero_telefono'];
         var creatore = convertToTitleCase(cognome)+ " " + convertToTitleCase(nome)
         var media_recensioni = ente['media_recensioni'];
         var id_ente = ente['id_ente'];

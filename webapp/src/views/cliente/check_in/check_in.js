@@ -1,3 +1,4 @@
+getListaCheckIn()
 const addBtn = document.querySelector("#button_check_in");
 
 addBtn.onclick = function (e) {

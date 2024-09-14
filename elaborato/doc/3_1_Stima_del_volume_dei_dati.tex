@@ -1,0 +1,46 @@
+Si fornisce in questa fase una tabella contenente il numero medio di istanze di ogni entità e associazione dello schema globale. \\
+
+\begingroup % localize the following settings  
+\setlength{\arrayrulewidth}{0.5mm}
+\renewcommand{\arraystretch}{1.5}
+
+\begin{longtblr}
+[
+  caption = {Stima del volume di dati},
+  label = {tab:Stima del volume di dati},
+]{
+  colspec = {|X[3,l]X[2]X[2]X[6,l]|},
+  rowhead = 1,
+  hlines,
+  row{even} = {PaleTurquoise},
+    row{1} = {SkyBlue},
+} 
+Concetto & Costrutto & Volume & Descrizione\\
+Utente & Entità & \num{100000} & Si stima che i clienti, gli enti e gli amministratori siano numerosi \\
+Possiede CityCard & Relazione & \num{100000} & I clienti potrebbero registrarsi ma non avere una CityCard attiva e alcuni potrebbero avere più di una CityCard \\
+Admin & Entità & \num{20} & Si stima che ci saranno 20 amministratori \\
+Ente & Entità & \num{300} & Fornisce i servizi che il cliente usufruisce\\
+Crea ente & Relazione & \num{300} & Ogni ente è creato da un fornitore \\
+Fornitore & Entità & \num{800} & Si stima che ci siano 2-3 fornitori per ogni ente \\
+Lavora & Relazione & \num{750} & Non tutti i fornitori lavorano per un ente \\
+Servizi & Entità & \num{2400} & Data la cardinalità mi aspetto una stima di 8 servizi ad ente durante l'anno \\
+Transazione & Relazione & \num{1000000} & Si stima che in media ogni utente compri 5 servizi \\
+Abbonamento & Entità & \num{3} & In ogni momento ci saranno 3 tipi di abbonamento\\
+Sottoscrizione & Relazione & \num{100000} & Si stima una media di un abbonamento per ogni utente \\
+Carta di credito & Entità & \num{150000} & Si stima che per ogni cliente sia associata più una carta di credito\\
+Evento & Entità & \num{1200} & Si stima che vengano organizzati almeno 4 eventi per ente \\
+Organizzazione evento & Relazione & \num{1200} & Essendo cardinalità 1-1 per ogni evento è prevista un'organizzazione\\
+Partecipazione & Relazione & \num{180000} & Non tutti i clienti possono essere interessati agli eventi \\
+Recensione & Relazione & \num{500000} & Ogni cliente può lasciare una recensione per servizio acquistato ma non è detto che tutti i clienti lo facciano \\
+Sconto & Entità &  \num{6} & In base al periodo di alta o bassa stagione ci saranno sconti diversi \\
+Riduzione & Relazione &  \num{3} & In ogni momento ci sarà uno sconto per ogni abbonamento\\
+Ban & Relazione &  \num{100} & Si stima che ci saranno pochissimi utenti bannati \\
+Frequenza & Relazione &  \num{600} & Stimo almeno un evento periodico per ogni ente \\
+Errore & Entità &  \num{10} & Si stimano circa una decina di errori possibili\\
+Checkin completo & Relazione &  \num{2000000} & Si stimano 20 viaggi per abbonamento\\
+Vendita & Relazione &  \num{1000000} & Si stima che ogni utente attivo compri due servizi ogni giorno in media\\
+Checkin fallito & Relazione &  \num{1000} & Si stimano pochi errori durante la fase di check-in \\
+Trasporto pubblico & Entità & * & Sono API esterne, ignoro il loro volume
+
+\end{longtblr}
+\endgroup

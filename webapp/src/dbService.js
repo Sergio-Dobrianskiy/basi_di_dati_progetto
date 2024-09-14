@@ -972,11 +972,9 @@ class DbService {
                                 WHERE c.id_user = ?;`;
                 connection.query(query, [id_user], (err, results) => {
                     if (err) reject(new Error(err.message));
-                    // console.log(results)
                     resolve(results);
                 })
             });
-            // console.log(response)
             return response;
         } catch (error) {
             console.log(error);
@@ -1049,8 +1047,6 @@ class DbService {
                                 set saldo = saldo + @paidPrice
                                 WHERE id_ente = @idEnte;
                                 `
-
-                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
                 connection.query(query, [id_user, id_evento] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
@@ -1065,11 +1061,9 @@ class DbService {
 
 
     // trova l'ente associato all'utente e crea un'evento
-    async creazioneEventoPeriodico(id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom) {
-        console.log("Arrivati ", id_user, nomeEvento, numero_pertecipanti, lun,mar,mer,gio,ven,sab,dom)
-
+    async creazioneEventoPeriodico(id_user, nome_evento, lun,mar,mer,gio,ven,sab,dom) {
+        console.log("Arrivati ", id_user, nome_evento, lun,mar,mer,gio,ven,sab,dom)
         id_user = parseInt(id_user, 10); 
-        numero_pertecipanti = parseInt(numero_pertecipanti, 10); 
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = ` 
@@ -1083,13 +1077,10 @@ class DbService {
                                 -- set @idPeriodo = SELECT LAST_INSERT_ID('id_periodo'); --  serve PersistentConnections
                                 set @idPeriodo = (SELECT MAX(id_periodo) FROM periodi);
 
-                                INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-                                VALUES (@idPeriodo, ?,?, @idEnte);
-
+                                INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+                                VALUES (@idPeriodo, ?, @idEnte);
                                 `
-
-                // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
-                connection.query(query, [id_user, lun,mar,mer,gio,ven,sab,dom, nomeEvento, numero_pertecipanti] , (err, result) => {
+                connection.query(query, [id_user, lun,mar,mer,gio,ven,sab,dom, nome_evento] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })
@@ -1101,11 +1092,8 @@ class DbService {
         }
     }
     // trova l'ente associato all'utente e crea un'evento
-    async creazioneEventoNonPeriodico(id_user, nomeEvento, numero_pertecipanti) {
-        console.log("Arrivati ", id_user, nomeEvento, numero_pertecipanti)
-
+    async creazioneEventoNonPeriodico(id_user, nome_evento) {
         id_user = parseInt(id_user, 10); 
-        numero_pertecipanti = parseInt(numero_pertecipanti, 10); 
         try {
             const response = await new Promise((resolve, reject) => {
                 const query = ` 
@@ -1114,13 +1102,13 @@ class DbService {
                                         FROM collaborazioni c
                                         WHERE c.id_user = @idUser and c.fine_collaborazione is null limit 1);
 
-                                INSERT INTO eventi (id_periodo, nome_evento, num_partecipanti, id_ente) 
-                                VALUES (1, ?,?, @idEnte);
+                                INSERT INTO eventi (id_periodo, nome_evento, id_ente) 
+                                VALUES (1, ?, @idEnte);
 
                                 `
 
                 // connection.query(query, [id_evento, id_user, id_evento, id_user, id_user] , (err, result) => {
-                connection.query(query, [id_user, nomeEvento, numero_pertecipanti] , (err, result) => {
+                connection.query(query, [id_user, nome_evento] , (err, result) => {
                     if (err) reject(new Error(err.message));
                     resolve(result);
                 })

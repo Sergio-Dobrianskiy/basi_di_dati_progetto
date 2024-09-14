@@ -14,7 +14,9 @@
 drop schema if exists CityCardDB;
 create database CityCardDB;
 use CityCardDB;
-
+-- DROP USER IF EXISTS 'web_app';
+CREATE USER IF NOT EXISTS 'web_app'@'%' IDENTIFIED WITH mysql_native_password BY '1234';
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
 
 -- Tables Section
 -- _____________ 
@@ -171,15 +173,14 @@ create table EVENTI (
 	id_evento int not null auto_increment,
 	nome_evento varchar(30) not null,
 	id_periodo int default 0,
-	num_partecipanti int not null,
 	inizio_validita datetime not null default now(),
 	fine_validita datetime not null default (DATE_ADD(NEW.inizio_validita, INTERVAL 1 MONTH)),
 	id_ente int not null,
 	constraint IDEVENTO primary key (id_evento)
 	-- ,constraint FKR_1_ID unique (id_periodo) -- serve?
     );
-INSERT INTO `citycarddb`.`eventi` (`id_periodo`, `nome_evento`, `num_partecipanti`, `inizio_validita`, `fine_validita`, `id_ente`) 
-VALUES ('1', 'evento natale', '5', '2024-08-22', '2024-09-30', '1');
+INSERT INTO `citycarddb`.`eventi` (`id_periodo`, `nome_evento`, `inizio_validita`, `fine_validita`, `id_ente`) 
+VALUES ('1', 'evento natale', '2024-08-22', '2024-09-30', '1');
 
 
 

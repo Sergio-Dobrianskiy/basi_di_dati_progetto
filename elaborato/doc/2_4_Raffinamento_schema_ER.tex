@@ -1,0 +1,29 @@
+\subsubsection{Modifica chiave primaria \textbf{User}}
+In seguito a una analisi approfondita dei requisiti, la necessità di permettere a una persona di poter creare più di un account e di poter modificare i propri dati rende comodo l'utilizzo di una chiave primaria numerica.  
+
+\subsubsection{Scelta chiave primaria \textbf{carta di credito}}
+L'univocità del numero della carta di credito ci permette di utilizzarlo come chiave primaria dell'entità.
+
+\subsubsection{Scelta delle altre chiavi primarie delle altre tabelle}
+Per semplicità è stato deciso di utilizzare una chiave primaria numerica in tutte le altre tabelle.
+
+\subsubsection{Normalizzazione entità \textbf{User}} 
+Per rendere lo schema conforme alla prima forma normale l'attributo composto \textbf{indirizzo} è stato suddiviso in attributi separati.
+
+\subsubsection{Normalizzazione entità \textbf{Evento}}
+Gli eventi sono visibili se la data di \textbf{fine{\_}validita} non è ancora passata, questo rende l'attributo \textbf{visibile} ridondante e di conseguenza è stato tolto.
+
+\subsubsection{Modifica entità Sconto}
+L'entità sconto è stata pensata come uno storico dei clienti che ottenevano uno sconto, ma dopo una analisi più approfondita del progetto si è deciso di utilizzarla per mantenere la lista degli sconti disponibili in modo da poterne aggiungere di nuovi o di modificarli senza dover modificare la tabella abbonamenti.  
+
+\subsubsection{Aggiunta relazione tra Abbonamento e Sconto}
+La modifica dell'entità \textbf{Sconto} comporta una relazione nuova con \textbf{Abbonamento}: \textbf{riduzione}. Ogni abbonamento propone uno sconto tra quelli disponibili.
+
+\subsubsection{Aggiunta attributi minimi in Trasporti pubblici}
+L'ente \textbf{Trasporto pubblico} imita un'API esterna e si è deciso di assegnarle gli attributi minimi: \textbf{id{\_}mezzo}, \textbf{descrizione{\_}mezzo}, \textbf{partenza}, \textbf{destinazione}.
+
+\subsubsection{Aggiunta di \textbf{CityCard} alla relazione \textbf{transazione}}
+La tessera \textbf{Citycard} sarà utilizzata come biglietto durante la fruizione dei servizi, per questo motivo è stata aggiunta alla relazione \textbf{transazione} con i già presenti \textbf{Servizio} e \textbf{Carta di Credito}.
+
+\subsubsection{Aggiunta di \textbf{Errore} alla relazione \textbf{chekin{\_}fallito}}
+Un \textbf{chekin{\_}fallito} deve contenere l'errore che ha causato il fallimento, per questo motivo è stato aggiunto \textbf{Errore} alla relazione assieme ai già presenti \textbf{CityCard} e \textbf{Trasporto pubblico}

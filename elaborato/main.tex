@@ -11,7 +11,9 @@
 \usepackage{enumitem}% http://ctan.org/pkg/enumitem
 \usepackage{fmtcount}
 \usepackage{pifont,amssymb} % for the symbols
-\usepackage{listings}
+\usepackage{listings} % parti di codice sql
+\usepackage{ulem} % dasuline
+
 \lstset{ % listings config
   % basicstyle=\ttfamily,
   % emphstyle=\textbf
@@ -30,10 +32,10 @@
 
 \def\indent1{0.3cm}
 \newcommand{\speciale}[1]{\textbf{\textcolor{blue}{\ul{#1}}}}
-\newcommand{\specialeb}[1]{\textit{\textcolor{ForestGreen}{#1}}}
+\newcommand{\specialeb}[1]{\textit{\textcolor{ForestGreen}{\dashuline{#1}}}}
 
 
-	
+
 \definecolor{Gray}{gray}{0.9}
 \definecolor{PaleGreen}{RGB}{152,251,152}
 \definecolor{SkyBlue}{RGB}{135,206,235}
@@ -42,6 +44,7 @@
 \definecolor{ColdPurple}{RGB}{171, 160, 217}
 \definecolor{LightCoral}{RGB}{240, 128, 128}
 \definecolor{CornflowerBlue}{RGB}{100, 149, 237}
+\definecolor{MediumSeaGreen}{RGB}{60, 179, 113} % cliente
 \definecolor{PalePink}{RGB}{253, 215, 244}
 
 \newlist{answerlist}{enumerate}{2}
@@ -76,16 +79,10 @@
 \includegraphics[width=0.95\columnwidth]{CesenaCard2.png}
 \newpage
 
-\paragraph{Esempio}
-
-\newpage
-
 \tableofcontents
 \clearpage
 
 \section{Introduzione}
-% include usa automaticamente dei clearpage, a noi interessa input.
-% conviene usare input? 
 \input{doc/1_Introduzione}
 
 
@@ -100,65 +97,63 @@
 \subsection{Schema Iniziale}
 \input{doc/2_3_Schema_iniziale}
 
+\subsection{Raffinamento dello schema ER}
+\input{doc/2_4_Raffinamento_schema_ER}
 
-% \subsection{Schema finale} % Eviterei
-%\section{Progettazione Concettuale}
-\subsection{Schema scheletro prima delle correzioni}
-\input{doc/3_1_Schema_Scheletro}
+\subsection{Schema Finale}
+\input{doc/2_5_Schema_finale}
 
 
 \section{Progettazione Logica}
 
 \subsection{Stima del volume dei dati}
-\input{doc/4_1_Stima_del_volume_dei_dati}
+\input{doc/3_1_Stima_del_volume_dei_dati}
 
 \subsection{Operazioni richieste e la loro frequenza}
-\input{doc/4_2_Operazioni_richieste_e_la_loro_frequenza}
+\input{doc/3_2_Operazioni_richieste_e_la_loro_frequenza}
 
-% \subsection{Schemi di navigazione}
-% \input{doc/4_3_Schemi_di_navigazione}
-
-\subsection{Frequenza e costo degli accessi}
+\subsection{Schemi di navigazione}
+\input{doc/3_3_Schemi_di_navigazione}
 
 \subsection{Analisi delle ridondanze}
-\input{doc/4_4_Analisi_delle_ridondanze}
-% \subsection{Trasformazioni dello schema concettuale}
-% \subsection{Il progetto logico per il modello relazionale}
+\input{doc/3_4_Analisi_delle_ridondanze}
+
+\subsection{Raffinamento dello schema} 
+\input{doc/3_5_Raffinamento_dello_schema}
+
+\subsection{Traduzione delle entità}
+\input{doc/3_6_Traduzione_entita}
+
+\subsection{Traduzione delle associazioni}
+\input{doc/3_7_Traduzione_associazioni}
+
+
+\subsection{Schema relazionale finale}
+\input{doc/3_8_Schema_relazionale_finale}
+
 \subsection{Traduzioni delle operazioni in Query SQL}
-\input{doc/4_8_Traduzioni_delle_operazioni_in_query_SQL}
-
-\section{Progetto dello schema concettuale}
-\input{doc/3_Progetto_dello_schema_concettuale}
-
-% \section{Specifiche funzionali}
-% %TODO: al momento è nella sezione 2.2, spostarla?
-% % \subsection{Analisi delle funzionalità richieste}
-% \subsection{Raffinamento dello schema}
-% \input{doc/5_Raffinamento_dello_schema}
-% \section{Il progetto fisico}
-% \subsection{Indicizzazione degli attributi}
-% \subsection{Ordinamento su attributi}
-
-% \section{Traduzione delle entità}
-% \input{doc/Traduzione_entita}
-% \section{Traduzione delle associazioni}
-% \input{doc/Traduzione_associazioni}
-% \section{Interfaccia utente}
-% \input{doc/7_Interfaccia_utente}
-% \subsection{L'amministratore}
-% \input{doc/7_1_L'amministratore}
-% \subsection{Il fornitore}
-% \input{doc/7_2_Il_fornitore}
-% \subsection{Il cliente}
-% \input{doc/7_3_Il_cliente}
+\input{doc/3_9_Traduzioni_delle_operazioni_in_query_SQL}
 
 
-% \section{ESEMPI}
-% \begin{enumerate}
-%     \item
-%     \item
-%     \item
-% \end{enumerate}
+
+\section{Progettazione dell'applicazione}
+\subsection{Descrizione dell'architettura dell'applicazione}
+\input{doc/4_1_Descrizione_architettura_applicazione} 
+
+\subsection{Utente Generico}
+\input{doc/4_2_Utente_Generico.tex}
+
+\subsection{L'amministratore}
+\input{doc/4_3_Amministratore}
+
+\subsection{Il fornitore}
+\input{doc/4_4_Fornitore}
+
+\subsection{Il cliente}
+\input{doc/4_5_Cliente}
+
+\subsection{Readme}
+\input{doc/4_6_README}
 
 
 \end{document}
