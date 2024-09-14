@@ -263,7 +263,7 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 \begin{lstlisting}[language=SQL]
 	INSERT INTO collaborazioni 
 	(id_user, id_ente) 
-	VALUES (?, ?);`
+	VALUES (?, ?);
 \end{lstlisting}
 
 \subsubsection{Effettua check-in}
@@ -272,7 +272,7 @@ rendo predefinita una carta di credito di un utente. Rendo non predefinite tutte
 	VALUES (( SELECT id_city_card
 	FROM city_card
 	WHERE id_user = ? AND data_scadenza > now()), 
-	?, ?);`
+	?, ?);
 \end{lstlisting}
 
 \subsubsection{Ottieni CityCard di un utente}
@@ -343,7 +343,7 @@ Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN pe
 \end{lstlisting}
 
 
-\subsubsection{ritorna, se presente, la sottoscrizione attiva attiva dell'utente}
+\subsubsection{Ritorna, se presente, la sottoscrizione attiva attiva dell'utente}
 \begin{lstlisting}[language=SQL]
 	SELECT sa.* 
 	FROM sottoscrizioni_abbonamento sa
@@ -367,7 +367,7 @@ Query tecnicamente sbagliata ma ho provato ad usare il trucco dell'INNER JOIN pe
 	ON ch.id_stato = sc.id_stato
 	JOIN mezzi m
 	ON ch.id_mezzo = m.id_mezzo
-	WHERE u.id_user = ?;`
+	WHERE u.id_user = ?;
 \end{lstlisting}
 
 

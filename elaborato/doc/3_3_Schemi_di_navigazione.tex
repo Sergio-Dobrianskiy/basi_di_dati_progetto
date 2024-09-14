@@ -16,7 +16,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 Users & E & 1 & Scrittura \\
 \SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
-  Costo totale: 300 x (1x2) = 600/giorno
+  Costo totale: 300 x (1\thinspace x \thinspace 2) = 600/giorno
   }
 
 \end{longtblr}
@@ -59,7 +59,7 @@ L'utente modifica i propri dati oppure inserisce quelli mancanti.
   Users & E & 1 & S\\ 
   \SetCell[c=4]{l, white} {
   Totale: 1S \textrightarrow 300/giorno\\
-  Costo totale: 300 x (1x2) = 600/giorno
+  Costo totale: 300 x (1 \thinspace x \thinspace 2) = 600/giorno
   }
   \end{longtblr}
 
@@ -70,7 +70,7 @@ L'utente modifica i propri dati oppure inserisce quelli mancanti.
 L'amministratore può visualizzare gli utenti registrati e bannarli o riattivarli all'occorrenza.
 \begin{longtblr}
   [
-    caption = {Consultare la lista degli enti},
+    caption = {Consultare la lista degli utenti},
   ]{
     colspec = {|X[3]X[1]X[2]X[4]|},
     rowhead = 1,
@@ -107,7 +107,7 @@ L'amministratore può visualizzare gli utenti registrati e bannarli o riattivarl
 
     \SetCell[c=4]{l, white} {
       Totale: 1L + 1S \textrightarrow 5/giorno\\
-      Costo totale: 5 x (1 + 1 * 2) = 15/giorno
+      Costo totale: 5 x (1 \thinspace + \thinspace 1 \thinspace x \thinspace 2) = 15/giorno
       }
   \end{longtblr}
 
@@ -129,12 +129,12 @@ Ente & E & 1 & L \\
 vendita & R & 1 & L \\
 Servizio & E & 8 & L\\ 
 Servizio & E & 8 & S\\ 
-Recensione & R & 1600 (200 * 8) & L \\
+Recensione & R & 1600 (200 x 8) & L \\
 Recensione & R & 1600 & S \\
 
 \SetCell[c=4]{l, white} {
     Totale: 1610L + 1608S \textrightarrow 1/giorno\\
-    Costo totale: 1 x (1610L + 1608S * 2) = 4,826/giorno
+    Costo totale: 1 x (1610 \thinspace + \thinspace 1608 \thinspace x \thinspace 2) = \num{4826}/giorno
     }
 \end{longtblr}
 
@@ -189,10 +189,11 @@ hlines,
 row{even} = {lightgray},
 row{1} = {ColdPurple},
 } 
+Ente & E & 1 & S \\
 crea{\_}ente & R & 1 & S \\
 \SetCell[c=4]{l, white} {
-Totale: 1S \textrightarrow 8/giorno\\
-Costo totale: 8 x (1 x 2) = 16/giorno
+Totale: 2S \textrightarrow 8/giorno\\
+Costo totale: 8 x (2 \thinspace x \thinspace 2) = 32/giorno
 }
 \end{longtblr}
 
@@ -213,7 +214,7 @@ Concetto & Costrutto & Accessi & Tipo\\
 lavoro & R & 1 & S \\ 
 \SetCell[c=4]{l, white} {
     Totale: 1S \textrightarrow 3/giorno\\
-    Costo totale: 3 x (1 x 2) = 6/giorno
+    Costo totale: 3 x (1 \thinspace x \thinspace 2) = 6/giorno
     }
 \end{longtblr}
 
@@ -231,10 +232,11 @@ row{1} = {ColdPurple},
 } 
 Concetto & Costrutto & Accessi & Tipo\\
 vendita & R & 1 & S \\
+Servizio & E & 1 & S \\
 lavoro & R & 1 & L \\
 \SetCell[c=4]{l, white} {
     Totale: 1L + 1S \textrightarrow 10/giorno\\
-    Costo totale: 10 x (1 + 1 x 2) = 30/giorno
+    Costo totale: 10 x (1 \thinspace + \thinspace 2 \thinspace x \thinspace 2) = 50/giorno
     }
 \end{longtblr}
 
@@ -259,7 +261,7 @@ Evento & E & 1 & S \\
 Occasionale & E & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 1L + 3S \textrightarrow 4/giorno\\
-    Costo totale: 4 x (1 + 3 x 2) = 28/giorno
+    Costo totale: 4 x (1 \thinspace + \thinspace 3 \thinspace x \thinspace 2) = 28/giorno
     }
 \end{longtblr}
 
@@ -288,7 +290,7 @@ frequenza & R & 1 & S \\
 Calendario & E & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 2L + 4S \textrightarrow 1/giorno\\
-    Costo totale: 1 x (2 + 4 x 2) = 10/giorno
+    Costo totale: 1 x (2 \thinspace + \thinspace 4 \thinspace x \thinspace 2) = 10/giorno
     }
 \end{longtblr}
 
@@ -338,11 +340,11 @@ row{even} = {lightgray},
 row{1} = {MediumSeaGreen},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Possesso CityCard & R & 1 & S \\
+possesso{\_}cityCard & R & 1 & S \\
 CityCard & E & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 2S \textrightarrow 2000/giorno\\
-    Costo totale: 2000 x (2 x 2) = 8000/giorno
+    Costo totale: 2000 x (2 \thinspace x \thinspace 2) = 8000/giorno
     }
 \end{longtblr}
 
@@ -369,7 +371,7 @@ CityCard & E & 1 & L \\
 sottoscrizione & R & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 5L + 1S \textrightarrow 2000/giorno\\
-    Costo totale: 2000 x (5 + 1 x 2) = 16000/giorno
+    Costo totale: 2000 x (5 \thinspace + \thinspace 1 \thinspace x \thinspace 2) = 16000/giorno
     }
 \end{longtblr}
 
@@ -387,11 +389,11 @@ row{even} = {lightgray},
 row{1} = {MediumSeaGreen},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
-Carta credito & R & S \\
+Carta{\_}credito & R & S \\
 possesso{\_}carta{\_}credito & R & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 2S \textrightarrow 2000/giorno\\
-    Costo totale: 2000 x (2 x 2) = 8000/giorno
+    Costo totale: 2000 x (2 \thinspace x \thinspace 2) = 8000/giorno
     }
 \end{longtblr}
 
@@ -411,11 +413,11 @@ row{1} = {MediumSeaGreen},
 } 
 Concetto & Costrutto & Accessi & Tipo \\
 possesso{\_}carta{\_}credito & R & 2 & L \\
-Carta credito & R & 2 & L \\
-Carta credito & R & 2 & S \\
+Carta{\_}credito & R & 2 & L \\
+Carta{\_}credito & R & 2 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 4L + 2S \textrightarrow 2000/giorno\\
-    Costo totale: 2000 x (4 + 2 x 2) = 16000/giorno
+    Costo totale: 2000 x (4 \thinspace + \thinspace 2 \thinspace x \thinspace 2) = 16000/giorno
     }
 \end{longtblr}
 
@@ -449,7 +451,7 @@ vendita & R & 1 & L\\
 Ente & E & 1 & S\\ 
 \SetCell[c=4]{l, white} {
     Totale: 10L + 2S \textrightarrow 3000/giorno\\
-    Costo totale: 3000 x (10 + 2 x 2) = 42000/giorno
+    Costo totale: 3000 x (10 \thinspace + \thinspace 2 \thinspace x \thinspace 2) = 42000/giorno
     }
 \end{longtblr}
 
@@ -469,7 +471,7 @@ Concetto & Costrutto & Accessi & Tipo \\
 partecipazione{\_}persona & R & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 1S \textrightarrow 500/giorno\\
-    Costo totale: 500 x (1 x 2) = 1000/giorno
+    Costo totale: 500 x (1 \thinspace x \thinspace 2) = 1000/giorno
     }
 \end{longtblr}
 
@@ -492,7 +494,7 @@ CityCard & E & 1 & L\\
 checkin(completato/fallito) & R & 1 & S \\
 \SetCell[c=4]{l, white} {
     Totale: 2L + 1S \textrightarrow 5000/giorno\\
-    Costo totale: 5000 x (2 + 1 x 2) = 20000/giorno
+    Costo totale: 5000 x (2 \thinspace + \thinspace 1 \thinspace x \thinspace 2) = 20000/giorno
     }
 \end{longtblr}
 
@@ -521,61 +523,9 @@ transazione & R & 1 & L\\
 
 \subsubsection*{c9. Lasciare una recensione riguardo un servizio acquistato}
 Questa funzionalità verrà approfondita nella prossima sezione dedicata al calcolo delle ridondanze.
-% \begin{longtblr}
-% [
-% caption = {Lasciare una recensione riguardo un servizio acquistato},
-% ]{
-% colspec = {|X[3]X[1]X[2]X[4]|},
-% rowhead = 1,
-% hlines,
-% row{even} = {lightgray},
-% row{1} = {MediumSeaGreen},
-% } 
-% Concetto & Costrutto & Accessi & Tipo \\
-% servizi acquistati & E & 1 & L\\ 
-% Cliente & E & 1 & L\\ 
-% Recensione & R & 1 & S \\
-% Servizio & E & 1 & L \\
-
-% \SetCell[c=4]{l, white} {
-%     Totale: 2L + 1S \textrightarrow 1500/giorno\\
-%     Costo totale: 3 x (1500) = 4500/giorno
-%     }
-% \end{longtblr}
-
-
 
 \subsubsection*{c10. Visualizzare lista servizi}
 Anche questa funzionalità verrà approfondita nella prossima sezione dedicata al calcolo delle ridondanze.
-
-% \includegraphics[width=0.95\columnwidth]{c10getServizi.png}\\
-% Nella tabella dei servizi disponibili si dovrà mettere anche l'ente fornitore, il prezzo scontato in base all'abbonamento sottoscritto dal cliente.
-% \begin{longtblr}
-% [
-% caption = {Visualizzare lista servizi},
-% ]{
-% colspec = {|X[3]X[1]X[2]X[4]|},
-% rowhead = 1,
-% hlines,
-% row{even} = {lightgray},
-% row{1} = {MediumSeaGreen},
-% } 
-% Concetto & Costrutto & Accessi & Tipo \\
-% possesso{\_}citycard & R & 1 & L \\
-% CityCard & E & 1 & L\\ 
-% sottoscrizione & R & 1 & L \\
-% Abbonamento & E & 1 & L\\ 
-% riduzione & R & 1 & L \\
-% Sconto & E & 1 & L\\ 
-% Servizio & E & 1 & L\\ 
-% vendita & R & 1 & L \\
-% Ente & E & 1 & L \\
-
-% \SetCell[c=4]{l, white} {
-%     Totale: 9L \textrightarrow 7500/giorno\\
-%     Costo totale: 3 x (7500) = 22500/giorno
-%     }
-% \end{longtblr}
 
 
 \subsubsection*{c11. Visualizzare lista eventi}

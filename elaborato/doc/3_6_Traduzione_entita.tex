@@ -6,11 +6,10 @@
     FK: id{\_}user \textrightarrow USERS.id{\_}user
 
     \item 
-    \textbf{Checks}(
-    \underline{id{\_}check}, 
-    orario{\_}convalida
-    id{\_}city{\_}card
-    id{\_}mezzo
+    \textbf{Checks}(\underline{id{\_}check}, 
+    orario{\_}convalida,
+    id{\_}city{\_}card,
+    id{\_}mezzo,
     id{\_}stato)\\
     FK: id{\_}mezzo \textrightarrow MEZZI.id{\_}mezzo\\
     FK: id{\_}stato \textrightarrow STATI{\_}CHECK.id{\_}stato\\
@@ -25,19 +24,17 @@
 
     \item 
     \textbf{Collaborazioni}
-    (
-    \underline{id{\_}collaborazione}
-    inizio{\_}collaborazione
-    fine{\_}collaborazione
-    id{\_}user
+    (\underline{id{\_}collaborazione},
+    inizio{\_}collaborazione,
+    fine{\_}collaborazione,
+    id{\_}user,
     id{\_}ente)\\
     FK: id{\_}user \textrightarrow USER.id{\_}user\\
     FK: id{\_}ente \textrightarrow ENTI.id{\_}ente
 
     \item
     \textbf{Enti}
-    (
-    \underline{id{\_}ente}
+    (\underline{id{\_}ente}
     descrizione{\_}ente,
     saldo,
     indirizzo,
@@ -60,8 +57,7 @@
     
     \item 
     \textbf{Listino abbonamenti}
-    (
-    \underline{id{\_}listino{\_}abbonamento},
+    (\underline{id{\_}listino{\_}abbonamento},
     descrizione{\_}abbonamento,
     prezzo{\_}abbonamento,
     durata{\_}abbonamento,
@@ -71,17 +67,15 @@
     
     \item 
     \textbf{Mezzi}
-    (
-    \underline{id{\_}mezzo},
-    desc{\_}mezzo
-    partenza
+    (\underline{id{\_}mezzo},
+    desc{\_}mezzo,
+    partenza,
     destinazione
     )
 
     \item 
     \textbf{Partecipazioni}
-    (
-    \underline{id{\_}partecipazione},
+    (\underline{id{\_}partecipazione},
     data{\_}registrazione,
     id{\_}evento,
     id{\_}city{\_}card)\\
@@ -117,27 +111,24 @@
 
     \item 
     \textbf{Sconti}
-    (
-    \underline{id{\_}sconto},
+    (\underline{id{\_}sconto},
     percentuale{\_}sconto)
 
     \item 
     \textbf{Servizi}
-    (
-    \underline{id{\_}servizio},
-    prezzo
-    data{\_}inserimento
-    data{\_}termine
-    descrizione{\_}servizio
-    indirizzo{\_}servizio
-    media{\_}recensioni
+    (\underline{id{\_}servizio},
+    prezzo,
+    data{\_}inserimento,
+    data{\_}termine,
+    descrizione{\_}servizio,
+    indirizzo{\_}servizio,
+    media{\_}recensioni,
     id{\_}ente)\\
     FK: id{\_}ente \textrightarrow ENTI.id{\_}ente
     
     \item 
     \textbf{Servizi acquistati}
-    (
-    \underline{id{\_}acquisto},
+    (\underline{id{\_}acquisto},
     data{\_}acquisto,
     prezzo{\_}pagato,
     media{\_}recensioni,
@@ -150,8 +141,7 @@
     
     \item 
     \textbf{Sottoscrizioni abbonamento},
-    (
-    \underline{id{\_}sottoscrizione{\_}abbonamento},
+    (\underline{id{\_}sottoscrizione{\_}abbonamento},
     scadenza{\_}sottoscrizione,
     data{\_}sottoscrizione,
     id{\_}citycard,
@@ -162,8 +152,7 @@
     
     \item 
     \textbf{Stati check}
-    (
-    \underline{id{\_}stato},
+    (\underline{id{\_}stato},
     desc{\_}stato
     )
     \item 

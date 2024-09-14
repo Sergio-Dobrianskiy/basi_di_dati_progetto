@@ -24,7 +24,7 @@ Progetto e relazione per l'esame di basi di dati
 - dalla cartella `web_app` lanciare il comando:
     - su windows: `Get-Content dump.sql | mysql -uroot -p1234 web_app`
     - su unix: `mysql -uroot -p1234 < dump.sql`
-- dopo il restore creare un utente chiamato `web_app` password `1234` e concedere tutti i diritti
+- Il restore dovrebbe creare l'utente necessario per far funzionare l'applicativo, se così non fosse: creare un utente chiamato `web_app` password `1234` e concedere tutti i diritti
 
 # avvio app
 - posizionarsi in /basi_di_dati_progetto/webapp/
