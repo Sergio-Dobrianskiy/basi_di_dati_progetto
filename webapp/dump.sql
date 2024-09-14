@@ -16,7 +16,7 @@ create database CityCardDB;
 use CityCardDB;
 -- DROP USER IF EXISTS 'web_app';
 CREATE USER IF NOT EXISTS 'web_app'@'%' IDENTIFIED WITH mysql_native_password BY '1234';
-GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON *.* TO 'web_app'@'%' WITH GRANT OPTION;
 
 -- Tables Section
 -- _____________ 
