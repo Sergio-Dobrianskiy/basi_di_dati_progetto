@@ -1,121 +1,369 @@
--- MySQL dump 10.13  Distrib 8.0.39, for Win64 (x86_64)
---
--- Host: localhost    Database: web_app
--- ------------------------------------------------------
--- Server version	8.0.39
+-- *********************************************
+-- * SQL MySQL generation                      
+-- *--------------------------------------------
+-- * DB-MAIN version: 11.0.2              
+-- * Generator date: Sep 14 2021              
+-- * Generation date: Fri Aug 23 08:00:49 2024 
+-- * LUN file: D:\uni\basi_di_dati_progetto\dbmain\Basi di dati2.lun 
+-- * Schema: ProgettoLogico/1 
+-- ********************************************* 
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
---
--- Table structure for table `names`
---
+-- Database Section
+-- ________________ 
+drop schema if exists CityCardDB;
+create database CityCardDB;
+use CityCardDB;
+-- DROP USER IF EXISTS 'web_app';
+CREATE USER IF NOT EXISTS 'web_app'@'%' IDENTIFIED WITH mysql_native_password BY '1234';
+GRANT ALL PRIVILEGES ON *.* TO 'test'@'%' WITH GRANT OPTION;
 
-DROP TABLE IF EXISTS `names`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `names` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `date_added` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+-- Tables Section
+-- _____________ 
 
---
--- Dumping data for table `names`
---
+create table STATI_CHECK (
+     id_stato int unique not null,
+     descrizione_stato varchar(30) not null,
+     constraint IDSTATI_CHECK primary key (id_stato));
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('1', 'OK');
+INSERT INTO `citycarddb`.`stati_check` (`id_stato`, `descrizione_stato`) VALUES ('2', 'ERRORE');
 
-LOCK TABLES `names` WRITE;
-/*!40000 ALTER TABLE `names` DISABLE KEYS */;
-INSERT INTO `names` VALUES (1,'123','2024-08-14 23:00:17.423'),(2,'ciao2','2024-08-14 23:00:51.520'),(3,'ciao bello','2024-08-14 23:01:37.826'),(6,'test2','2024-08-16 00:21:32.099'),(7,'zxc','2024-08-16 00:21:54.134'),(8,'aggiunta','2024-08-20 21:43:00.436');
-/*!40000 ALTER TABLE `names` ENABLE KEYS */;
-UNLOCK TABLES;
 
---
--- Table structure for table `ruolo`
---
+create table RUOLI (
+     id_ruolo int unique not null,
+     descrizione_ruolo varchar(30) not null,
+     constraint IDRUOLI primary key (id_ruolo));
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('1', 'admin');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('2', 'fornitore');
+INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('3', 'cliente');
+-- INSERT INTO `citycarddb`.`ruoli` (`id_ruolo`, `descrizione_ruolo`) VALUES ('1', 'admin'), ('2', 'fornitore'), ('3', 'cliente');
 
-DROP TABLE IF EXISTS `ruolo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ruolo` (
-  `id_ruolo` int NOT NULL,
-  `descrizione` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  PRIMARY KEY (`id_ruolo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `ruolo`
---
+create table USERS (
+     id_user int not null auto_increment,
+     username varchar(30) unique not null,
+     password varchar(30)  not null,
+	 nome varchar(30) not null,
+     cognome varchar(30) not null,
+     email varchar(30) not null,
+     cf varchar(16),
+     telefono varchar(30),
+     indirizzo char(30),
+     bannato tinyint not null default 0,
+     citta varchar(30),
+     CAP int,
+     nazione varchar(30),
+     data_creazione datetime not null default now(),
+     id_ruolo int not null,
+     constraint IDUSERS primary key (id_user));
+INSERT INTO `citycarddb`.`users` (`username`, `password`, `email`, `nome`, `cognome`, `id_ruolo`) 
+VALUES 
+('admin', 'admin', 'admin@gmail.com', 'giacomo', 'zanguio', 1), 
+('fornitore', 'fornitore', 'fornitore@gmail.com', 'davide', 'bertizzolo', 2), 
+('cliente', 'cliente', 'cliente@gmail.com', 'alessandro', 'cuneo', 3);
 
-LOCK TABLES `ruolo` WRITE;
-/*!40000 ALTER TABLE `ruolo` DISABLE KEYS */;
-INSERT INTO `ruolo` VALUES (1,'admin'),(2,'fornitore'),(3,'cliente');
-/*!40000 ALTER TABLE `ruolo` ENABLE KEYS */;
-UNLOCK TABLES;
+create table LISTINO_ABBONAMENTI (
+     id_listino_abbonamento int not null auto_increment,
+     descrizione_abbonamento varchar(30) not null,
+     prezzo_abbonamento int not null,
+     durata_abbonamento int not null,
+     data_disattivazione date,
+     id_sconto int not null,
+     constraint IDLISTINO_ABBONAMENTI primary key (id_listino_abbonamento));
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Bronzo', '50', '3', '1');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento Argento', '100', '7', '2');
+INSERT INTO `citycarddb`.`listino_abbonamenti` (`descrizione_abbonamento`, `prezzo_abbonamento`, `durata_abbonamento`, `id_sconto`) VALUES ('Abbonamento ORO', '200', '15', '3');
 
---
--- Table structure for table `user`
---
 
-DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user` (
-  `id_user` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nome` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cognome` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cf` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cellulare` int DEFAULT NULL,
-  `email` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `via` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `citta` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cap` varchar(5) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nazione` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `data_creazione` datetime DEFAULT NULL,
-  `ultimo_accesso` datetime DEFAULT NULL,
-  `bannato` tinyint NOT NULL DEFAULT '0' COMMENT 'boolean non esiste in mysql, vedere se è possibile cambiare dopo\\nTo Create a Boolean Column in Table with default false:\\nALTER TABLE table_name ADD field_name tinyint(1);\\',
-  `commento` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `id_ruolo` int NOT NULL COMMENT '0: admin\\\\n1: fornitore\\\\n2: cliente',
-  PRIMARY KEY (`id_user`),
-  UNIQUE KEY `id_user_UNIQUE` (`id_user`),
-  UNIQUE KEY `username_UNIQUE` (`username`),
-  UNIQUE KEY `email_UNIQUE` (`email`),
-  UNIQUE KEY `cf_UNIQUE` (`cf`),
-  KEY `id_ruolo` (`id_ruolo`),
-  CONSTRAINT `id_ruolo` FOREIGN KEY (`id_ruolo`) REFERENCES `ruolo` (`id_ruolo`)
-) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
+create table MEZZI (
+     id_mezzo varchar(30) unique not null,
+     descrizione_mezzo varchar(30) not null,
+     partenza varchar(30),
+     destinazione varchar(30),
+     constraint IDMEZZI primary key (id_mezzo));
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('TR001', 'Treno n.001', 'Cesena', 'Cesenatico');
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('BUS001', 'Bus n.001', 'Cesena', 'Forlì');
+INSERT INTO `citycarddb`.`mezzi` (`id_mezzo`, `descrizione_mezzo`, `partenza`, `destinazione`) VALUES ('EVA01', 'Evangelion 01', 'Neo Tokyo 3', 'Japan');
 
---
--- Dumping data for table `user`
---
+create table SCONTI (
+     id_sconto int not null,
+     percentuale_sconto int not null,
+     constraint IDSCONTO primary key (id_sconto));
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('2', '30');
+INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('3', '50');
+-- INSERT INTO `citycarddb`.`sconti` (`id_sconto`, `percentuale_sconto`) VALUES ('1', '10'), ('2', '30'), ('3', '50');
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin','mario','rossi',NULL,NULL,'admin1@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,1),(2,'admin2','admin2','joe','rogan',NULL,NULL,'admin2@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,1),(3,'fornitore','fornitore','mario','rossi',NULL,NULL,'fornitore1@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,2),(4,'fornitore2','fornitore2','fabio','verdi',NULL,NULL,'fornitore2@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,2),(5,'cliente','cliente','giacomo','zanguio',NULL,NULL,'cliente1@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,3),(6,'cliente2','cliente2','alessandro','cuneo',NULL,NULL,'cliente2@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,3);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-21 20:48:47
+create table CARTE_CREDITO (
+	 num_carta_credito varchar(16) unique not null,
+     cognome_associato varchar(30) not null,
+     nome_associato varchar(30) not null,
+     mese_scadenza int not null,
+     anno_scadenza int not null,
+     data_registrazione_carta datetime not null default now(),
+     id_user int not null,
+     predefinita tinyint not null default 0,
+     constraint IDCartaCredito primary key (num_carta_credito));
+INSERT INTO `citycarddb`.`carte_credito` (`num_carta_credito`, `cognome_associato`, `nome_associato`, `mese_scadenza`, `anno_scadenza`, `id_user`) 
+VALUES ('1234567890123456', 'giacomo', 'zanguio', '05', '29', '1');
+
+
+create table CHECKS (
+     id_check int unique not null auto_increment,
+     orario_convalida datetime not null default now(),
+     id_city_card int not null,
+     id_mezzo varchar(30) not null,
+     id_stato int not null,
+     constraint IDCHECKS primary key (id_check));
+INSERT INTO `citycarddb`.`checks` (`id_city_card`, `id_mezzo`, `id_stato`) VALUES ('1000003', 'TR001', '1');
+
+
+
+create table CITY_CARD (
+     id_city_card int not null unique auto_increment,
+     id_user int not null,
+     data_emissione datetime not null default now(),
+     data_scadenza datetime not null default (DATE_ADD(NEW.data_emissione, INTERVAL 5 YEAR)),
+     constraint IDCITY_CARD primary key (id_city_card));
+-- inizializzo l'indice a 100001 per rendere più estetico il numero della card
+ALTER TABLE city_card AUTO_INCREMENT = 1000001;
+INSERT INTO `citycarddb`.`city_card` (`id_user`) 
+VALUES ('1'), ('2'), ('3');
+-- DELIMITER ;;
+
+-- CREATE TRIGGER set_data_scadenza_before_insert
+-- BEFORE INSERT ON CITY_CARD
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.data_scadenza IS NULL THEN
+--         SET NEW.data_scadenza = DATE_ADD(NEW.data_emissione, INTERVAL 5 YEAR);
+--     END IF;
+-- END;;
+-- DELIMITER ;
+-- INSERT INTO `citycarddb`.`city_card` (`id_utente`) 
+-- VALUES ('1'), ('2'), ('3');
+
+
+create table COLLABORAZIONI (
+     id_collaborazione int not null auto_increment,
+     inizio_collaborazione datetime not null default now(),
+     fine_collaborazione datetime,
+     id_user int not null,
+     id_ente int not null,
+     constraint IDCOLLABORATORI primary key (id_collaborazione));
+INSERT INTO `citycarddb`.`collaborazioni` (`id_user`, `id_ente`) VALUES ('2', '1');
+
+
+create table ENTI (
+	id_ente int not null auto_increment,
+	nome varchar(30) not null,
+	descrizione varchar(30) not null,
+	saldo int not null default 0,
+	indirizzo varchar(30) not null,
+	numero_telefono varchar(30) not null,
+	id_user int not null,
+	constraint IDENTI primary key (id_ente));
+INSERT INTO `citycarddb`.`enti` (`nome`, `descrizione`, `indirizzo`, `numero_telefono`,  `id_user`) 
+VALUES ('Alma Mater', 'Università', 'via Cesena', '3494773321',  '2');
+
+
+create table EVENTI (
+	id_evento int not null auto_increment,
+	nome_evento varchar(30) not null,
+	id_periodo int default 0,
+	inizio_validita datetime not null default now(),
+	fine_validita datetime not null default (DATE_ADD(NEW.inizio_validita, INTERVAL 1 MONTH)),
+	id_ente int not null,
+	constraint IDEVENTO primary key (id_evento)
+	-- ,constraint FKR_1_ID unique (id_periodo) -- serve?
+    );
+INSERT INTO `citycarddb`.`eventi` (`id_periodo`, `nome_evento`, `inizio_validita`, `fine_validita`, `id_ente`) 
+VALUES ('1', 'evento natale', '2024-08-22', '2024-09-30', '1');
+
+
+
+
+create table PARTECIPAZIONI (
+     id_partecipazione int not null auto_increment,
+     data_registrazione datetime not null default now(),
+     id_evento int not null,
+     id_city_card int not null,
+     constraint IDPARTECIPAZIONI primary key (id_partecipazione));
+INSERT INTO `citycarddb`.`partecipazioni` (`id_partecipazione`, `data_registrazione`, `id_evento`, `id_city_card`) VALUES ('1', '2024-08-23', '1', '1000001');
+
+
+create table PERIODI (
+     id_periodo int not null auto_increment,
+     lunedi tinyint not null default 0,
+     martedi tinyint not null default 0,
+     mercoledi tinyint not null default 0,
+     giovedi tinyint not null default 0,
+     venerdi tinyint not null default 0,
+     sabato tinyint not null default 0,
+     domenica tinyint not null default 0,
+     constraint IDPERIODI_ID primary key (id_periodo));
+INSERT INTO `citycarddb`.`periodi` () VALUES (); -- ID 1 = non periodico
+INSERT INTO `citycarddb`.`periodi` (`lunedi`) VALUES ('1');
+
+
+create table RECENSIONI (
+     id_recensione int not null auto_increment,
+     data_inserimento datetime not null default now(),
+     votazione int not null,
+     id_servizio int not null,
+     id_user int not null,
+     constraint IDRECENSIONI primary key (id_recensione),
+     constraint IDRECENSIONI_1 unique (id_servizio, id_user));
+insert into recensioni (id_user, votazione, id_servizio) VALUES(1,3,1);
+
+
+create table SERVIZI (
+     id_servizio int not null auto_increment,
+     prezzo_servizio float not null,
+     inizio_validita datetime not null default now(),
+     fine_validita datetime not null default (DATE_ADD(NEW.inizio_validita, INTERVAL 1 YEAR)),
+     descrizione_servizio varchar(255) not null,
+     indirizzo_servizio varchar(100) not null,
+     media_recensioni int,
+     id_ente int not null,
+     constraint IDSERVIZI primary key (id_servizio));
+     
+INSERT INTO `citycarddb`.`servizi` (`prezzo_servizio`, `descrizione_servizio`, `indirizzo_servizio`, `id_ente`) 
+VALUES ('10', 'Visita guidata al museo comunale', 'Via Museo Comunale', '1');
+
+     
+create table SERVIZI_ACQUISTATI (
+     id_acquisto int not null auto_increment,
+     data_acquisto datetime not null default now(),
+     prezzo_pagato float not null,
+     id_servizio int not null,
+     num_carta_credito varchar(16) not null,
+     id_city_card int not null,
+     constraint IDCQUISTO primary key (id_acquisto));
+INSERT INTO `citycarddb`.`servizi_acquistati` (`prezzo_pagato`, `id_servizio`, `num_carta_credito`, `id_city_card`) 
+VALUES ('10', '1', '1234567890123456', '1000001');
+
+-- default inserito per facilitare popolamento
+create table SOTTOSCRIZIONI_ABBONAMENTO (
+	id_sottoscrizione_abbonamento int not null auto_increment,
+	data_sottoscrizione datetime not null default now(),
+	scadenza_sottoscrizione datetime not null default (DATE_ADD(NEW.data_sottoscrizione, INTERVAL 7 DAY)),
+	id_listino_abbonamento int not null,
+	id_city_card int not null,
+	num_carta_credito varchar(16) not null,
+	constraint IDSOTTOSCRIZIONI_ABBONAMENTO primary key (id_sottoscrizione_abbonamento));
+-- INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`prezzo_pagato`, `id_listino_abbonamento`, `id_city_card`, `num_carta_credito`)
+-- VALUES (`10`, `1`, `1000001`, `1234567890123456`);
+
+-- DELIMITER ;;
+-- CREATE TRIGGER set_scadenza_sottoscrizione_before_insert
+-- BEFORE INSERT ON SOTTOSCRIZIONI_ABBONAMENTO
+-- FOR EACH ROW
+-- BEGIN
+--     IF NEW.scadenza_sottoscrizione IS NULL THEN
+--         SET NEW.scadenza_sottoscrizione = DATE_ADD(NEW.data_sottoscrizione, INTERVAL 5 YEAR);
+--     END IF;
+-- END;;
+-- DELIMITER ;
+INSERT INTO `citycarddb`.`sottoscrizioni_abbonamento` (`id_listino_abbonamento`, `id_city_card`, `num_carta_credito`) 
+VALUES ('1', '1000001', '1234567890123456');
+
+
+
+
+-- Constraints Section
+-- ___________________ 
+
+alter table CARTE_CREDITO add constraint FKR_1
+     foreign key (id_user)
+     references USERS (id_user);
+
+alter table CHECKS add constraint FKR_2
+     foreign key (id_mezzo)
+     references MEZZI (id_mezzo);
+
+alter table CHECKS add constraint FKR_3
+     foreign key (id_stato)
+     references STATI_CHECK (id_stato);
+
+alter table CHECKS add constraint FKR_4
+     foreign key (id_city_card)
+     references CITY_CARD (id_city_card);
+
+alter table COLLABORAZIONI add constraint FKR_5
+     foreign key (id_user)
+     references USERS (id_user);
+
+alter table COLLABORAZIONI add constraint FKR_6
+     foreign key (id_ente)
+     references ENTI (id_ente);
+
+alter table ENTI add constraint FKR_7
+     foreign key (id_user)
+     references USERS (id_user);
+
+alter table EVENTI add constraint FKR_8
+     foreign key (id_ente)
+     references ENTI (id_ente);
+
+alter table EVENTI add constraint FKR_9
+     foreign key (id_periodo)
+     references PERIODI (id_periodo);
+
+alter table LISTINO_ABBONAMENTI add constraint FKR_10
+     foreign key (id_sconto)
+     references SCONTI (id_sconto);
+
+alter table PARTECIPAZIONI add constraint FKR_11
+     foreign key (id_evento)
+     references EVENTI (id_evento);
+
+alter table PARTECIPAZIONI add constraint FKR_12
+     foreign key (id_city_card)
+     references CITY_CARD (id_city_card);
+
+alter table RECENSIONI add constraint FKR_13
+     foreign key (id_servizio)
+     references SERVIZI (id_servizio);
+
+alter table RECENSIONI add constraint FKR_14
+     foreign key (id_user)
+     references USERS (id_user);
+
+alter table SERVIZI add constraint FKvendita
+     foreign key (id_ente)
+     references ENTI (id_ente);
+
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_15
+     foreign key (id_listino_abbonamento)
+     references LISTINO_ABBONAMENTI (id_listino_abbonamento);
+
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_16
+     foreign key (id_city_card)
+     references CITY_CARD (id_city_card);
+
+alter table SOTTOSCRIZIONI_ABBONAMENTO add constraint FKR_17
+     foreign key (num_carta_credito)
+     references CARTE_CREDITO (num_carta_credito);
+
+alter table USERS add constraint FKR_18
+     foreign key (id_ruolo)
+     references RUOLI (id_ruolo);
+     
+alter table SERVIZI_ACQUISTATI add constraint FKR_19
+     foreign key (num_carta_credito)
+     references CARTE_CREDITO (num_carta_credito);
+
+alter table SERVIZI_ACQUISTATI add constraint FKR_20
+     foreign key (id_city_card)
+     references CITY_CARD (id_city_card);
+
+alter table SERVIZI_ACQUISTATI add constraint FKR_21
+     foreign key (id_servizio)
+     references SERVIZI (id_servizio);
+
+
+-- Index Section
+-- _____________ 
